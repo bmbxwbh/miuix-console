@@ -3,53 +3,90 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<title>Miuix Console — Full Demo</title>
+<title>Miuix Console — 控制台</title>
+<!-- MiSans 字体 -->
 <link href="https://cdn.jsdelivr.net/npm/misans@4.1/lib/Normal/MiSans-Regular.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/misans@4.1/lib/Normal/MiSans-Medium.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/misans@4.1/lib/Normal/MiSans-Semibold.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/misans@4.1/lib/Normal/MiSans-Bold.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!-- Miuix Core -->
 <link rel="stylesheet" href="../core/tokens.css">
 <link rel="stylesheet" href="../core/base.css">
 <link rel="stylesheet" href="../core/animations.css">
-<link rel="stylesheet" href="../components/card.css">
-<link rel="stylesheet" href="../components/button.css">
-<link rel="stylesheet" href="../components/switch.css">
-<link rel="stylesheet" href="../components/badge.css">
-<link rel="stylesheet" href="../components/input.css">
-<link rel="stylesheet" href="../components/navigation.css">
-<link rel="stylesheet" href="../components/table.css">
-<link rel="stylesheet" href="../components/stat.css">
+<!-- Miuix Components (all 28) -->
+<link rel="stylesheet" href="../components/accordion.css">
 <link rel="stylesheet" href="../components/activity.css">
+<link rel="stylesheet" href="../components/avatar.css">
+<link rel="stylesheet" href="../components/badge.css">
+<link rel="stylesheet" href="../components/button.css">
+<link rel="stylesheet" href="../components/card.css">
+<link rel="stylesheet" href="../components/checkbox.css">
+<link rel="stylesheet" href="../components/datepicker.css">
+<link rel="stylesheet" href="../components/drawer.css">
+<link rel="stylesheet" href="../components/empty.css">
+<link rel="stylesheet" href="../components/input.css">
 <link rel="stylesheet" href="../components/layout.css">
 <link rel="stylesheet" href="../components/modal.css">
+<link rel="stylesheet" href="../components/navigation.css">
+<link rel="stylesheet" href="../components/pagination.css">
+<link rel="stylesheet" href="../components/popover.css">
+<link rel="stylesheet" href="../components/progress.css">
+<link rel="stylesheet" href="../components/select.css">
+<link rel="stylesheet" href="../components/slider.css">
+<link rel="stylesheet" href="../components/stat.css">
+<link rel="stylesheet" href="../components/switch.css">
+<link rel="stylesheet" href="../components/table.css">
+<link rel="stylesheet" href="../components/tabs.css">
+<link rel="stylesheet" href="../components/tag.css">
 <link rel="stylesheet" href="../components/toast.css">
 <link rel="stylesheet" href="../components/tooltip.css">
-<link rel="stylesheet" href="../components/popover.css">
-<link rel="stylesheet" href="../components/select.css">
-<link rel="stylesheet" href="../components/checkbox.css">
-<link rel="stylesheet" href="../components/tabs.css">
-<link rel="stylesheet" href="../components/pagination.css">
-<link rel="stylesheet" href="../components/progress.css">
-<link rel="stylesheet" href="../components/upload.css">
-<link rel="stylesheet" href="../components/accordion.css">
-<link rel="stylesheet" href="../components/empty.css">
-<link rel="stylesheet" href="../components/avatar.css">
-<link rel="stylesheet" href="../components/drawer.css">
-<link rel="stylesheet" href="../components/slider.css">
-<link rel="stylesheet" href="../components/tag.css">
-<link rel="stylesheet" href="../components/datepicker.css">
 <link rel="stylesheet" href="../components/tree.css">
+<link rel="stylesheet" href="../components/upload.css">
+<!-- Liquid Glass (last) -->
 <link rel="stylesheet" href="../core/glass.css">
 <style>
-  .demo-section{margin-bottom:32px}
+  /* Demo page helpers */
+  .demo-section{display:none}
+  .demo-section.active{display:block}
   .demo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+  .demo-grid-full{display:grid;grid-template-columns:1fr;gap:16px}
   .demo-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
   .demo-label{font-size:11px;font-weight:700;color:var(--mx-t3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px}
+  .demo-flex-col{display:flex;flex-direction:column;gap:14px}
+  .chart-wrap{height:160px;display:flex;align-items:flex-end;gap:4px;padding-top:10px}
+  .chart-wrap .mx-chart-bar{
+    flex:1;border-radius:4px 4px 0 0;
+    background:var(--mx-primary);
+    min-height:4px;
+    transition:all var(--mx-d2) var(--mx-ease);
+    position:relative;transform-origin:bottom;
+  }
+  .chart-wrap .mx-chart-bar:hover{filter:brightness(1.2)}
+  .chart-wrap .mx-chart-bar::after{
+    content:attr(data-val);position:absolute;top:-18px;left:50%;
+    transform:translateX(-50%);font-size:10px;font-weight:600;
+    color:var(--mx-t3);opacity:0;transition:opacity var(--mx-d1);
+    white-space:nowrap;
+  }
+  .chart-wrap .mx-chart-bar:hover::after{opacity:1}
+  .stat-icon-blue{background:rgba(52,130,255,0.12);color:var(--mx-primary)}
+  .stat-icon-green{background:rgba(52,211,153,0.12);color:var(--mx-green)}
+  .stat-icon-amber{background:rgba(251,191,36,0.12);color:var(--mx-amber)}
+  .stat-icon-purple{background:rgba(168,85,247,0.12);color:#A855F7}
+  .quick-actions{display:flex;flex-wrap:wrap;gap:8px}
+  .sidebar-logo{display:flex;align-items:center;gap:10px;padding:6px 10px;margin-bottom:4px}
 </style>
 </head>
 <body>
+<!-- ═══════════════════════════════════════════
+     APP SHELL
+     桌面端: Sidebar + Desktop TopBar + Main
+     移动端: TopBar + BottomNav + Main
+     ═══════════════════════════════════════════ -->
 <div class="mx-app">
+
+  <!-- ── Mobile TopBar ── -->
   <header class="mx-topbar">
     <div class="mx-topbar-left">
       <div class="mx-logo">
@@ -60,39 +97,59 @@
       </div>
     </div>
     <div class="mx-topbar-right">
-      <a href="glass.html" class="mx-btn mx-btn-primary" style="text-decoration:none;margin-right:8px;font-size:12px;padding:6px 14px">💎 Liquid Glass</a>
-      <div class="mx-pill-group mx-density-group">
-        <button data-density="normal" class="active" onclick="MxDensity.set('normal')">标准</button>
-        <button data-density="compact" onclick="MxDensity.set('compact')">紧凑</button>
-      </div>
       <button class="mx-btn-icon mx-theme-toggle" data-ripple onclick="MxTheme.toggle()">
         <svg class="mx-moon" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         <svg class="mx-sun" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" style="display:none"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
       </button>
-      <button class="mx-btn-icon mx-tooltip" data-tooltip="液体玻璃" onclick="MxGlass.toggle(); this.classList.toggle('active')">
-        <svg width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-      </button>
     </div>
   </header>
 
+  <!-- ── Sidebar (desktop) ── -->
   <aside class="mx-sidebar">
-    <div style="display:flex;align-items:center;gap:10px;padding:6px 10px;margin-bottom:4px">
+    <div class="sidebar-logo">
       <div class="mx-logo-icon" style="width:34px;height:34px">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/><line x1="12" y1="22" x2="12" y2="15.5"/><polyline points="22 8.5 12 15.5 2 8.5"/></svg>
       </div>
       <span style="font-size:15px;font-weight:700">Console</span>
     </div>
-    <div class="mx-sidebar-section">组件</div>
-    <div class="mx-nav-item active" onclick="showSection('buttons')"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg><span class="mx-nav-label">按钮 & 徽章</span></div>
-    <div class="mx-nav-item" onclick="showSection('forms')"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span class="mx-nav-label">表单控件</span></div>
-    <div class="mx-nav-item" onclick="showSection('feedback')"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg><span class="mx-nav-label">反馈</span></div>
-    <div class="mx-nav-item" onclick="showSection('data')"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span class="mx-nav-label">数据展示</span></div>
-    <div class="mx-nav-item" onclick="showSection('navigation')"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg><span class="mx-nav-label">导航 & 布局</span></div>
+    <div class="mx-sidebar-section">导航</div>
+    <div class="mx-nav-item active" data-section="dashboard" onclick="showSection('dashboard')">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="7" height="9" rx="2"/><rect x="14" y="3" width="7" height="5" rx="2"/><rect x="14" y="12" width="7" height="9" rx="2"/><rect x="3" y="16" width="7" height="5" rx="2"/></svg>
+      <span class="mx-nav-label">概览</span>
+    </div>
+    <div class="mx-nav-item" data-section="components" onclick="showSection('components')">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg>
+      <span class="mx-nav-label">组件</span>
+    </div>
+    <div class="mx-nav-item" data-section="forms" onclick="showSection('forms')">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      <span class="mx-nav-label">表单</span>
+    </div>
+    <div class="mx-nav-item" data-section="feedback" onclick="showSection('feedback')">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <span class="mx-nav-label">反馈</span>
+    </div>
+    <div class="mx-nav-item" data-section="data" onclick="showSection('data')">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      <span class="mx-nav-label">数据</span>
+    </div>
+    <div class="mx-sidebar-bottom">
+      <div class="mx-nav-item" onclick="window.location.href='glass.html'">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        <span class="mx-nav-label">💎 液体玻璃</span>
+      </div>
+    </div>
   </aside>
 
+  <!-- ── Desktop Shell ── -->
   <div class="mx-desktop-shell">
+    <!-- Desktop TopBar -->
     <header class="mx-desktop-topbar">
-      <div class="mx-breadcrumb"><span>组件</span><span class="mx-breadcrumb-sep">›</span><span id="sectionTitle">按钮 & 徽章</span></div>
+      <div class="mx-breadcrumb">
+        <span>Console</span>
+        <span class="mx-breadcrumb-sep">›</span>
+        <span id="breadcrumbTitle">概览</span>
+      </div>
       <div style="display:flex;align-items:center;gap:8px">
         <div class="mx-pill-group mx-density-group">
           <button data-density="normal" class="active" onclick="MxDensity.set('normal')">标准</button>
@@ -105,112 +162,269 @@
         <button class="mx-btn-icon mx-tooltip" data-tooltip="液体玻璃" onclick="MxGlass.toggle(); this.classList.toggle('active')">
           <svg width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
         </button>
+        <a href="glass.html" class="mx-btn mx-btn-primary" style="text-decoration:none;font-size:12px;padding:6px 14px">💎 Liquid Glass</a>
       </div>
     </header>
 
+    <!-- ── Main Content ── -->
     <main class="mx-desktop-main mx-body">
 
-      <!-- ═══ BUTTONS & BADGES ═══ -->
-      <div class="demo-section" id="sec-buttons">
+      <!-- ═══════════════════════════════════
+           SECTION: 概览 Dashboard
+           ═══════════════════════════════════ -->
+      <div class="demo-section active" id="sec-dashboard">
         <div class="mx-page-head mx-anim-slide-up">
-          <h1 class="mx-page-title">按钮 & 徽章</h1>
-          <p class="mx-page-sub">Button · Badge · Tag · Switch</p>
+          <h1 class="mx-page-title">系统概览</h1>
+          <p class="mx-page-sub">实时监控 · 运行状态 · 资源使用</p>
+        </div>
+
+        <!-- Stat Cards -->
+        <div class="mx-stat-grid mx-section">
+          <div class="mx-stat mx-anim-card-in" style="--mx-stat-accent:var(--mx-primary)">
+            <div class="mx-stat-label">
+              <div class="mx-stat-icon stat-icon-blue"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+              活跃用户
+            </div>
+            <div class="mx-stat-value" data-counter="12846">0</div>
+            <span class="mx-stat-delta up">↑ 12.5%</span>
+          </div>
+          <div class="mx-stat mx-anim-card-in mx-delay-1" style="--mx-stat-accent:var(--mx-green)">
+            <div class="mx-stat-label">
+              <div class="mx-stat-icon stat-icon-green"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+              请求/秒
+            </div>
+            <div class="mx-stat-value" data-counter="3428">0</div>
+            <span class="mx-stat-delta up">↑ 8.2%</span>
+          </div>
+          <div class="mx-stat mx-anim-card-in mx-delay-2" style="--mx-stat-accent:var(--mx-amber)">
+            <div class="mx-stat-label">
+              <div class="mx-stat-icon stat-icon-amber"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+              平均延迟
+            </div>
+            <div class="mx-stat-value"><span data-counter="23" data-suffix="ms">0</span></div>
+            <span class="mx-stat-delta down">↓ 3.1%</span>
+          </div>
+          <div class="mx-stat mx-anim-card-in mx-delay-3" style="--mx-stat-accent:#A855F7">
+            <div class="mx-stat-label">
+              <div class="mx-stat-icon stat-icon-purple"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+              可用率
+            </div>
+            <div class="mx-stat-value"><span data-counter="99.97" data-decimals="2" data-suffix="%">0</span></div>
+            <span class="mx-stat-delta up">↑ 0.02%</span>
+          </div>
+        </div>
+
+        <!-- Charts + Activity + Quick Actions -->
+        <div class="demo-grid">
+          <!-- 柱状图 Card -->
+          <div class="mx-card mx-anim-card-in mx-delay-4">
+            <div class="mx-card-head">
+              <span class="mx-card-title">请求趋势（7 天）</span>
+              <span class="mx-badge mx-badge-success">实时</span>
+            </div>
+            <div class="mx-card-body">
+              <div class="chart-wrap" id="dashChart"></div>
+            </div>
+          </div>
+
+          <!-- 活动列表 Card -->
+          <div class="mx-card mx-anim-card-in mx-delay-5">
+            <div class="mx-card-head">
+              <span class="mx-card-title">最近活动</span>
+              <button class="mx-btn mx-btn-ghost mx-btn-sm" onclick="MxToast.info('已刷新')">刷新</button>
+            </div>
+            <div class="mx-card-body" style="padding:8px 16px">
+              <div class="mx-activity-item">
+                <div class="mx-activity-dot" style="background:var(--mx-green)"></div>
+                <div><div class="mx-activity-text">服务 <b>api-gateway</b> 部署成功</div><div class="mx-activity-time">2 分钟前</div></div>
+              </div>
+              <div class="mx-activity-item">
+                <div class="mx-activity-dot" style="background:var(--mx-amber)"></div>
+                <div><div class="mx-activity-text">CPU 使用率超过 <b>85%</b> 阈值</div><div class="mx-activity-time">15 分钟前</div></div>
+              </div>
+              <div class="mx-activity-item">
+                <div class="mx-activity-dot" style="background:var(--mx-primary)"></div>
+                <div><div class="mx-activity-text">新用户 <b>zhang_wei</b> 加入团队</div><div class="mx-activity-time">1 小时前</div></div>
+              </div>
+              <div class="mx-activity-item">
+                <div class="mx-activity-dot" style="background:var(--mx-error)"></div>
+                <div><div class="mx-activity-text">数据库连接池告警</div><div class="mx-activity-time">3 小时前</div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 快速操作 Card -->
+          <div class="mx-card mx-anim-card-in mx-delay-6" style="grid-column:1/-1">
+            <div class="mx-card-head">
+              <span class="mx-card-title">快速操作</span>
+            </div>
+            <div class="mx-card-body">
+              <div class="quick-actions">
+                <button class="mx-btn mx-btn-primary" data-ripple onclick="MxToast.success('服务已重启')">
+                  <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                  重启服务
+                </button>
+                <button class="mx-btn mx-btn-secondary" data-ripple onclick="MxModal.open('deployModal')">
+                  <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  部署新版本
+                </button>
+                <button class="mx-btn mx-btn-ghost" data-ripple onclick="MxToast.info('报告已生成')">
+                  <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                  生成报告
+                </button>
+                <button class="mx-btn mx-btn-ghost mx-tooltip" data-tooltip="查看系统日志" data-ripple>
+                  <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+                  系统日志
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════
+           SECTION: 组件
+           按钮 / 徽章 / 标签 / 开关 / Tooltip
+           ═══════════════════════════════════ -->
+      <div class="demo-section" id="sec-components">
+        <div class="mx-page-head mx-anim-slide-up">
+          <h1 class="mx-page-title">组件</h1>
+          <p class="mx-page-sub">Button · Badge · Tag · Switch · Tooltip · Avatar</p>
         </div>
 
         <div class="demo-grid">
+          <!-- 按钮 -->
           <div class="mx-card mx-anim-card-in">
-            <div class="mx-card-head"><span class="mx-card-title">按钮变体</span></div>
+            <div class="mx-card-head"><span class="mx-card-title">按钮</span></div>
             <div class="mx-card-body">
+              <div class="demo-label">变体</div>
               <div class="demo-row" style="margin-bottom:12px">
                 <button class="mx-btn mx-btn-primary" data-ripple>Primary</button>
                 <button class="mx-btn mx-btn-secondary" data-ripple>Secondary</button>
                 <button class="mx-btn mx-btn-ghost" data-ripple>Ghost</button>
                 <button class="mx-btn mx-btn-danger" data-ripple>Danger</button>
               </div>
+              <div class="demo-label">尺寸</div>
               <div class="demo-row" style="margin-bottom:12px">
-                <button class="mx-btn mx-btn-primary mx-btn-pill">Pill</button>
-                <button class="mx-btn mx-btn-secondary mx-btn-pill">Pill</button>
                 <button class="mx-btn mx-btn-primary mx-btn-sm">Small</button>
+                <button class="mx-btn mx-btn-primary">Default</button>
                 <button class="mx-btn mx-btn-primary mx-btn-lg">Large</button>
+                <button class="mx-btn mx-btn-primary mx-btn-pill">Pill</button>
               </div>
+              <div class="demo-label">状态</div>
               <div class="demo-row">
                 <button class="mx-btn mx-btn-primary" disabled>Disabled</button>
                 <button class="mx-btn mx-btn-icon mx-btn-ghost" data-ripple>
-                  <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06A1.65 1.65 0 0 0 15 19.4a1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4"/></svg>
+                  <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06A1.65 1.65 0 0 0 15 19.4"/></svg>
                 </button>
               </div>
             </div>
           </div>
 
+          <!-- 徽章 & 标签 -->
           <div class="mx-card mx-anim-card-in mx-delay-1">
             <div class="mx-card-head"><span class="mx-card-title">徽章 & 标签</span></div>
             <div class="mx-card-body">
               <div class="demo-label">Badges</div>
               <div class="demo-row" style="margin-bottom:12px">
-                <span class="mx-badge-success">运行中</span>
-                <span class="mx-badge-warning">部署中</span>
-                <span class="mx-badge-error">异常</span>
-                <span class="mx-badge-info">信息</span>
-                <span class="mx-badge-neutral">离线</span>
+                <span class="mx-badge mx-badge-success">运行中</span>
+                <span class="mx-badge mx-badge-warning">部署中</span>
+                <span class="mx-badge mx-badge-error">异常</span>
+                <span class="mx-badge mx-badge-info">信息</span>
               </div>
               <div class="demo-label">Tags</div>
               <div class="demo-row" style="margin-bottom:12px">
                 <span class="mx-tag mx-tag-primary">Primary</span>
-                <span class="mx-tag mx-tag-success mx-tag-dot">成功</span>
+                <span class="mx-tag mx-tag-success">成功</span>
                 <span class="mx-tag mx-tag-warning">警告</span>
-                <span class="mx-tag mx-tag-error mx-tag-clickable">可删除 ×</span>
+                <span class="mx-tag mx-tag-error mx-tag-clickable">可点击 ×</span>
+                <span class="mx-tag mx-tag-outline">Outline</span>
               </div>
-              <div class="demo-label">Switch</div>
+              <div class="demo-label">Switch（弹簧回弹）</div>
               <div class="demo-row">
-                <label class="mx-switch"><input type="checkbox" checked><span class="mx-switch-track"><span class="mx-switch-thumb"></span></span><span class="mx-switch-label">通知</span></label>
-                <label class="mx-switch"><input type="checkbox"><span class="mx-switch-track"><span class="mx-switch-thumb"></span></span><span class="mx-switch-label">静音</span></label>
+                <label class="mx-switch"><input type="checkbox" checked><span class="mx-switch-track"><span class="mx-switch-thumb"></span></span><span>通知</span></label>
+                <label class="mx-switch"><input type="checkbox"><span class="mx-switch-track"><span class="mx-switch-thumb"></span></span><span>静音</span></label>
+                <label class="mx-switch"><input type="checkbox" disabled><span class="mx-switch-track"><span class="mx-switch-thumb"></span></span><span>禁用</span></label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tooltip & Avatar -->
+          <div class="mx-card mx-anim-card-in mx-delay-2">
+            <div class="mx-card-head"><span class="mx-card-title">Tooltip & Avatar</span></div>
+            <div class="mx-card-body">
+              <div class="demo-label">Tooltip</div>
+              <div class="demo-row" style="margin-bottom:16px">
+                <button class="mx-btn mx-btn-secondary mx-tooltip" data-tooltip="顶部提示文字">Top</button>
+                <button class="mx-btn mx-btn-secondary mx-tooltip mx-tooltip-bottom" data-tooltip="底部提示文字">Bottom</button>
+                <button class="mx-btn mx-btn-secondary mx-tooltip mx-tooltip-left" data-tooltip="左侧提示">Left</button>
+                <button class="mx-btn mx-btn-secondary mx-tooltip mx-tooltip-right" data-tooltip="右侧提示">Right</button>
+              </div>
+              <div class="demo-label">Avatar</div>
+              <div class="demo-row" style="margin-bottom:12px">
+                <div class="mx-avatar mx-avatar-sm" style="background:linear-gradient(135deg,#4C8BF5,#A78BFA)">A</div>
+                <div class="mx-avatar" style="background:linear-gradient(135deg,#34D399,#60A5FA)">B</div>
+                <div class="mx-avatar mx-avatar-lg" style="background:linear-gradient(135deg,#FBBF24,#F87171)">C</div>
+              </div>
+              <div class="demo-label">Avatar Group</div>
+              <div class="mx-avatar-group">
+                <div class="mx-avatar" style="background:linear-gradient(135deg,#4C8BF5,#A78BFA)">A</div>
+                <div class="mx-avatar" style="background:linear-gradient(135deg,#34D399,#60A5FA)">B</div>
+                <div class="mx-avatar" style="background:linear-gradient(135deg,#FBBF24,#F87171)">C</div>
+                <div class="mx-avatar" style="background:linear-gradient(135deg,#A855F7,#EC4899)">D</div>
+                <div class="mx-avatar-overflow" style="width:32px;height:32px;border-radius:50%;background:var(--mx-s3);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--mx-t2)">+5</div>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- ═══ FORM CONTROLS ═══ -->
-      <div class="demo-section" id="sec-forms" style="display:none">
+      <!-- ═══════════════════════════════════
+           SECTION: 表单
+           输入框 / 选择器 / 复选框 / 单选 / 滑块 / 日期 / 上传
+           ═══════════════════════════════════ -->
+      <div class="demo-section" id="sec-forms">
         <div class="mx-page-head mx-anim-slide-up">
-          <h1 class="mx-page-title">表单控件</h1>
-          <p class="mx-page-sub">Input · Select · Checkbox · Radio · Slider · Date Picker · Upload</p>
+          <h1 class="mx-page-title">表单</h1>
+          <p class="mx-page-sub">Input · Select · Checkbox · Radio · Slider · DatePicker · Upload</p>
         </div>
 
         <div class="demo-grid">
+          <!-- 输入框 -->
           <div class="mx-card mx-anim-card-in">
             <div class="mx-card-head"><span class="mx-card-title">输入框</span></div>
-            <div class="mx-card-body" style="display:flex;flex-direction:column;gap:14px">
+            <div class="mx-card-body demo-flex-col">
               <div>
-                <label class="mx-label">用户名</label>
+                <label class="demo-label">用户名</label>
                 <div class="mx-input-wrap"><input class="mx-input" placeholder="请输入用户名"></div>
               </div>
               <div>
-                <label class="mx-label">搜索</label>
+                <label class="demo-label">搜索</label>
                 <div class="mx-input-wrap">
                   <span class="mx-input-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
-                  <input class="mx-input" placeholder="搜索...">
+                  <input class="mx-input" placeholder="搜索组件...">
                 </div>
               </div>
               <div>
-                <label class="mx-label">描述</label>
-                <div class="mx-input-wrap mx-textarea-wrap"><textarea class="mx-textarea" placeholder="输入描述..."></textarea></div>
+                <label class="demo-label">描述</label>
+                <div class="mx-input-wrap mx-textarea-wrap"><textarea class="mx-textarea" rows="3" placeholder="输入描述信息..."></textarea></div>
               </div>
               <div>
                 <div class="mx-input-wrap mx-input-error"><input class="mx-input" value="错误内容"></div>
-                <span class="mx-helper mx-helper-error">此字段为必填项</span>
+                <span class="mx-helper mx-helper-error" style="font-size:12px;color:var(--mx-error);margin-top:4px;display:block">此字段为必填项</span>
               </div>
             </div>
           </div>
 
+          <!-- 选择器 & 复选框 & 单选 -->
           <div class="mx-card mx-anim-card-in mx-delay-1">
             <div class="mx-card-head"><span class="mx-card-title">选择器</span></div>
-            <div class="mx-card-body" style="display:flex;flex-direction:column;gap:14px">
+            <div class="mx-card-body demo-flex-col">
               <div>
-                <label class="mx-label">下拉选择</label>
+                <label class="demo-label">下拉选择</label>
                 <div class="mx-select" id="demoSelect">
                   <div class="mx-select-trigger" data-ripple>
-                    <span class="mx-select-placeholder">请选择...</span>
+                    <span class="mx-select-placeholder">请选择水果...</span>
                     <span class="mx-select-value" style="display:none"></span>
                     <svg class="mx-select-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
                   </div>
@@ -223,33 +437,38 @@
                   </div>
                 </div>
               </div>
-              <div class="demo-label">Checkbox</div>
-              <div style="display:flex;flex-direction:column;gap:10px">
-                <label class="mx-checkbox"><input type="checkbox" checked><span class="mx-checkbox-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="mx-checkbox-label">已选中</span></label>
-                <label class="mx-checkbox"><input type="checkbox"><span class="mx-checkbox-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="mx-checkbox-label">未选中</span></label>
-                <label class="mx-checkbox"><input type="checkbox" disabled><span class="mx-checkbox-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="mx-checkbox-label">禁用</span></label>
+              <div>
+                <label class="demo-label">Checkbox</label>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <label class="mx-checkbox"><input type="checkbox" checked><span class="mx-checkbox-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></span><span>已选中</span></label>
+                  <label class="mx-checkbox"><input type="checkbox"><span class="mx-checkbox-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></span><span>未选中</span></label>
+                  <label class="mx-checkbox"><input type="checkbox" disabled><span class="mx-checkbox-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></span><span>禁用</span></label>
+                </div>
               </div>
-              <div class="demo-label">Radio</div>
-              <div style="display:flex;flex-direction:column;gap:10px">
-                <label class="mx-radio"><input type="radio" name="demoRadio" checked><span class="mx-radio-dot"></span><span class="mx-radio-label">选项 A</span></label>
-                <label class="mx-radio"><input type="radio" name="demoRadio"><span class="mx-radio-dot"></span><span class="mx-radio-label">选项 B</span></label>
-                <label class="mx-radio"><input type="radio" name="demoRadio"><span class="mx-radio-dot"></span><span class="mx-radio-label">选项 C</span></label>
+              <div>
+                <label class="demo-label">Radio</label>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <label class="mx-radio"><input type="radio" name="demoRadio" checked><span class="mx-radio-dot"></span><span>选项 A</span></label>
+                  <label class="mx-radio"><input type="radio" name="demoRadio"><span class="mx-radio-dot"></span><span>选项 B</span></label>
+                  <label class="mx-radio"><input type="radio" name="demoRadio"><span class="mx-radio-dot"></span><span>选项 C</span></label>
+                </div>
               </div>
             </div>
           </div>
 
+          <!-- 滑块 & 日期 & 上传 -->
           <div class="mx-card mx-anim-card-in mx-delay-2">
-            <div class="mx-card-head"><span class="mx-card-title">滑块 & 日期</span></div>
-            <div class="mx-card-body" style="display:flex;flex-direction:column;gap:16px">
+            <div class="mx-card-head"><span class="mx-card-title">滑块 / 日期 / 上传</span></div>
+            <div class="mx-card-body demo-flex-col">
               <div>
-                <label class="mx-label">Slider</label>
+                <label class="demo-label">Slider</label>
                 <div class="mx-slider">
                   <input type="range" min="0" max="100" value="60">
-                  <span class="mx-slider-value">60</span>
+                  <span class="mx-slider-value" style="font-size:13px;font-weight:600;color:var(--mx-primary);min-width:32px;text-align:right">60</span>
                 </div>
               </div>
               <div>
-                <label class="mx-label">Date Picker</label>
+                <label class="demo-label">Date Picker</label>
                 <div class="mx-datepicker" id="demoDatePicker">
                   <div class="mx-datepicker-input">
                     <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
@@ -257,13 +476,9 @@
                   </div>
                   <div class="mx-datepicker-dropdown">
                     <div class="mx-datepicker-head">
-                      <div class="mx-datepicker-nav">
-                        <button data-dir="-1"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></button>
-                      </div>
+                      <div class="mx-datepicker-nav"><button data-dir="-1"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></button></div>
                       <span class="mx-datepicker-title"></span>
-                      <div class="mx-datepicker-nav">
-                        <button data-dir="1"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></button>
-                      </div>
+                      <div class="mx-datepicker-nav"><button data-dir="1"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></button></div>
                     </div>
                     <div class="mx-datepicker-weekdays">
                       <span class="mx-datepicker-weekday">日</span><span class="mx-datepicker-weekday">一</span>
@@ -276,7 +491,7 @@
                 </div>
               </div>
               <div>
-                <label class="mx-label">Upload</label>
+                <label class="demo-label">Upload</label>
                 <div class="mx-upload">
                   <div class="mx-upload-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
                   <div class="mx-upload-text">点击或拖拽上传文件</div>
@@ -289,27 +504,32 @@
         </div>
       </div>
 
-      <!-- ═══ FEEDBACK ═══ -->
-      <div class="demo-section" id="sec-feedback" style="display:none">
+      <!-- ═══════════════════════════════════
+           SECTION: 反馈
+           Modal / Toast / Drawer / Progress / Tooltip / Popover
+           ═══════════════════════════════════ -->
+      <div class="demo-section" id="sec-feedback">
         <div class="mx-page-head mx-anim-slide-up">
           <h1 class="mx-page-title">反馈</h1>
           <p class="mx-page-sub">Modal · Toast · Drawer · Progress · Tooltip · Popover</p>
         </div>
 
         <div class="demo-grid">
+          <!-- Modal -->
           <div class="mx-card mx-anim-card-in">
             <div class="mx-card-head"><span class="mx-card-title">Modal / Dialog</span></div>
             <div class="mx-card-body">
               <div class="demo-row" style="margin-bottom:12px">
                 <button class="mx-btn mx-btn-primary" data-ripple onclick="MxModal.open('demoModal')">打开弹窗</button>
-                <button class="mx-btn mx-btn-secondary" data-ripple onclick="MxModal.confirm({title:'确认删除？',message:'此操作不可撤销，确定要删除这条记录吗？',type:'danger',confirmText:'删除'}).then(r=>{if(r) MxToast.success('已删除')})">确认对话框</button>
+                <button class="mx-btn mx-btn-danger" data-ripple onclick="MxModal.confirm({title:'确认删除？',message:'此操作不可撤销，确定要删除这条记录吗？',type:'danger',confirmText:'删除'}).then(r=>{if(r) MxToast.success('已删除')})">确认对话框</button>
               </div>
               <div class="demo-row">
-                <button class="mx-btn mx-btn-ghost" data-ripple onclick="MxDrawer.open('demoDrawer')">打开 Drawer</button>
+                <button class="mx-btn mx-btn-secondary" data-ripple onclick="openDrawer()">打开 Drawer</button>
               </div>
             </div>
           </div>
 
+          <!-- Toast -->
           <div class="mx-card mx-anim-card-in mx-delay-1">
             <div class="mx-card-head"><span class="mx-card-title">Toast 提示</span></div>
             <div class="mx-card-body">
@@ -322,9 +542,10 @@
             </div>
           </div>
 
+          <!-- Progress -->
           <div class="mx-card mx-anim-card-in mx-delay-2">
             <div class="mx-card-head"><span class="mx-card-title">Progress</span></div>
-            <div class="mx-card-body" style="display:flex;flex-direction:column;gap:16px">
+            <div class="mx-card-body demo-flex-col">
               <div>
                 <div class="mx-progress-label"><span>上传进度</span><span class="mx-progress-value">72%</span></div>
                 <div class="mx-progress"><div class="mx-progress-bar" style="width:72%"></div></div>
@@ -339,17 +560,12 @@
             </div>
           </div>
 
+          <!-- Popover -->
           <div class="mx-card mx-anim-card-in mx-delay-3">
-            <div class="mx-card-head"><span class="mx-card-title">Tooltip & Popover</span></div>
+            <div class="mx-card-head"><span class="mx-card-title">Popover</span></div>
             <div class="mx-card-body">
-              <div class="demo-row" style="margin-bottom:16px">
-                <button class="mx-btn mx-btn-secondary mx-tooltip" data-tooltip="顶部提示">Top</button>
-                <button class="mx-btn mx-btn-secondary mx-tooltip mx-tooltip-bottom" data-tooltip="底部提示">Bottom</button>
-                <button class="mx-btn mx-btn-secondary mx-tooltip mx-tooltip-left" data-tooltip="左侧提示">Left</button>
-                <button class="mx-btn mx-btn-secondary mx-tooltip mx-tooltip-right" data-tooltip="右侧提示">Right</button>
-              </div>
               <div class="demo-row">
-                <div class="mx-popover-wrap" id="demoPopoverWrap">
+                <div class="mx-popover-wrap">
                   <button class="mx-btn mx-btn-primary" onclick="document.getElementById('demoPopover').classList.toggle('open')">打开 Popover</button>
                   <div class="mx-popover mx-popover-bottom" id="demoPopover" style="min-width:160px">
                     <div class="mx-popover-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>编辑</div>
@@ -364,39 +580,66 @@
         </div>
       </div>
 
-      <!-- ═══ DATA DISPLAY ═══ -->
-      <div class="demo-section" id="sec-data" style="display:none">
+      <!-- ═══════════════════════════════════
+           SECTION: 数据
+           Table / Tabs / Accordion / Pagination / Tree / Empty / Avatar
+           ═══════════════════════════════════ -->
+      <div class="demo-section" id="sec-data">
         <div class="mx-page-head mx-anim-slide-up">
-          <h1 class="mx-page-title">数据展示</h1>
-          <p class="mx-page-sub">Table · Stat · Card · Accordion · Tabs · Pagination · Empty · Avatar · Tree</p>
+          <h1 class="mx-page-title">数据</h1>
+          <p class="mx-page-sub">Table · Tabs · Accordion · Pagination · Tree · Empty · Avatar</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="mx-card mx-anim-card-in mx-section">
+          <div class="mx-card-head"><span class="mx-card-title">Tabs 选项卡</span></div>
+          <div class="mx-card-body">
+            <div class="mx-tabs" id="demoTabs">
+              <div class="mx-tab active" data-panel="tab1">概览</div>
+              <div class="mx-tab" data-panel="tab2">详情</div>
+              <div class="mx-tab" data-panel="tab3">日志 <span class="mx-count" style="background:var(--mx-primary);color:#fff;font-size:10px;padding:1px 6px;border-radius:999px;margin-left:4px">3</span></div>
+            </div>
+            <div class="mx-tab-panel active" id="tab1"><p style="padding:12px 0;font-size:13px;color:var(--mx-text-on-surface)">这是概览面板。Tabs 组件支持下划线（默认）、胶囊、卡片等变体，自动管理面板切换。</p></div>
+            <div class="mx-tab-panel" id="tab2"><p style="padding:12px 0;font-size:13px;color:var(--mx-text-on-surface)">这是详情面板。可以放置任意内容，包括表单、图表等。</p></div>
+            <div class="mx-tab-panel" id="tab3"><p style="padding:12px 0;font-size:13px;color:var(--mx-text-on-surface)">这是日志面板。显示系统运行日志记录。</p></div>
+          </div>
         </div>
 
         <div class="demo-grid">
+          <!-- Table -->
           <div class="mx-card mx-anim-card-in" style="grid-column:1/-1">
-            <div class="mx-card-head"><span class="mx-card-title">Tabs</span></div>
-            <div class="mx-card-body">
-              <div class="mx-tabs" id="demoTabs">
-                <div class="mx-tab active" data-panel="tab1">概览</div>
-                <div class="mx-tab" data-panel="tab2">详情</div>
-                <div class="mx-tab" data-panel="tab3">日志 <span class="mx-count">3</span></div>
+            <div class="mx-card-head">
+              <span class="mx-card-title">服务列表</span>
+              <span class="mx-badge mx-badge-info">5 项</span>
+            </div>
+            <div class="mx-card-body" style="padding:0">
+              <div class="mx-table-wrap">
+                <table class="mx-table">
+                  <thead><tr><th>服务名称</th><th>状态</th><th>CPU</th><th>内存</th><th>运行时间</th></tr></thead>
+                  <tbody>
+                    <tr><td data-label="服务">api-gateway</td><td data-label="状态"><span class="mx-badge mx-badge-success">运行中</span></td><td data-label="CPU">23%</td><td data-label="内存">1.2 GB</td><td data-label="时间">72h</td></tr>
+                    <tr><td data-label="服务">user-service</td><td data-label="状态"><span class="mx-badge mx-badge-success">运行中</span></td><td data-label="CPU">15%</td><td data-label="内存">890 MB</td><td data-label="时间">48h</td></tr>
+                    <tr><td data-label="服务">order-service</td><td data-label="状态"><span class="mx-badge mx-badge-warning">部署中</span></td><td data-label="CPU">--</td><td data-label="内存">--</td><td data-label="时间">--</td></tr>
+                    <tr><td data-label="服务">payment-svc</td><td data-label="状态"><span class="mx-badge mx-badge-success">运行中</span></td><td data-label="CPU">8%</td><td data-label="内存">512 MB</td><td data-label="时间">120h</td></tr>
+                    <tr><td data-label="服务">log-collector</td><td data-label="状态"><span class="mx-badge mx-badge-error">异常</span></td><td data-label="CPU">95%</td><td data-label="内存">3.8 GB</td><td data-label="时间">24h</td></tr>
+                  </tbody>
+                </table>
               </div>
-              <div class="mx-tab-panel active" id="tab1"><p style="padding:12px 0;font-size:13px;color:var(--mx-text-on-surface)">这是概览面板的内容。Tabs 组件支持多种变体：下划线（默认）、胶囊、卡片。</p></div>
-              <div class="mx-tab-panel" id="tab2"><p style="padding:12px 0;font-size:13px;color:var(--mx-text-on-surface)">这是详情面板的内容。</p></div>
-              <div class="mx-tab-panel" id="tab3"><p style="padding:12px 0;font-size:13px;color:var(--mx-text-on-surface)">这是日志面板的内容。</p></div>
             </div>
           </div>
 
+          <!-- Accordion -->
           <div class="mx-card mx-anim-card-in mx-delay-1">
-            <div class="mx-card-head"><span class="mx-card-title">Accordion</span></div>
+            <div class="mx-card-head"><span class="mx-card-title">Accordion 折叠面板</span></div>
             <div class="mx-card-body" style="padding:12px">
-              <div class="mx-accordion mx-accordion-card" id="demoAccordion">
+              <div class="mx-accordion" id="demoAccordion">
                 <div class="mx-accordion-item open">
                   <div class="mx-accordion-header">
                     <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
                     <span class="mx-accordion-title">什么是 Miuix Console？</span>
                     <svg class="mx-accordion-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
                   </div>
-                  <div class="mx-accordion-content"><div class="mx-accordion-body">Miuix Console 是基于小米 Miuix 设计语言的 Web 控制台 UI 框架，零依赖，纯 CSS + Vanilla JS。</div></div>
+                  <div class="mx-accordion-content"><div class="mx-accordion-body">基于小米 HyperOS Miuix 设计语言的 Web 控制台 UI 框架，零依赖，纯 CSS + Vanilla JS。</div></div>
                 </div>
                 <div class="mx-accordion-item">
                   <div class="mx-accordion-header">
@@ -404,7 +647,7 @@
                     <span class="mx-accordion-title">如何安装？</span>
                     <svg class="mx-accordion-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
                   </div>
-                  <div class="mx-accordion-content"><div class="mx-accordion-body">引入 miuix-console.js 即可一键加载所有组件，也可以按需引入单独的 CSS 和 JS 文件。</div></div>
+                  <div class="mx-accordion-content"><div class="mx-accordion-body">引入 miuix-console.js 一键加载，或按需引入单独的 CSS 和 JS 文件。</div></div>
                 </div>
                 <div class="mx-accordion-item">
                   <div class="mx-accordion-header">
@@ -418,45 +661,8 @@
             </div>
           </div>
 
+          <!-- Tree -->
           <div class="mx-card mx-anim-card-in mx-delay-2">
-            <div class="mx-card-head"><span class="mx-card-title">Empty & Avatar</span></div>
-            <div class="mx-card-body">
-              <div class="mx-empty mx-empty-inline">
-                <div class="mx-empty-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
-                <div class="mx-empty-title">暂无数据</div>
-                <div class="mx-empty-desc">当前没有任何记录，点击按钮创建第一条</div>
-                <button class="mx-btn mx-btn-primary mx-btn-sm" data-ripple>新建</button>
-              </div>
-              <div style="margin-top:16px">
-                <div class="demo-label">Avatar Group</div>
-                <div class="mx-avatar-group">
-                  <div class="mx-avatar mx-avatar-status online" style="background:linear-gradient(135deg,#4C8BF5,#A78BFA)">A</div>
-                  <div class="mx-avatar mx-avatar-status busy" style="background:linear-gradient(135deg,#34D399,#60A5FA)">B</div>
-                  <div class="mx-avatar mx-avatar-status away" style="background:linear-gradient(135deg,#FBBF24,#F87171)">C</div>
-                  <div class="mx-avatar-overflow">+5</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="mx-card mx-anim-card-in mx-delay-3" style="grid-column:1/-1">
-            <div class="mx-card-head"><span class="mx-card-title">Pagination</span></div>
-            <div class="mx-card-body" style="display:flex;justify-content:center">
-              <div id="demoPagination"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ═══ NAVIGATION & LAYOUT ═══ -->
-      <div class="demo-section" id="sec-navigation" style="display:none">
-        <div class="mx-page-head mx-anim-slide-up">
-          <h1 class="mx-page-title">导航 & 布局</h1>
-          <p class="mx-page-sub">Navigation · Layout · Grid · Flex</p>
-        </div>
-
-        <div class="demo-grid">
-          <div class="mx-card mx-anim-card-in" style="grid-column:1/-1">
             <div class="mx-card-head"><span class="mx-card-title">Tree 树形控件</span></div>
             <div class="mx-card-body">
               <div class="mx-tree" id="demoTree">
@@ -476,16 +682,37 @@
                         <span class="mx-tree-label">components</span>
                       </div>
                       <div class="mx-tree-children">
-                        <div class="mx-tree-node mx-tree-leaf"><div class="mx-tree-row"><span class="mx-tree-indent"></span><span class="mx-tree-indent"></span><span class="mx-tree-indent"></span><span class="mx-tree-toggle"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></span><span class="mx-tree-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></span><span class="mx-tree-label">card.css</span></div></div>
-                        <div class="mx-tree-node mx-tree-leaf"><div class="mx-tree-row"><span class="mx-tree-indent"></span><span class="mx-tree-indent"></span><span class="mx-tree-indent"></span><span class="mx-tree-toggle"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></span><span class="mx-tree-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></span><span class="mx-tree-label">button.css</span></div></div>
-                        <div class="mx-tree-node mx-tree-leaf"><div class="mx-tree-row"><span class="mx-tree-indent"></span><span class="mx-tree-indent"></span><span class="mx-tree-indent"></span><span class="mx-tree-toggle"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></span><span class="mx-tree-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></span><span class="mx-tree-label">modal.css</span></div></div>
+                        <div class="mx-tree-node mx-tree-leaf"><div class="mx-tree-row"><span class="mx-tree-indent"></span><span class="mx-tree-indent"></span><span class="mx-tree-indent"></span><span class="mx-tree-toggle"></span><span class="mx-tree-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></span><span class="mx-tree-label">card.css</span></div></div>
+                        <div class="mx-tree-node mx-tree-leaf"><div class="mx-tree-row"><span class="mx-tree-indent"></span><span class="mx-tree-indent"></span><span class="mx-tree-indent"></span><span class="mx-tree-toggle"></span><span class="mx-tree-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></span><span class="mx-tree-label">button.css</span></div></div>
+                        <div class="mx-tree-node mx-tree-leaf"><div class="mx-tree-row"><span class="mx-tree-indent"></span><span class="mx-tree-indent"></span><span class="mx-tree-indent"></span><span class="mx-tree-toggle"></span><span class="mx-tree-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></span><span class="mx-tree-label">modal.css</span></div></div>
                       </div>
                     </div>
-                    <div class="mx-tree-node mx-tree-leaf"><div class="mx-tree-row"><span class="mx-tree-indent"></span><span class="mx-tree-indent"></span><span class="mx-tree-toggle"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></span><span class="mx-tree-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></span><span class="mx-tree-label">index.js</span></div></div>
+                    <div class="mx-tree-node mx-tree-leaf"><div class="mx-tree-row"><span class="mx-tree-indent"></span><span class="mx-tree-indent"></span><span class="mx-tree-toggle"></span><span class="mx-tree-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></span><span class="mx-tree-label">index.js</span></div></div>
                   </div>
                 </div>
-                <div class="mx-tree-node mx-tree-leaf"><div class="mx-tree-row"><span class="mx-tree-indent"></span><span class="mx-tree-toggle"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></span><span class="mx-tree-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></span><span class="mx-tree-label">README.md</span></div></div>
+                <div class="mx-tree-node mx-tree-leaf"><div class="mx-tree-row"><span class="mx-tree-indent"></span><span class="mx-tree-toggle"></span><span class="mx-tree-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></span><span class="mx-tree-label">README.md</span></div></div>
               </div>
+            </div>
+          </div>
+
+          <!-- Empty + Pagination -->
+          <div class="mx-card mx-anim-card-in mx-delay-3">
+            <div class="mx-card-head"><span class="mx-card-title">Empty 空状态</span></div>
+            <div class="mx-card-body">
+              <div class="mx-empty mx-empty-inline">
+                <div class="mx-empty-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
+                <div class="mx-empty-title">暂无数据</div>
+                <div class="mx-empty-desc">当前没有任何记录，点击按钮创建第一条</div>
+                <button class="mx-btn mx-btn-primary mx-btn-sm" data-ripple>新建</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pagination -->
+          <div class="mx-card mx-anim-card-in mx-delay-4" style="grid-column:1/-1">
+            <div class="mx-card-head"><span class="mx-card-title">Pagination 分页</span></div>
+            <div class="mx-card-body" style="display:flex;justify-content:center">
+              <div id="demoPagination"></div>
             </div>
           </div>
         </div>
@@ -494,18 +721,38 @@
     </main>
   </div>
 
-  <!-- Bottom nav (mobile) -->
+  <!-- ── BottomNav (mobile) ── -->
   <nav class="mx-bottom-nav">
     <ul class="mx-bottom-nav-items">
-      <li class="mx-btm-item active" onclick="showSection('buttons')"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg><span>按钮</span></li>
-      <li class="mx-btm-item" onclick="showSection('forms')"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span>表单</span></li>
-      <li class="mx-btm-item" onclick="showSection('feedback')"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg><span>反馈</span></li>
-      <li class="mx-btm-item" onclick="showSection('data')"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>数据</span></li>
+      <li class="mx-btm-item active" data-section="dashboard" onclick="showSection('dashboard')">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><rect x="3" y="3" width="7" height="9" rx="2"/><rect x="14" y="3" width="7" height="5" rx="2"/><rect x="14" y="12" width="7" height="9" rx="2"/><rect x="3" y="16" width="7" height="5" rx="2"/></svg>
+        <span>概览</span>
+      </li>
+      <li class="mx-btm-item" data-section="components" onclick="showSection('components')">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg>
+        <span>组件</span>
+      </li>
+      <li class="mx-btm-item" data-section="forms" onclick="showSection('forms')">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <span>表单</span>
+      </li>
+      <li class="mx-btm-item" data-section="feedback" onclick="showSection('feedback')">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <span>反馈</span>
+      </li>
+      <li class="mx-btm-item" data-section="data" onclick="showSection('data')">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        <span>数据</span>
+      </li>
     </ul>
   </nav>
 </div>
 
-<!-- Demo Modal -->
+<!-- ═══════════════════════════════════
+     DEMO OVERLAYS
+     ═══════════════════════════════════ -->
+
+<!-- Modal: 编辑信息 -->
 <div class="mx-modal-overlay" id="demoModal">
   <div class="mx-modal">
     <div class="mx-modal-head">
@@ -515,9 +762,9 @@
       </button>
     </div>
     <div class="mx-modal-body">
-      <div style="display:flex;flex-direction:column;gap:14px">
-        <div><label class="mx-label">名称</label><div class="mx-input-wrap"><input class="mx-input" value="api-gateway"></div></div>
-        <div><label class="mx-label">描述</label><div class="mx-input-wrap mx-textarea-wrap"><textarea class="mx-textarea">API 网关服务</textarea></div></div>
+      <div class="demo-flex-col">
+        <div><label class="demo-label">名称</label><div class="mx-input-wrap"><input class="mx-input" value="api-gateway"></div></div>
+        <div><label class="demo-label">描述</label><div class="mx-input-wrap mx-textarea-wrap"><textarea class="mx-textarea" rows="3">API 网关服务</textarea></div></div>
       </div>
     </div>
     <div class="mx-modal-foot">
@@ -527,12 +774,38 @@
   </div>
 </div>
 
-<!-- Demo Drawer -->
-<div class="mx-drawer-overlay" id="demoDrawerOverlay" onclick="MxDrawer.close('demoDrawer')"></div>
+<!-- Modal: 部署新版本 -->
+<div class="mx-modal-overlay" id="deployModal">
+  <div class="mx-modal">
+    <div class="mx-modal-head">
+      <span class="mx-modal-title">部署新版本</span>
+      <button class="mx-modal-close" onclick="MxModal.close('deployModal')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="mx-modal-body">
+      <div class="demo-flex-col">
+        <div><label class="demo-label">服务</label>
+          <div class="mx-select"><div class="mx-select-trigger"><span class="mx-select-placeholder">选择服务...</span><span class="mx-select-value" style="display:none"></span><svg class="mx-select-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+            <div class="mx-select-dropdown"><div class="mx-select-option" data-value="api-gateway">api-gateway</div><div class="mx-select-option" data-value="user-service">user-service</div><div class="mx-select-option" data-value="order-service">order-service</div></div>
+          </div>
+        </div>
+        <div><label class="demo-label">版本号</label><div class="mx-input-wrap"><input class="mx-input" placeholder="v1.2.3"></div></div>
+      </div>
+    </div>
+    <div class="mx-modal-foot">
+      <button class="mx-btn mx-btn-ghost" onclick="MxModal.close('deployModal')">取消</button>
+      <button class="mx-btn mx-btn-primary" onclick="MxModal.close('deployModal');MxToast.success('部署已启动')">开始部署</button>
+    </div>
+  </div>
+</div>
+
+<!-- Drawer: 通知中心 -->
+<div class="mx-drawer-overlay" id="demoDrawerOverlay" onclick="closeDrawer()"></div>
 <div class="mx-drawer mx-drawer-right" id="demoDrawer">
   <div class="mx-drawer-head">
     <span class="mx-drawer-title">通知中心</span>
-    <button class="mx-drawer-close" onclick="MxDrawer.close('demoDrawer')">
+    <button class="mx-drawer-close" onclick="closeDrawer()">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     </button>
   </div>
@@ -540,14 +813,18 @@
     <div class="mx-activity-item"><div class="mx-activity-dot" style="background:var(--mx-green)"></div><div><div class="mx-activity-text">服务 <b>api-gateway</b> 部署成功</div><div class="mx-activity-time">2 分钟前</div></div></div>
     <div class="mx-activity-item"><div class="mx-activity-dot" style="background:var(--mx-amber)"></div><div><div class="mx-activity-text">CPU 使用率超过 <b>85%</b> 阈值</div><div class="mx-activity-time">15 分钟前</div></div></div>
     <div class="mx-activity-item"><div class="mx-activity-dot" style="background:var(--mx-primary)"></div><div><div class="mx-activity-text">新用户 <b>zhang_wei</b> 加入</div><div class="mx-activity-time">1 小时前</div></div></div>
-    <div class="mx-activity-item"><div class="mx-activity-dot" style="background:var(--mx-red)"></div><div><div class="mx-activity-text">数据库连接池耗尽</div><div class="mx-activity-time">3 小时前</div></div></div>
+    <div class="mx-activity-item"><div class="mx-activity-dot" style="background:var(--mx-error)"></div><div><div class="mx-activity-text">数据库连接池耗尽</div><div class="mx-activity-time">3 小时前</div></div></div>
   </div>
   <div class="mx-drawer-foot">
-    <button class="mx-btn mx-btn-ghost" onclick="MxDrawer.close('demoDrawer')">关闭</button>
-    <button class="mx-btn mx-btn-primary">全部已读</button>
+    <button class="mx-btn mx-btn-ghost" onclick="closeDrawer()">关闭</button>
+    <button class="mx-btn mx-btn-primary" onclick="closeDrawer();MxToast.success('全部已读')">全部已读</button>
   </div>
 </div>
 
+<!-- Toast Container -->
+<div class="mx-toast-container"></div>
+
+<!-- Miuix JS Utilities -->
 <script src="../utils/smooth-corner.js"></script>
 <script src="../utils/ripple.js"></script>
 <script src="../utils/counter.js"></script>
@@ -563,63 +840,124 @@
 <script src="../utils/upload.js"></script>
 <script src="../utils/glass.js"></script>
 <script>
-// ═══ SECTION SWITCHER ═══
-function showSection(name) {
-  document.querySelectorAll('.demo-section').forEach(s => s.style.display = 'none');
-  const sec = document.getElementById('sec-' + name);
-  if (sec) sec.style.display = '';
+// ═══════════════════════════════════════════
+// APP LOGIC
+// ═══════════════════════════════════════════
 
-  const titles = { buttons:'按钮 & 徽章', forms:'表单控件', feedback:'反馈', data:'数据展示', navigation:'导航 & 布局' };
-  document.getElementById('sectionTitle').textContent = titles[name] || '';
-
-  // Update nav active
-  document.querySelectorAll('.mx-nav-item').forEach(n => n.classList.remove('active'));
-  document.querySelectorAll('.mx-btm-item').forEach(n => n.classList.remove('active'));
-}
-
-// ═══ DRAWER HELPER ═══
-const MxDrawer = {
-  open(id) {
-    document.getElementById(id).classList.add('open');
-    document.getElementById(id + 'Overlay').classList.add('open');
-    document.body.style.overflow = 'hidden';
-  },
-  close(id) {
-    document.getElementById(id).classList.remove('open');
-    document.getElementById(id + 'Overlay').classList.remove('open');
-    document.body.style.overflow = '';
-  }
+// Section titles map
+const SECTION_TITLES = {
+  dashboard: '概览',
+  components: '组件',
+  forms: '表单',
+  feedback: '反馈',
+  data: '数据'
 };
 
-// ═══ SLIDER VALUE ═══
+// Show section
+function showSection(name) {
+  // Hide all sections, show target
+  document.querySelectorAll('.demo-section').forEach(s => s.classList.remove('active'));
+  const sec = document.getElementById('sec-' + name);
+  if (sec) sec.classList.add('active');
+
+  // Update breadcrumb
+  document.getElementById('breadcrumbTitle').textContent = SECTION_TITLES[name] || '';
+
+  // Update sidebar active
+  document.querySelectorAll('.mx-nav-item[data-section]').forEach(n => {
+    n.classList.toggle('active', n.dataset.section === name);
+  });
+
+  // Update bottom nav active
+  document.querySelectorAll('.mx-btm-item[data-section]').forEach(n => {
+    n.classList.toggle('active', n.dataset.section === name);
+  });
+
+  // Trigger counters on dashboard
+  if (name === 'dashboard') {
+    document.querySelectorAll('[data-counter]').forEach(el => {
+      const to = parseFloat(el.dataset.counter);
+      const decimals = parseInt(el.dataset.decimals) || 0;
+      const suffix = el.dataset.suffix || '';
+      MxCounter.animate(el, to, { decimals, suffix });
+    });
+    // Render chart
+    renderDashChart();
+  }
+}
+
+// Drawer helpers
+function openDrawer() {
+  document.getElementById('demoDrawer').classList.add('open');
+  document.getElementById('demoDrawerOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeDrawer() {
+  document.getElementById('demoDrawer').classList.remove('open');
+  document.getElementById('demoDrawerOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Slider value display
 document.querySelector('.mx-slider input[type="range"]')?.addEventListener('input', function() {
   this.closest('.mx-slider').querySelector('.mx-slider-value').textContent = this.value;
 });
 
-// ═══ TREE TOGGLE ═══
+// Tree toggle
 document.querySelectorAll('.mx-tree-toggle').forEach(t => {
   t.addEventListener('click', e => {
     e.stopPropagation();
     const node = t.closest('.mx-tree-node');
-    node.classList.toggle('open');
+    if (node) node.classList.toggle('open');
   });
 });
 
-// ═══ INIT ═══
-MxSmoothCorner.init();
-MxAccordion.init();
-MxDatePicker.init();
-MxUpload.init();
-MxTabs.init();
+// Dashboard chart
+function renderDashChart() {
+  const container = document.getElementById('dashChart');
+  if (!container) return;
+  const data = [2800, 3200, 2900, 3600, 3100, 3428, 3050];
+  const max = Math.max(...data);
+  const days = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
+  container.innerHTML = data.map((v, i) => {
+    const h = Math.round((v / max) * 140);
+    return `<div class="mx-chart-bar mx-anim-bar-grow mx-delay-${i}" style="height:${h}px" data-val="${v}"></div>`;
+  }).join('');
+}
 
-// Pagination demo
-MxPagination.render(document.getElementById('demoPagination'), {
-  current: 3, total: 12,
-  onChange: p => MxPagination.render(document.getElementById('demoPagination'), { current: p, total: 12, onChange: arguments.callee })
+// ═══════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  MxSmoothCorner.init();
+  MxAccordion.init();
+  MxDatePicker.init();
+  MxUpload.init();
+  MxTabs.init();
+
+  // Pagination demo
+  const pagContainer = document.getElementById('demoPagination');
+  if (pagContainer) {
+    function renderPag(page) {
+      MxPagination.render(pagContainer, {
+        current: page, total: 12,
+        onChange: p => renderPag(p)
+      });
+    }
+    renderPag(3);
+  }
+
+  // Init dashboard counters
+  setTimeout(() => {
+    document.querySelectorAll('#sec-dashboard [data-counter]').forEach(el => {
+      const to = parseFloat(el.dataset.counter);
+      const decimals = parseInt(el.dataset.decimals) || 0;
+      const suffix = el.dataset.suffix || '';
+      MxCounter.animate(el, to, { decimals, suffix });
+    });
+    renderDashChart();
+  }, 300);
 });
-
-// Theme chart replay
-window.addEventListener('mx-theme-change', () => {});
 </script>
 </body>
 </html>

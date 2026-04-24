@@ -1,55 +1,541 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Miuix Console</title>
+<title>Miuix Console — HyperOS Web UI Framework</title>
+<!-- MiSans 字体 -->
 <link href="https://cdn.jsdelivr.net/npm/misans@4.1/lib/Normal/MiSans-Regular.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/misans@4.1/lib/Normal/MiSans-Medium.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/misans@4.1/lib/Normal/MiSans-Semibold.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/misans@4.1/lib/Normal/MiSans-Bold.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!-- Miuix Tokens -->
+<link rel="stylesheet" href="core/tokens.css">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'MiSans','Mi Sans',system-ui,-apple-system,sans-serif;background:#0a0a0a;color:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 20px}
-.bg{position:fixed;inset:0;z-index:0;overflow:hidden}
-.bg::before{content:'';position:absolute;width:150%;height:150%;top:-25%;left:-25%;background:radial-gradient(ellipse 600px 600px at 20% 30%,rgba(52,130,255,0.25) 0%,transparent 70%),radial-gradient(ellipse 500px 500px at 70% 60%,rgba(168,85,247,0.2) 0%,transparent 70%),radial-gradient(ellipse 400px 400px at 50% 80%,rgba(236,72,153,0.15) 0%,transparent 70%);animation:float 20s ease-in-out infinite alternate}
-@keyframes float{0%{transform:translate(0,0)}50%{transform:translate(30px,-20px)}100%{transform:translate(-20px,30px)}}
-.content{position:relative;z-index:1;text-align:center;max-width:640px}
-h1{font-size:48px;font-weight:800;margin-bottom:12px;background:linear-gradient(135deg,#fff 0%,rgba(255,255,255,0.6) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-0.02em}
-p{font-size:16px;color:rgba(255,255,255,0.5);margin-bottom:32px;line-height:1.6}
-.links{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
-a.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:12px;font-size:14px;font-weight:600;text-decoration:none;transition:all 0.2s}
-a.btn-primary{background:#4C8BF5;color:#fff}
-a.btn-primary:hover{background:#3a7ae4;transform:translateY(-1px)}
-a.btn-outline{border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.8)}
-a.btn-outline:hover{border-color:rgba(255,255,255,0.3);background:rgba(255,255,255,0.05)}
-.badge{display:inline-block;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:600;background:rgba(52,130,255,0.12);color:#4C8BF5;border:1px solid rgba(52,130,255,0.2);margin-bottom:20px}
-.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:40px;width:100%}
-.feature{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:16px;text-align:center}
-.feature .icon{font-size:24px;margin-bottom:8px}
-.feature .name{font-size:13px;font-weight:600;color:rgba(255,255,255,0.8)}
-.feature .desc{font-size:11px;color:rgba(255,255,255,0.4);margin-top:4px}
+/* ═══════════════════════════════════════════
+   Landing Page — 内联关键样式
+   ═══════════════════════════════════════════ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{font-size:14px;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+body{
+  font-family:var(--mx-font);
+  background:var(--mx-bg);
+  color:var(--mx-text);
+  overflow-x:hidden;
+  min-height:100vh;
+}
+a{text-decoration:none;color:inherit}
+button{font-family:inherit;border:none;outline:none;background:none;cursor:pointer}
+
+/* ── Background Glow ── */
+.bg-glow{
+  position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;
+}
+.bg-glow::before{
+  content:'';position:absolute;width:200%;height:200%;top:-50%;left:-50%;
+  background:
+    radial-gradient(ellipse 800px 800px at 20% 20%, rgba(52,130,255,0.18) 0%, transparent 70%),
+    radial-gradient(ellipse 600px 600px at 75% 50%, rgba(168,85,247,0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 500px 500px at 40% 80%, rgba(236,72,153,0.10) 0%, transparent 70%);
+  animation:glow-drift 25s ease-in-out infinite alternate;
+}
+@keyframes glow-drift{
+  0%{transform:translate(0,0) rotate(0deg)}
+  33%{transform:translate(40px,-30px) rotate(1deg)}
+  66%{transform:translate(-30px,20px) rotate(-1deg)}
+  100%{transform:translate(20px,40px) rotate(0.5deg)}
+}
+
+/* ── Container ── */
+.container{
+  position:relative;z-index:1;
+  max-width:1080px;margin:0 auto;
+  padding:0 24px;
+}
+
+/* ── Section ── */
+.section{padding:80px 0}
+.section-title{
+  font-size:28px;font-weight:800;letter-spacing:-0.02em;text-align:center;margin-bottom:8px;
+  background:linear-gradient(135deg,var(--mx-text),var(--mx-t2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.section-sub{
+  text-align:center;font-size:14px;color:var(--mx-t3);margin-bottom:40px;
+}
+
+/* ── Hero ── */
+.hero{
+  min-height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;
+  padding:60px 24px;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:6px 16px;border-radius:999px;
+  font-size:12px;font-weight:600;
+  background:rgba(52,130,255,0.1);color:var(--mx-primary);
+  border:1px solid rgba(52,130,255,0.2);
+  margin-bottom:24px;
+}
+.hero h1{
+  font-size:56px;font-weight:800;letter-spacing:-0.03em;
+  margin-bottom:16px;
+  background:linear-gradient(135deg,#fff 0%,rgba(255,255,255,0.55) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  line-height:1.1;
+}
+.hero p{
+  font-size:17px;color:var(--mx-t2);max-width:540px;
+  line-height:1.7;margin-bottom:36px;
+}
+.hero-links{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:40px}
+.hero-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:14px 28px;border-radius:14px;
+  font-size:14px;font-weight:600;
+  transition:all 0.25s var(--mx-ease);
+}
+.hero-btn-primary{
+  background:var(--mx-primary);color:#fff;
+  box-shadow:0 4px 20px rgba(52,130,255,0.3);
+}
+.hero-btn-primary:hover{
+  background:var(--mx-primary-hover);
+  transform:translateY(-2px);
+  box-shadow:0 8px 30px rgba(52,130,255,0.4);
+}
+.hero-btn-outline{
+  border:1px solid var(--mx-border);color:var(--mx-text-on-surface);
+}
+.hero-btn-outline:hover{
+  border-color:var(--mx-t3);background:var(--mx-s-hover);
+}
+.hero-version{
+  font-size:12px;color:var(--mx-t3);
+  display:flex;align-items:center;gap:8px;
+}
+.hero-version span{
+  padding:2px 8px;border-radius:999px;
+  background:var(--mx-s3);font-weight:600;font-size:11px;
+}
+
+/* ── Principles Grid ── */
+.principles-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
+}
+.principle-card{
+  background:var(--mx-s2);border-radius:16px;
+  padding:24px;position:relative;overflow:hidden;
+  border:1px solid var(--mx-divider);
+  transition:all 0.3s var(--mx-ease);
+}
+.principle-card:hover{
+  border-color:var(--mx-t3);
+  transform:translateY(-2px);
+  box-shadow:0 8px 32px rgba(0,0,0,0.2);
+}
+.principle-icon{
+  width:44px;height:44px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:16px;font-size:22px;
+}
+.principle-name{
+  font-size:16px;font-weight:700;margin-bottom:6px;
+}
+.principle-desc{
+  font-size:13px;color:var(--mx-t3);line-height:1.6;
+}
+
+/* ── Components Grid ── */
+.components-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:12px;
+}
+.comp-card{
+  background:var(--mx-s2);border-radius:12px;
+  padding:16px;text-align:center;
+  border:1px solid transparent;
+  transition:all 0.25s var(--mx-ease);
+  cursor:default;
+}
+.comp-card:hover{
+  border-color:var(--mx-primary);
+  background:var(--mx-primary-glow);
+  transform:translateY(-2px);
+}
+.comp-icon{
+  font-size:24px;margin-bottom:8px;
+  width:40px;height:40px;border-radius:10px;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:var(--mx-s3);
+}
+.comp-name{
+  font-size:13px;font-weight:600;margin-bottom:2px;
+}
+.comp-desc{
+  font-size:11px;color:var(--mx-t3);
+}
+
+/* ── Code Block ── */
+.code-block{
+  background:var(--mx-s1);border-radius:16px;
+  border:1px solid var(--mx-divider);
+  overflow:hidden;max-width:680px;margin:0 auto;
+}
+.code-header{
+  display:flex;align-items:center;gap:8px;
+  padding:12px 16px;border-bottom:1px solid var(--mx-divider);
+}
+.code-dot{
+  width:10px;height:10px;border-radius:50%;
+}
+.code-dot-r{background:#FF5F57}
+.code-dot-y{background:#FFBD2E}
+.code-dot-g{background:#28CA41}
+.code-header span{
+  font-size:12px;color:var(--mx-t3);margin-left:auto;
+  font-family:var(--mx-mono);
+}
+.code-body{
+  padding:20px;font-family:var(--mx-mono);
+  font-size:13px;line-height:1.7;
+  overflow-x:auto;color:var(--mx-text-on-surface);
+}
+.code-body .comment{color:var(--mx-t3)}
+.code-body .tag{color:#7DD3FC}
+.code-body .attr{color:#C4B5FD}
+.code-body .str{color:#86EFAC}
+
+/* ── Glass Showcase ── */
+.glass-showcase{
+  background:var(--mx-s2);border-radius:20px;
+  border:1px solid var(--mx-divider);
+  padding:48px;text-align:center;
+  position:relative;overflow:hidden;
+}
+.glass-showcase::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 300px 300px at 30% 40%, rgba(52,130,255,0.15), transparent),
+    radial-gradient(ellipse 200px 200px at 70% 60%, rgba(168,85,247,0.12), transparent);
+  pointer-events:none;
+}
+.glass-showcase h3{
+  font-size:24px;font-weight:800;margin-bottom:12px;
+  position:relative;
+}
+.glass-showcase p{
+  font-size:14px;color:var(--mx-t3);max-width:480px;margin:0 auto 28px;
+  position:relative;line-height:1.7;
+}
+.glass-features{
+  display:flex;gap:24px;justify-content:center;flex-wrap:wrap;
+  position:relative;
+}
+.glass-feat{
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+}
+.glass-feat-icon{
+  width:48px;height:48px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;
+  background:rgba(52,130,255,0.1);
+  border:1px solid rgba(52,130,255,0.15);
+}
+.glass-feat span{font-size:12px;font-weight:600;color:var(--mx-t2)}
+
+/* ── Footer ── */
+.footer{
+  padding:40px 0;text-align:center;
+  border-top:1px solid var(--mx-divider);
+}
+.footer-links{
+  display:flex;gap:20px;justify-content:center;margin-bottom:16px;
+}
+.footer-link{
+  font-size:13px;color:var(--mx-t3);
+  transition:color 0.2s;
+  display:flex;align-items:center;gap:6px;
+}
+.footer-link:hover{color:var(--mx-primary)}
+.footer-copy{font-size:12px;color:var(--mx-t3)}
+
+/* ── Theme Toggle ── */
+.theme-toggle{
+  position:fixed;top:20px;right:20px;z-index:100;
+  width:40px;height:40px;border-radius:12px;
+  background:var(--mx-s2);border:1px solid var(--mx-divider);
+  display:flex;align-items:center;justify-content:center;
+  transition:all 0.2s;cursor:pointer;
+}
+.theme-toggle:hover{background:var(--mx-s3)}
+.theme-toggle svg{color:var(--mx-t2)}
+
+/* ── Responsive ── */
+@media(max-width:767px){
+  .hero h1{font-size:36px}
+  .hero p{font-size:15px}
+  .principles-grid{grid-template-columns:1fr 1fr}
+  .components-grid{grid-template-columns:repeat(2,1fr)}
+  .section{padding:48px 0}
+  .section-title{font-size:22px}
+  .glass-features{flex-direction:column;align-items:center}
+}
+@media(min-width:768px) and (max-width:1023px){
+  .principles-grid{grid-template-columns:repeat(2,1fr)}
+  .components-grid{grid-template-columns:repeat(3,1fr)}
+}
 </style>
 </head>
 <body>
-<div class="bg"></div>
-<div class="content">
-  <div class="badge">Apache 2.0 · Pure CSS + Vanilla JS · Zero Dependencies</div>
+
+<!-- Background Glow -->
+<div class="bg-glow"></div>
+
+<!-- Theme Toggle -->
+<button class="theme-toggle" onclick="toggleTheme()">
+  <svg class="moon-icon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  <svg class="sun-icon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" style="display:none"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+</button>
+
+<!-- ═══════════════════════════════════
+     HERO
+     ═══════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-badge">Apache 2.0 · Pure CSS + Vanilla JS · Zero Dependencies</div>
   <h1>Miuix Console</h1>
   <p>基于小米 HyperOS Miuix 设计语言的 Web 控制台 UI 框架。<br>Smooth Corner · 弹簧动效 · 深色优先 · 液体玻璃。</p>
-  <div class="links">
-    <a class="btn btn-primary" href="demo/glass.html">💎 Liquid Glass Playground</a>
-    <a class="btn btn-outline" href="demo/index.html">📦 完整组件 Demo</a>
-    <a class="btn btn-outline" href="https://github.com/bmbxwbh/miuix-console">⭐ GitHub</a>
+  <div class="hero-links">
+    <a class="hero-btn hero-btn-primary" href="demo/index.html">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      组件 Demo
+    </a>
+    <a class="hero-btn hero-btn-outline" href="demo/glass.html">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/></svg>
+      Liquid Glass
+    </a>
+    <a class="hero-btn hero-btn-outline" href="https://github.com/bmbxwbh/miuix-console">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+      GitHub
+    </a>
   </div>
-  <div class="features">
-    <div class="feature"><div class="icon">💎</div><div class="name">Liquid Glass</div><div class="desc">4 种折射模式 + 色差 + 鼠标跟踪</div></div>
-    <div class="feature"><div class="icon">🎨</div><div class="name">28 组件</div><div class="desc">卡片、按钮、表格、弹窗…</div></div>
-    <div class="feature"><div class="icon">🌙</div><div class="name">深色优先</div><div class="desc">Dark/Light 双主题</div></div>
-    <div class="feature"><div class="icon">📱</div><div class="name">响应式</div><div class="desc">手机 / 平板 / 桌面</div></div>
-    <div class="feature"><div class="icon">⚡</div><div class="name">零依赖</div><div class="desc">纯 CSS + Vanilla JS</div></div>
-    <div class="feature"><div class="icon">🔧</div><div class="name">14 工具</div><div class="desc">主题、涟漪、图表、弹窗…</div></div>
+  <div class="hero-version">
+    <span>v1.0.0</span>
+    <span>28 组件</span>
+    <span>14 工具</span>
   </div>
-</div>
+</section>
+
+<!-- ═══════════════════════════════════
+     设计原则
+     ═══════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">设计原则</h2>
+    <p class="section-sub">从 Miuix 源码直接移植的六大核心特征</p>
+    <div class="principles-grid">
+      <div class="principle-card">
+        <div class="principle-icon" style="background:rgba(52,130,255,0.1);color:var(--mx-primary)">◇</div>
+        <div class="principle-name">Smooth Corner</div>
+        <div class="principle-desc">贝塞尔曲线连续曲率过渡，k=0.55。不是简单的 border-radius，而是从直线到圆弧的丝滑过渡。</div>
+      </div>
+      <div class="principle-card">
+        <div class="principle-icon" style="background:rgba(52,211,153,0.1);color:var(--mx-green)">▦</div>
+        <div class="principle-name">多层 Surface</div>
+        <div class="principle-desc">5 级色阶系统：#161616 → #0C0C0C → #1C1C1C → #242424 → #2C2C2C，层层递进创造深度感。</div>
+      </div>
+      <div class="principle-card">
+        <div class="principle-icon" style="background:rgba(168,85,247,0.1);color:#A855F7">↻</div>
+        <div class="principle-name">弹簧动效</div>
+        <div class="principle-desc">cubic-bezier(0.34, 1.56, 0.64, 1) 弹簧曲线，仅用于 Switch、BottomNav、Sidebar 等交互组件。</div>
+      </div>
+      <div class="principle-card">
+        <div class="principle-icon" style="background:rgba(251,191,36,0.1);color:var(--mx-amber)">☽</div>
+        <div class="principle-name">深色优先</div>
+        <div class="principle-desc">默认深色主题，源自 HyperOS 的暗色设计哲学。支持 Light/Dark 双主题无缝切换。</div>
+      </div>
+      <div class="principle-card">
+        <div class="principle-icon" style="background:rgba(96,165,250,0.1);color:var(--mx-blue)">◈</div>
+        <div class="principle-name">毛玻璃</div>
+        <div class="principle-desc">TopBar、Sidebar、BottomNav 均采用 backdrop-filter 毛玻璃效果，营造通透的层次感。</div>
+      </div>
+      <div class="principle-card">
+        <div class="principle-icon" style="background:rgba(236,72,153,0.1);color:#EC4899">○</div>
+        <div class="principle-name">零依赖</div>
+        <div class="principle-desc">纯 CSS + Vanilla JS，无任何第三方依赖。MiSans 字体通过 CDN 加载，开箱即用。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     组件总览 (28 个)
+     ═══════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">28 个组件</h2>
+    <p class="section-sub">覆盖控制台开发的完整需求</p>
+    <div class="components-grid">
+      <div class="comp-card"><div class="comp-icon">📄</div><div class="comp-name">Card</div><div class="comp-desc">卡片容器</div></div>
+      <div class="comp-card"><div class="comp-icon">🔘</div><div class="comp-name">Button</div><div class="comp-desc">按钮变体</div></div>
+      <div class="comp-card"><div class="comp-icon">🎚️</div><div class="comp-name">Switch</div><div class="comp-desc">弹簧开关</div></div>
+      <div class="comp-card"><div class="comp-icon">📥</div><div class="comp-name">Input</div><div class="comp-desc">输入框</div></div>
+      <div class="comp-card"><div class="comp-icon">📋</div><div class="comp-name">Select</div><div class="comp-desc">下拉选择</div></div>
+      <div class="comp-card"><div class="comp-icon">☑️</div><div class="comp-name">Checkbox</div><div class="comp-desc">复选框</div></div>
+      <div class="comp-card"><div class="comp-icon">🔘</div><div class="comp-name">Radio</div><div class="comp-desc">单选框</div></div>
+      <div class="comp-card"><div class="comp-icon">📊</div><div class="comp-name">Slider</div><div class="comp-desc">滑块</div></div>
+      <div class="comp-card"><div class="comp-icon">📅</div><div class="comp-name">DatePicker</div><div class="comp-desc">日期选择</div></div>
+      <div class="comp-card"><div class="comp-icon">📤</div><div class="comp-name">Upload</div><div class="comp-desc">文件上传</div></div>
+      <div class="comp-card"><div class="comp-icon">💬</div><div class="comp-name">Modal</div><div class="comp-desc">弹窗对话框</div></div>
+      <div class="comp-card"><div class="comp-icon">🔔</div><div class="comp-name">Toast</div><div class="comp-desc">轻量提示</div></div>
+      <div class="comp-card"><div class="comp-icon">📑</div><div class="comp-name">Drawer</div><div class="comp-desc">侧边抽屉</div></div>
+      <div class="comp-card"><div class="comp-icon">⏳</div><div class="comp-name">Progress</div><div class="comp-desc">进度条</div></div>
+      <div class="comp-card"><div class="comp-icon">💡</div><div class="comp-name">Tooltip</div><div class="comp-desc">文字提示</div></div>
+      <div class="comp-card"><div class="comp-icon">📌</div><div class="comp-name">Popover</div><div class="comp-desc">弹出气泡</div></div>
+      <div class="comp-card"><div class="comp-icon">📋</div><div class="comp-name">Table</div><div class="comp-desc">数据表格</div></div>
+      <div class="comp-card"><div class="comp-icon">📑</div><div class="comp-name">Tabs</div><div class="comp-desc">选项卡</div></div>
+      <div class="comp-card"><div class="comp-icon">🪗</div><div class="comp-name">Accordion</div><div class="comp-desc">折叠面板</div></div>
+      <div class="comp-card"><div class="comp-icon">📄</div><div class="comp-name">Pagination</div><div class="comp-desc">分页器</div></div>
+      <div class="comp-card"><div class="comp-icon">🌳</div><div class="comp-name">Tree</div><div class="comp-desc">树形控件</div></div>
+      <div class="comp-card"><div class="comp-icon">📭</div><div class="comp-name">Empty</div><div class="comp-desc">空状态</div></div>
+      <div class="comp-card"><div class="comp-icon">👤</div><div class="comp-name">Avatar</div><div class="comp-desc">头像</div></div>
+      <div class="comp-card"><div class="comp-icon">🏷️</div><div class="comp-name">Badge</div><div class="comp-desc">徽章</div></div>
+      <div class="comp-card"><div class="comp-icon">🔖</div><div class="comp-name">Tag</div><div class="comp-desc">标签</div></div>
+      <div class="comp-card"><div class="comp-icon">📈</div><div class="comp-name">Stat</div><div class="comp-desc">统计卡片</div></div>
+      <div class="comp-card"><div class="comp-icon">📜</div><div class="comp-name">Activity</div><div class="comp-desc">活动列表</div></div>
+      <div class="comp-card"><div class="comp-icon">📐</div><div class="comp-name">Layout</div><div class="comp-desc">布局系统</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     快速开始
+     ═══════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">快速开始</h2>
+    <p class="section-sub">引入文件即可使用，无需构建工具</p>
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dot code-dot-r"></div>
+        <div class="code-dot code-dot-y"></div>
+        <div class="code-dot code-dot-g"></div>
+        <span>index.html</span>
+      </div>
+      <div class="code-body">
+<span class="comment">&lt;!-- 1. 引入 MiSans 字体 --&gt;</span>
+<span class="tag">&lt;link</span> <span class="attr">href</span>=<span class="str">"https://cdn.jsdelivr.net/npm/misans@4/lib/Normal/MiSans-Regular.min.css"</span> <span class="attr">rel</span>=<span class="str">"stylesheet"</span><span class="tag">&gt;</span>
+
+<span class="comment">&lt;!-- 2. 引入 Miuix 核心 --&gt;</span>
+<span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="str">"stylesheet"</span> <span class="attr">href</span>=<span class="str">"core/tokens.css"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="str">"stylesheet"</span> <span class="attr">href</span>=<span class="str">"core/base.css"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="str">"stylesheet"</span> <span class="attr">href</span>=<span class="str">"core/animations.css"</span><span class="tag">&gt;</span>
+
+<span class="comment">&lt;!-- 3. 按需引入组件 CSS --&gt;</span>
+<span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="str">"stylesheet"</span> <span class="attr">href</span>=<span class="str">"components/card.css"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="str">"stylesheet"</span> <span class="attr">href</span>=<span class="str">"components/button.css"</span><span class="tag">&gt;</span>
+<span class="comment">&lt;!-- ... 更多组件 ... --&gt;</span>
+
+<span class="comment">&lt;!-- 4. 使用组件 --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="str">"mx-card mx-anim-card-in"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="str">"mx-card-head"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="str">"mx-card-title"</span><span class="tag">&gt;</span>Hello Miuix<span class="tag">&lt;/span&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="str">"mx-card-body"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;button</span> <span class="attr">class</span>=<span class="str">"mx-btn mx-btn-primary"</span><span class="tag">&gt;</span>开始使用<span class="tag">&lt;/button&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     Liquid Glass 特色展示
+     ═══════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="glass-showcase">
+      <h3>💎 Liquid Glass</h3>
+      <p>基于 rdev/liquid-glass-react 原理移植的液体玻璃效果系统。4 种折射模式、RGB 色差分离、鼠标跟踪弹性变形、双层动态边框。</p>
+      <div class="glass-features">
+        <div class="glass-feat">
+          <div class="glass-feat-icon">🔮</div>
+          <span>Standard</span>
+        </div>
+        <div class="glass-feat">
+          <div class="glass-feat-icon">🌀</div>
+          <span>Polar</span>
+        </div>
+        <div class="glass-feat">
+          <div class="glass-feat-icon">✨</div>
+          <span>Prominent</span>
+        </div>
+        <div class="glass-feat">
+          <div class="glass-feat-icon">🎨</div>
+          <span>Shader</span>
+        </div>
+      </div>
+      <div style="margin-top:28px;position:relative">
+        <a href="demo/glass.html" class="hero-btn hero-btn-primary" style="display:inline-flex">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/></svg>
+          打开 Glass Playground
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     Footer
+     ═══════════════════════════════════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-links">
+      <a class="footer-link" href="https://github.com/bmbxwbh/miuix-console">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+        GitHub
+      </a>
+      <a class="footer-link" href="demo/index.html">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        组件 Demo
+      </a>
+      <a class="footer-link" href="demo/glass.html">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/></svg>
+        Glass Playground
+      </a>
+    </div>
+    <p class="footer-copy">Miuix Console · Apache 2.0 · Built with Miuix Design Language</p>
+  </div>
+</footer>
+
+<script>
+// Theme toggle
+function toggleTheme() {
+  const html = document.documentElement;
+  const current = html.dataset.theme;
+  const next = current === 'dark' ? 'light' : 'dark';
+  html.dataset.theme = next;
+  localStorage.setItem('mx-theme', next);
+  updateThemeIcon(next);
+}
+
+function updateThemeIcon(theme) {
+  const moon = document.querySelector('.theme-toggle .moon-icon');
+  const sun = document.querySelector('.theme-toggle .sun-icon');
+  if (moon && sun) {
+    moon.style.display = theme === 'dark' ? 'block' : 'none';
+    sun.style.display = theme === 'light' ? 'block' : 'none';
+  }
+}
+
+// Init theme from storage
+const saved = localStorage.getItem('mx-theme');
+if (saved) {
+  document.documentElement.dataset.theme = saved;
+  updateThemeIcon(saved);
+}
+</script>
 </body>
 </html>

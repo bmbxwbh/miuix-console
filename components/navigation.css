@@ -29,13 +29,13 @@
   background:linear-gradient(135deg,var(--mx-primary),var(--mx-accent));
   border-radius:10px;
   display:flex;align-items:center;justify-content:center;
-  transition:transform var(--mx-d2) var(--mx-spring);
+  transition:transform var(--mx-d2) var(--mx-ease);
   box-shadow:0 2px 8px rgba(76,139,245,0.2);
   flex-shrink:0;
 }
 .mx-logo-icon:active{transform:scale(0.92)}
 .mx-logo-icon svg{color:#fff}
-.mx-logo-text{font-size:15px;font-weight:700}
+.mx-logo-text{font-size:16px;font-weight:700}
 
 /* ── Sidebar ── */
 .mx-sidebar{
@@ -56,7 +56,7 @@
 
 .mx-nav-item{
   display:flex;align-items:center;gap:10px;
-  padding:9px 10px;border-radius:var(--mx-r-sm);
+  padding:8px 10px;border-radius:var(--mx-r-sm);
   cursor:pointer;color:var(--mx-t2);
   font-size:13px;font-weight:500;
   transition:all var(--mx-d1) var(--mx-ease);
@@ -143,7 +143,7 @@
   padding:5px 14px;border-radius:var(--mx-r-pill);
   font-size:12px;font-weight:600;cursor:pointer;
   color:var(--mx-t3);
-  transition:all var(--mx-d2) var(--mx-spring);
+  transition:all var(--mx-d2) var(--mx-ease);
 }
 .mx-pill-group button.active{
   background:var(--mx-primary);color:#fff;
@@ -158,7 +158,7 @@
   display:flex;align-items:center;justify-content:center;
   font-size:13px;font-weight:700;color:#fff;
   cursor:pointer;flex-shrink:0;
-  transition:all var(--mx-d2) var(--mx-spring);
+  transition:all var(--mx-d2) var(--mx-ease);
   box-shadow:0 0 0 0 var(--mx-primary-glow);
 }
 .mx-avatar:hover{box-shadow:0 0 0 4px var(--mx-primary-glow)}
@@ -175,4 +175,38 @@
   border-radius:50%;
   border:2px solid var(--mx-s1);
   animation:mx-pulse 2s infinite;
+}
+
+/* ═══ MOBILE ADAPTATIONS ═══ */
+@media(max-width:767px){
+  /* TopBar 更紧凑 */
+  .mx-topbar{height:48px;padding:0 12px}
+  .mx-logo-icon{width:28px;height:28px;border-radius:8px}
+  .mx-logo-text{font-size:14px}
+  .mx-avatar{width:28px;height:28px;font-size:12px}
+
+  /* BottomNav 加大触控区 */
+  .mx-btm-item{padding:8px 16px;min-width:56px}
+  .mx-btm-item span{font-size:11px}
+  .mx-btm-item svg{width:24px;height:24px}
+
+  /* Sidebar section */
+  .mx-sidebar-section{font-size:10px}
+  .mx-nav-item{padding:11px 10px;min-height:44px}
+
+  /* Breadcrumb 滚动 */
+  .mx-breadcrumb{overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch}
+
+  /* Pill group */
+  .mx-pill-group button{padding:6px 12px;font-size:11px}
+
+  /* Notification dot */
+  .mx-notify .mx-notify-dot{top:5px;right:5px;width:6px;height:6px}
+}
+
+/* ═══ TABLET ADAPTATIONS ═══ */
+@media(min-width:768px) and (max-width:1023px){
+  .mx-topbar{height:50px}
+  .mx-bottom-nav{padding:6px 0}
+  .mx-btm-item span{font-size:10px}
 }

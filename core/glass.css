@@ -1,0 +1,154 @@
+/* ═══════════════════════════════════════════
+   MIUIX CONSOLE — Liquid Glass Effect
+   液体玻璃效果系统
+   通过 [data-glass="liquid"] 属性启用
+   ═══════════════════════════════════════════ */
+
+/* ── Glass Variables ── */
+:root {
+  --mx-glass-blur: 12px;
+  --mx-glass-saturation: 180%;
+  --mx-glass-displacement: 25;
+  --mx-glass-aberration: 2;
+  --mx-glass-bg-light: rgba(255, 255, 255, 0.25);
+  --mx-glass-bg-dark: rgba(0, 0, 0, 0.35);
+  --mx-glass-border-light: rgba(255, 255, 255, 0.2);
+  --mx-glass-border-dark: rgba(255, 255, 255, 0.08);
+}
+
+/* ═══════════════════════════════════════════
+   DARK MODE (default)
+   ═══════════════════════════════════════════ */
+
+/* ── TopBar ── */
+[data-glass="liquid"] .mx-topbar {
+  background: rgba(22, 22, 22, 0.45);
+  backdrop-filter: blur(var(--mx-glass-blur)) saturate(var(--mx-glass-saturation));
+  -webkit-backdrop-filter: blur(var(--mx-glass-blur)) saturate(var(--mx-glass-saturation));
+  border-bottom: 1px solid var(--mx-glass-border-dark);
+  filter: url(#mx-glass-filter);
+}
+
+/* ── Sidebar ── */
+[data-glass="liquid"] .mx-sidebar {
+  background: rgba(22, 22, 22, 0.45);
+  backdrop-filter: blur(var(--mx-glass-blur)) saturate(var(--mx-glass-saturation));
+  -webkit-backdrop-filter: blur(var(--mx-glass-blur)) saturate(var(--mx-glass-saturation));
+  border-right: 1px solid var(--mx-glass-border-dark);
+  filter: url(#mx-glass-filter);
+}
+
+/* ── Bottom Nav ── */
+[data-glass="liquid"] .mx-bottom-nav {
+  background: rgba(22, 22, 22, 0.45);
+  backdrop-filter: blur(var(--mx-glass-blur)) saturate(var(--mx-glass-saturation));
+  -webkit-backdrop-filter: blur(var(--mx-glass-blur)) saturate(var(--mx-glass-saturation));
+  border-top: 1px solid var(--mx-glass-border-dark);
+  filter: url(#mx-glass-filter);
+}
+
+/* ── Modal ── */
+[data-glass="liquid"] .mx-modal {
+  background: rgba(30, 30, 30, 0.5);
+  backdrop-filter: blur(var(--mx-glass-blur)) saturate(var(--mx-glass-saturation));
+  -webkit-backdrop-filter: blur(var(--mx-glass-blur)) saturate(var(--mx-glass-saturation));
+  border: 1px solid var(--mx-glass-border-dark);
+  filter: url(#mx-glass-filter);
+}
+
+/* ── Drawer ── */
+[data-glass="liquid"] .mx-drawer {
+  background: rgba(22, 22, 22, 0.5);
+  backdrop-filter: blur(var(--mx-glass-blur)) saturate(var(--mx-glass-saturation));
+  -webkit-backdrop-filter: blur(var(--mx-glass-blur)) saturate(var(--mx-glass-saturation));
+  border-left: 1px solid var(--mx-glass-border-dark);
+  filter: url(#mx-glass-filter);
+}
+
+/* ── Popover ── */
+[data-glass="liquid"] .mx-popover {
+  background: rgba(30, 30, 30, 0.5);
+  backdrop-filter: blur(var(--mx-glass-blur)) saturate(var(--mx-glass-saturation));
+  -webkit-backdrop-filter: blur(var(--mx-glass-blur)) saturate(var(--mx-glass-saturation));
+  border: 1px solid var(--mx-glass-border-dark);
+  filter: url(#mx-glass-filter);
+}
+
+/* ── Select Dropdown ── */
+[data-glass="liquid"] .mx-select-dropdown {
+  background: rgba(30, 30, 30, 0.5);
+  backdrop-filter: blur(var(--mx-glass-blur)) saturate(var(--mx-glass-saturation));
+  -webkit-backdrop-filter: blur(var(--mx-glass-blur)) saturate(var(--mx-glass-saturation));
+  border: 1px solid var(--mx-glass-border-dark);
+  filter: url(#mx-glass-filter);
+}
+
+/* ── Card (opt-in via .mx-card-glass) ── */
+[data-glass="liquid"] .mx-card-glass {
+  background: rgba(30, 30, 30, 0.4);
+  backdrop-filter: blur(var(--mx-glass-blur)) saturate(var(--mx-glass-saturation));
+  -webkit-backdrop-filter: blur(var(--mx-glass-blur)) saturate(var(--mx-glass-saturation));
+  border: 1px solid var(--mx-glass-border-dark);
+  filter: url(#mx-glass-filter);
+}
+
+/* ═══════════════════════════════════════════
+   LIGHT MODE
+   ═══════════════════════════════════════════ */
+
+[data-theme="light"][data-glass="liquid"] .mx-topbar {
+  background: rgba(255, 255, 255, 0.45);
+  border-bottom: 1px solid var(--mx-glass-border-light);
+}
+
+[data-theme="light"][data-glass="liquid"] .mx-sidebar {
+  background: rgba(255, 255, 255, 0.45);
+  border-right: 1px solid var(--mx-glass-border-light);
+}
+
+[data-theme="light"][data-glass="liquid"] .mx-bottom-nav {
+  background: rgba(255, 255, 255, 0.45);
+  border-top: 1px solid var(--mx-glass-border-light);
+}
+
+[data-theme="light"][data-glass="liquid"] .mx-modal {
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--mx-glass-border-light);
+}
+
+[data-theme="light"][data-glass="liquid"] .mx-drawer {
+  background: rgba(255, 255, 255, 0.5);
+  border-left: 1px solid var(--mx-glass-border-light);
+}
+
+[data-theme="light"][data-glass="liquid"] .mx-popover {
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--mx-glass-border-light);
+}
+
+[data-theme="light"][data-glass="liquid"] .mx-select-dropdown {
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--mx-glass-border-light);
+}
+
+[data-theme="light"][data-glass="liquid"] .mx-card-glass {
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid var(--mx-glass-border-light);
+}
+
+/* ═══════════════════════════════════════════
+   FALLBACK — browsers without SVG filter support
+   保留 backdrop-filter，移除 filter: url()
+   ═══════════════════════════════════════════ */
+@supports not (filter: url(#mx-glass-filter)) {
+  [data-glass="liquid"] .mx-topbar,
+  [data-glass="liquid"] .mx-sidebar,
+  [data-glass="liquid"] .mx-bottom-nav,
+  [data-glass="liquid"] .mx-modal,
+  [data-glass="liquid"] .mx-drawer,
+  [data-glass="liquid"] .mx-popover,
+  [data-glass="liquid"] .mx-select-dropdown,
+  [data-glass="liquid"] .mx-card-glass {
+    filter: none;
+  }
+}

@@ -7,7 +7,7 @@
   background:var(--mx-s3);
   border:1px solid var(--mx-border);
   border-radius:var(--mx-r-sm);
-  padding:0 14px;height:40px;
+  padding:0 16px;height:40px;
   transition:all var(--mx-d2) var(--mx-ease);
 }
 .mx-input-wrap:focus-within{
@@ -64,3 +64,14 @@
 /* Helper text */
 .mx-helper{font-size:12px;color:var(--mx-t3);margin-top:4px}
 .mx-helper-error{color:var(--mx-red)}
+
+/* Mobile: 防止 iOS 自动缩放 + 加大触控区 */
+@media(max-width:767px){
+  .mx-input-wrap{height:44px;padding:0 16px}
+  .mx-input{font-size:16px}
+  .mx-input-sm{height:38px;font-size:15px}
+  .mx-input-lg{height:50px;font-size:16px}
+  .mx-textarea-wrap{min-height:88px}
+  .mx-textarea{font-size:16px;min-height:72px}
+  .mx-label{font-size:13px;margin-bottom:8px}
+}

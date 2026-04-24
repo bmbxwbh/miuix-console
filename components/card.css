@@ -9,26 +9,41 @@
   border-radius:var(--mx-r);
   overflow:hidden;
   box-shadow:var(--mx-sh1);
-  transition:box-shadow var(--mx-d2) var(--mx-ease);
+  transition:box-shadow var(--mx-d3) var(--mx-ease);
 }
-.mx-card:hover{box-shadow:var(--mx-sh2)}
+.mx-card:hover{
+  box-shadow:var(--mx-sh2);
+  transition-duration:var(--mx-d2);
+}
 
 .mx-card-head{
   display:flex;align-items:center;justify-content:space-between;
-  padding:14px 16px;
+  padding:12px 16px;
   border-bottom:1px solid var(--mx-divider);
 }
-.mx-card-title{font-size:14px;font-weight:700}
+.mx-card-title{font-size:15px;font-weight:700}
 
 .mx-card-body{padding:16px}
+.mx-card-body > * + * { margin-top: 12px; }
+.mx-card-body > .mx-table-wrap { margin-top: 0; }
+.mx-card-body > .mx-chart { margin-top: 0; }
 
 /* 可点击卡片 — Miuix BasicCard with press feedback */
 .mx-card-clickable{
   cursor:pointer;
-  transition:box-shadow var(--mx-d2) var(--mx-ease),
-             transform var(--mx-d2) var(--mx-ease);
+  transition:box-shadow var(--mx-d3) var(--mx-ease),
+             transform var(--mx-d3) var(--mx-ease);
+}
+.mx-card-clickable:hover{
+  transition-duration:var(--mx-d2);
 }
 .mx-card-clickable:active{transform:scale(0.98)}
+
+/* Mobile: 卡片内边距调整 */
+@media(max-width:767px){
+  .mx-card-body{padding:14px}
+  .mx-card-head{padding:12px 14px}
+}
 
 /* Miuix: 顶部 accent 线 */
 .mx-card-accent{

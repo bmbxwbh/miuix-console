@@ -53,3 +53,9 @@
   0%,100%{opacity:1;transform:scale(1)}
   50%{opacity:0.5;transform:scale(1.3)}
 }
+
+/* Mobile */
+@media(max-width:767px){
+  .mx-badge{padding:4px 12px;font-size:13px}
+  .mx-count{min-width:20px;height:20px;font-size:11px}
+}

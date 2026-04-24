@@ -9,8 +9,9 @@
   position:relative;overflow:hidden;
   cursor:pointer;
   box-shadow:var(--mx-sh1);
-  transition:all var(--mx-d2) var(--mx-ease);
+  transition:all var(--mx-d3) var(--mx-ease);
 }
+.mx-stat:hover{transition-duration:var(--mx-d2)}
 .mx-stat:active{transform:scale(0.97)}
 
 /* 顶部 accent 线 */
@@ -40,7 +41,7 @@
 .mx-stat-icon{
   width:26px;height:26px;border-radius:var(--mx-r-xs);
   display:flex;align-items:center;justify-content:center;
-  transition:transform var(--mx-d2) var(--mx-spring);
+  transition:transform var(--mx-d2) var(--mx-ease);
 }
 .mx-stat:hover .mx-stat-icon{transform:scale(1.12) rotate(-3deg)}
 
@@ -65,4 +66,14 @@
 }
 @media(min-width:768px){
   .mx-stat-grid{grid-template-columns:repeat(4,1fr)}
+}
+
+/* Mobile */
+@media(max-width:767px){
+  .mx-stat{padding:14px}
+  .mx-stat-value{font-size:22px}
+  .mx-stat-icon{width:24px;height:24px}
+  .mx-stat-icon svg{width:12px;height:12px}
+  .mx-stat-label{font-size:10px}
+  .mx-stat-delta{font-size:10px;padding:2px 6px}
 }

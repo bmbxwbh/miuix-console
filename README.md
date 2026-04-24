@@ -7,10 +7,19 @@
 [![CSS](https://img.shields.io/badge/CSS-pure-1572B6.svg)]()
 [![JS](https://img.shields.io/badge/JS-Vanilla-F7DF1E.svg)]()
 
+### 🌐 在线体验
+
+| 页面 | 链接 | 说明 |
+|------|------|------|
+| **组件 Demo** | [bmbxwbh.github.io/miuix-console/demo/index.html](https://bmbxwbh.github.io/miuix-console/demo/index.html) | 全部 28 个组件 + 完整控制台界面 |
+| **Liquid Glass** | [bmbxwbh.github.io/miuix-console/demo/glass.html](https://bmbxwbh.github.io/miuix-console/demo/glass.html) | 液体玻璃效果 Playground + 参数调节面板 |
+| **项目主页** | [bmbxwbh.github.io/miuix-console](https://bmbxwbh.github.io/miuix-console/) | 落地页 + 设计理念展示 |
+
 ---
 
 ## 目录
 
+- [在线体验](#-在线体验)
 - [设计理念](#设计理念)
 - [快速开始](#快速开始)
 - [项目结构](#项目结构)

@@ -96,7 +96,7 @@
   --mx-d4: 500ms;
 
   /* ── Typography ── */
-  --mx-font: "Inter", "Noto Sans SC", -apple-system, "PingFang SC", sans-serif;
+  --mx-font: "MiSans", "Mi Sans", -apple-system, "PingFang SC", "Noto Sans SC", sans-serif;
   --mx-mono: "JetBrains Mono", "SF Mono", monospace;
 
   /* Typography scale */

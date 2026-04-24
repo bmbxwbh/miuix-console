@@ -208,7 +208,7 @@
   .mx-app>.mx-bottom-nav{display:none!important}
 
   .mx-desktop-shell{
-    display:flex;flex-direction:column;flex:1;height:100dvh;
+    display:flex;flex-direction:column;width:100%;
   }
   .mx-desktop-topbar{
     display:flex;align-items:center;justify-content:space-between;

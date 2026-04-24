@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<title>Miuix Console — Liquid Glass Playground</title>
+<title>Miuix Console — Liquid Glass</title>
 <link href="https://cdn.jsdelivr.net/npm/misans@4.1/lib/Normal/MiSans-Regular.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/misans@4.1/lib/Normal/MiSans-Medium.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/misans@4.1/lib/Normal/MiSans-Semibold.min.css" rel="stylesheet">
@@ -13,728 +13,295 @@
 <link rel="stylesheet" href="../core/base.css">
 <link rel="stylesheet" href="../core/animations.css">
 <link rel="stylesheet" href="../core/glass.css">
-<link rel="stylesheet" href="../components/card.css">
-<link rel="stylesheet" href="../components/button.css">
-<link rel="stylesheet" href="../components/switch.css">
-<link rel="stylesheet" href="../components/input.css">
-<link rel="stylesheet" href="../components/tabs.css">
-<link rel="stylesheet" href="../components/slider.css">
-<link rel="stylesheet" href="../components/badge.css">
-<link rel="stylesheet" href="../components/layout.css">
-<link rel="stylesheet" href="../components/navigation.css">
-<link rel="stylesheet" href="../components/modal.css">
-<link rel="stylesheet" href="../components/toast.css">
 <style>
-/* ── Page Layout ── */
-* { box-sizing: border-box; }
-body { margin: 0; font-family: 'MiSans', 'Mi Sans', system-ui, -apple-system, sans-serif; }
-
-.glass-playground {
-  min-height: 100vh;
-  overflow: hidden;
-  position: relative;
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{
+  font-family:var(--mx-font);
+  background:#000;color:#fff;
 }
 
-/* ── Dynamic Background — 纯色，干净 ── */
-.glass-bg {
-  position: fixed; inset: 0; z-index: 0;
-  background: var(--mx-bg);
+/* ── Bing 背景 ── */
+.bing-bg{
+  position:fixed;inset:0;z-index:0;
+  background-size:cover;background-position:center;
+  transition:opacity 0.6s ease;
+}
+.bing-bg::after{
+  content:'';position:absolute;inset:0;
+  background:rgba(0,0,0,0.15);
 }
 
-/* Light mode - 已通过 CSS 变量自动适配 */
+/* ── 返回按钮 ── */
+.back-btn{
+  position:fixed;top:20px;left:20px;z-index:100;
+  display:inline-flex;align-items:center;gap:6px;
+  padding:8px 16px;border-radius:10px;
+  background:rgba(0,0,0,0.35);
+  backdrop-filter:blur(16px) saturate(180%);
+  -webkit-backdrop-filter:blur(16px) saturate(180%);
+  border:1px solid rgba(255,255,255,0.1);
+  color:#fff;font-size:13px;font-weight:500;
+  text-decoration:none;cursor:pointer;
+  transition:all 0.2s;
+}
+.back-btn:hover{background:rgba(0,0,0,0.5)}
 
-/* ── Content ── */
-.glass-content {
-  position: relative; z-index: 1;
-  max-width: 1200px; margin: 0 auto;
-  padding: 32px 20px 80px;
+/* ── 控制栏 ── */
+.controls{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:100;
+  display:flex;gap:8px;align-items:center;
+  padding:10px 16px;border-radius:14px;
+  background:rgba(0,0,0,0.35);
+  backdrop-filter:blur(16px) saturate(180%);
+  -webkit-backdrop-filter:blur(16px) saturate(180%);
+  border:1px solid rgba(255,255,255,0.1);
 }
+.controls button{
+  padding:6px 14px;border-radius:8px;
+  font-size:12px;font-weight:600;cursor:pointer;
+  color:rgba(255,255,255,0.6);background:transparent;
+  border:1px solid transparent;
+  transition:all 0.2s;
+  font-family:var(--mx-font);
+}
+.controls button:hover{color:#fff;background:rgba(255,255,255,0.1)}
+.controls button.active{
+  background:rgba(255,255,255,0.15);color:#fff;
+  border-color:rgba(255,255,255,0.2);
+}
+.controls .sep{width:1px;height:20px;background:rgba(255,255,255,0.15)}
 
-/* ── Hero ── */
-.glass-hero {
-  text-align: center;
-  padding: 48px 0 40px;
+/* ── 居中玻璃卡片 ── */
+.glass-center{
+  position:fixed;inset:0;z-index:10;
+  display:flex;align-items:center;justify-content:center;
+  pointer-events:none;
 }
-.glass-hero h1 {
-  font-size: 42px; font-weight: 800;
-  color: var(--mx-text);
-  margin: 0 0 12px;
-  letter-spacing: -0.02em;
+.glass-card{
+  pointer-events:auto;
+  width:420px;max-width:90vw;
+  background:rgba(255,255,255,0.18);
+  backdrop-filter:blur(var(--mx-glass-blur)) saturate(var(--mx-glass-saturation));
+  -webkit-backdrop-filter:blur(var(--mx-glass-blur)) saturate(var(--mx-glass-saturation));
+  border:1px solid rgba(255,255,255,0.2);
+  border-radius:20px;
+  padding:36px 32px;
+  filter:url(#mx-glass-filter);
+  transition:transform 0.2s ease-out, box-shadow 0.2s ease-out;
+  will-change:transform;
+  position:relative;overflow:hidden;
 }
-[data-theme="light"] .glass-hero h1 {
-  background: linear-gradient(135deg, #1a1a1a 0%, #555 100%);
-  -webkit-background-clip: text; background-clip: text;
+.glass-card:hover{box-shadow:0 16px 64px rgba(0,0,0,0.25)}
+.glass-card h2{
+  font-size:22px;font-weight:700;color:#fff;margin-bottom:8px;
+  text-shadow:0 1px 8px rgba(0,0,0,0.2);
 }
-.glass-hero p {
-  font-size: 16px; color: rgba(255,255,255,0.6);
-  margin: 0 0 8px;
+.glass-card p{
+  font-size:14px;color:rgba(255,255,255,0.8);line-height:1.7;margin-bottom:20px;
+  text-shadow:0 1px 4px rgba(0,0,0,0.15);
 }
-[data-theme="light"] .glass-hero p { color: rgba(0,0,0,0.5); }
-.glass-hero .version-badge {
-  display: inline-block;
-  padding: 4px 12px; border-radius: 999px;
-  font-size: 11px; font-weight: 600;
-  background: rgba(52,130,255,0.15); color: #4C8BF5;
-  border: 1px solid rgba(52,130,255,0.2);
+.glass-card .glass-stats{
+  display:flex;gap:16px;
 }
+.glass-card .glass-stat{
+  flex:1;text-align:center;
+  padding:12px;border-radius:12px;
+  background:rgba(255,255,255,0.1);
+  border:1px solid rgba(255,255,255,0.12);
+}
+.glass-card .glass-stat-val{
+  font-size:20px;font-weight:700;color:#fff;
+  font-family:'JetBrains Mono',monospace;
+}
+.glass-card .glass-stat-label{
+  font-size:11px;color:rgba(255,255,255,0.6);margin-top:2px;
+}
+.glass-card .glass-actions{
+  display:flex;gap:8px;margin-top:20px;
+}
+.glass-card .glass-btn{
+  flex:1;padding:10px;border-radius:10px;
+  font-size:13px;font-weight:600;cursor:pointer;
+  text-align:center;
+  font-family:var(--mx-font);
+  transition:all 0.2s;
+}
+.glass-card .glass-btn-primary{
+  background:rgba(255,255,255,0.2);color:#fff;
+  border:1px solid rgba(255,255,255,0.25);
+}
+.glass-card .glass-btn-primary:hover{background:rgba(255,255,255,0.3)}
+.glass-card .glass-btn-ghost{
+  background:transparent;color:rgba(255,255,255,0.7);
+  border:1px solid rgba(255,255,255,0.12);
+}
+.glass-card .glass-btn-ghost:hover{color:#fff;border-color:rgba(255,255,255,0.25)}
 
-/* ── Section ── */
-.glass-section {
-  margin-bottom: 48px;
+/* ── 双层边框 ── */
+.glass-border-layer{
+  position:absolute;inset:0;pointer-events:none;
+  border-radius:inherit;padding:1.5px;
+  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+  mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite:exclude;
+  box-shadow:0 0 0 0.5px rgba(255,255,255,0.5) inset, 0 1px 3px rgba(255,255,255,0.25) inset;
 }
-.glass-section-title {
-  font-size: 13px; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 0.08em;
-  color: rgba(255,255,255,0.4);
-  margin: 0 0 16px;
-  padding-left: 4px;
-}
-[data-theme="light"] .glass-section-title { color: rgba(0,0,0,0.35); }
+.glass-border-layer.layer-screen{mix-blend-mode:screen;opacity:0.2;z-index:2}
+.glass-border-layer.layer-overlay{mix-blend-mode:overlay;opacity:1;z-index:2}
 
-/* ── Glass Cards Grid ── */
-.glass-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 16px;
+/* ── Hover 高光 ── */
+.glass-card::after{
+  content:'';position:absolute;inset:0;border-radius:inherit;
+  pointer-events:none;opacity:0;transition:opacity 0.2s;
+  background-image:radial-gradient(circle at 50% 0%, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 50%);
+  mix-blend-mode:overlay;z-index:3;
 }
+.glass-card:hover::after{opacity:0.5}
 
-/* ── Glass Demo Card ── */
-.glass-demo-card {
-  background: rgba(30, 30, 30, 0.5);
-  backdrop-filter: blur(var(--mx-glass-blur)) saturate(var(--mx-glass-saturation));
-  -webkit-backdrop-filter: blur(var(--mx-glass-blur)) saturate(var(--mx-glass-saturation));
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: var(--mx-glass-corner-radius);
-  padding: 24px;
-  filter: url(#mx-glass-filter);
-  transition: transform 0.2s ease-out;
-  will-change: transform;
-  position: relative;
-  overflow: hidden;
-}
-[data-theme="light"] .glass-demo-card {
-  background: rgba(255, 255, 255, 0.5);
-  border-color: rgba(255,255,255,0.2);
-}
-.glass-demo-card h3 {
-  margin: 0 0 8px;
-  font-size: 15px; font-weight: 600;
-  color: #fff;
-}
-[data-theme="light"] .glass-demo-card h3 { color: #1a1a1a; }
-.glass-demo-card p {
-  margin: 0; font-size: 13px;
-  color: rgba(255,255,255,0.6);
-  line-height: 1.5;
-}
-[data-theme="light"] .glass-demo-card p { color: rgba(0,0,0,0.5); }
-
-/* ── Control Panel ── */
-.control-panel {
-  background: rgba(22, 22, 22, 0.6);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 16px;
-  padding: 24px;
-  margin-bottom: 32px;
-}
-[data-theme="light"] .control-panel {
-  background: rgba(255, 255, 255, 0.6);
-  border-color: rgba(0,0,0,0.06);
-}
-.control-row {
-  display: flex; flex-wrap: wrap;
-  gap: 16px; align-items: flex-end;
-  margin-bottom: 16px;
-}
-.control-row:last-child { margin-bottom: 0; }
-.control-group {
-  flex: 1; min-width: 180px;
-}
-.control-group label {
-  display: block;
-  font-size: 11px; font-weight: 600;
-  text-transform: uppercase; letter-spacing: 0.06em;
-  color: rgba(255,255,255,0.5);
-  margin-bottom: 6px;
-}
-[data-theme="light"] .control-group label { color: rgba(0,0,0,0.4); }
-.control-group input[type="range"] {
-  width: 100%;
-  accent-color: #4C8BF5;
-}
-.control-group .value-display {
-  font-size: 12px; font-family: 'JetBrains Mono', monospace;
-  color: #4C8BF5; margin-top: 4px;
-}
-.control-group select {
-  width: 100%;
-  padding: 8px 12px;
-  border-radius: 8px;
-  border: 1px solid rgba(255,255,255,0.1);
-  background: rgba(30,30,30,0.8);
-  color: #fff;
-  font-size: 13px;
-  outline: none;
-}
-[data-theme="light"] .control-group select {
-  background: rgba(255,255,255,0.8);
-  border-color: rgba(0,0,0,0.1);
-  color: #1a1a1a;
+/* ── 标题 ── */
+.page-title{
+  position:fixed;top:20px;right:20px;z-index:100;
+  font-size:13px;font-weight:600;color:rgba(255,255,255,0.5);
 }
 
-/* ── Mode Comparison ── */
-.mode-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
+/* ── Loading ── */
+.loading{
+  position:fixed;inset:0;z-index:200;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--mx-bg);color:var(--mx-t3);font-size:14px;
+  transition:opacity 0.4s;
 }
-@media (max-width: 768px) {
-  .mode-grid { grid-template-columns: repeat(2, 1fr); }
-}
-.mode-card {
-  background: rgba(30, 30, 30, 0.45);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 14px;
-  padding: 20px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  filter: url(#mx-glass-filter);
-}
-[data-theme="light"] .mode-card {
-  background: rgba(255, 255, 255, 0.45);
-  border-color: rgba(255,255,255,0.15);
-}
-.mode-card:hover {
-  border-color: rgba(76, 139, 245, 0.3);
-  transform: translateY(-2px);
-}
-.mode-card.active {
-  border-color: #4C8BF5;
-  box-shadow: 0 0 0 1px rgba(76,139,245,0.3), 0 8px 32px rgba(76,139,245,0.15);
-}
-.mode-card .mode-icon {
-  font-size: 28px;
-  margin-bottom: 8px;
-}
-.mode-card .mode-name {
-  font-size: 13px; font-weight: 600;
-  color: #fff; margin-bottom: 4px;
-}
-[data-theme="light"] .mode-card .mode-name { color: #1a1a1a; }
-.mode-card .mode-desc {
-  font-size: 11px;
-  color: rgba(255,255,255,0.5);
-  line-height: 1.4;
-}
-[data-theme="light"] .mode-card .mode-desc { color: rgba(0,0,0,0.4); }
+.loading.hidden{opacity:0;pointer-events:none}
 
-/* ── Trackable Demo ── */
-.trackable-demo {
-  display: flex; flex-wrap: wrap;
-  gap: 16px; justify-content: center;
-  padding: 32px 0;
-}
-.trackable-pill {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 14px 28px;
-  background: rgba(30, 30, 30, 0.5);
-  backdrop-filter: blur(var(--mx-glass-blur)) saturate(var(--mx-glass-saturation));
-  -webkit-backdrop-filter: blur(var(--mx-glass-blur)) saturate(var(--mx-glass-saturation));
-  border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.08);
-  filter: url(#mx-glass-filter);
-  color: #fff; font-size: 14px; font-weight: 500;
-  cursor: pointer;
-  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
-  will-change: transform;
-  position: relative;
-  overflow: hidden;
-}
-[data-theme="light"] .trackable-pill {
-  background: rgba(255, 255, 255, 0.5);
-  border-color: rgba(255,255,255,0.2);
-  color: #1a1a1a;
-}
-.trackable-pill:hover {
-  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-}
-
-/* ── Stats Bar ── */
-.stats-bar {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 12px;
-  margin-top: 16px;
-}
-.stat-item {
-  background: rgba(30, 30, 30, 0.4);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,0.05);
-  border-radius: 12px;
-  padding: 16px;
-  text-align: center;
-  filter: url(#mx-glass-filter);
-}
-[data-theme="light"] .stat-item {
-  background: rgba(255,255,255,0.4);
-  border-color: rgba(0,0,0,0.05);
-}
-.stat-item .stat-value {
-  font-size: 22px; font-weight: 700;
-  color: #4C8BF5;
-  font-family: 'JetBrains Mono', monospace;
-}
-.stat-item .stat-label {
-  font-size: 11px; color: rgba(255,255,255,0.4);
-  margin-top: 4px; text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-[data-theme="light"] .stat-item .stat-label { color: rgba(0,0,0,0.35); }
-
-/* ── Theme Toggle ── */
-.theme-toggle {
-  position: fixed; top: 16px; right: 16px; z-index: 100;
-  display: flex; gap: 8px;
-}
-.theme-toggle button {
-  width: 36px; height: 36px;
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255,0.1);
-  background: rgba(30,30,30,0.6);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  color: #fff; font-size: 16px;
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.2s;
-}
-[data-theme="light"] .theme-toggle button {
-  background: rgba(255,255,255,0.6);
-  border-color: rgba(0,0,0,0.1);
-  color: #1a1a1a;
-}
-.theme-toggle button:hover {
-  border-color: #4C8BF5;
-}
-
-/* ── Over-light Demo ── */
-.over-light-demo {
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 50%, #dee2e6 100%);
-  border-radius: 16px;
-  padding: 32px;
-  display: flex; flex-wrap: wrap;
-  gap: 16px; justify-content: center;
-}
-.over-light-pill {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 14px 28px;
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.1);
-  filter: url(#mx-glass-filter);
-  color: #fff; font-size: 14px; font-weight: 500;
-  position: relative; overflow: hidden;
-}
-
-/* ── Code Block ── */
-.code-block {
-  background: rgba(0,0,0,0.4);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 12px;
-  padding: 16px 20px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  color: rgba(255,255,255,0.8);
-  line-height: 1.7;
-  overflow-x: auto;
-  white-space: pre;
-  filter: url(#mx-glass-filter);
-}
-[data-theme="light"] .code-block {
-  background: rgba(0,0,0,0.05);
-  border-color: rgba(0,0,0,0.08);
-  color: rgba(0,0,0,0.7);
-}
-.code-block .kw { color: #c792ea; }
-.code-block .fn { color: #82aaff; }
-.code-block .str { color: #c3e88d; }
-.code-block .num { color: #f78c6c; }
-.code-block .cmt { color: rgba(255,255,255,0.3); font-style: italic; }
-
-/* ── Footer ── */
-.glass-footer {
-  text-align: center;
-  padding: 32px 0;
-  font-size: 12px;
-  color: rgba(255,255,255,0.3);
-}
-[data-theme="light"] .glass-footer { color: rgba(0,0,0,0.25); }
-.glass-footer a {
-  color: #4C8BF5; text-decoration: none;
-}
-
-/* ── Responsive ── */
-@media (max-width: 640px) {
-  .glass-hero h1 { font-size: 28px; }
-  .glass-content { padding: 20px 12px 60px; }
-  .mode-grid { grid-template-columns: repeat(2, 1fr); }
-  .control-row { flex-direction: column; }
-  .control-group { min-width: 100%; }
+@media(max-width:640px){
+  .glass-card{padding:28px 24px;width:90vw}
+  .glass-card h2{font-size:18px}
+  .glass-card .glass-stats{flex-direction:column;gap:8px}
+  .controls{flex-wrap:wrap;justify-content:center;max-width:90vw}
 }
 </style>
 </head>
 <body>
 
-<!-- Background -->
-<div class="glass-bg"></div>
+<!-- Loading -->
+<div class="loading" id="loading">加载中...</div>
 
-<!-- Theme Toggle -->
-<div class="theme-toggle">
-  <button onclick="toggleTheme()" id="themeBtn" title="Toggle theme">🌙</button>
-  <button onclick="MxGlass.toggle()" id="glassBtn" title="Toggle glass">💎</button>
+<!-- Bing 背景 -->
+<div class="bing-bg" id="bingBg"></div>
+
+<!-- 返回 -->
+<a class="back-btn" href="index.html">
+  <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+  返回
+</a>
+
+<!-- 标题 -->
+<div class="page-title">Liquid Glass</div>
+
+<!-- 居中玻璃卡片 -->
+<div class="glass-center">
+  <div class="glass-card mx-glass-trackable" id="glassCard">
+    <div class="glass-border-layer layer-screen"></div>
+    <div class="glass-border-layer layer-overlay"></div>
+    <h2>💎 Liquid Glass</h2>
+    <p>基于 Apple 的 Liquid Glass 效果移植，支持 4 种折射模式、RGB 色差分离、鼠标跟踪弹性变形。</p>
+    <div class="glass-stats">
+      <div class="glass-stat"><div class="glass-stat-val" id="statMode">Standard</div><div class="glass-stat-label">模式</div></div>
+      <div class="glass-stat"><div class="glass-stat-val" id="statDisp">25</div><div class="glass-stat-label">位移</div></div>
+      <div class="glass-stat"><div class="glass-stat-val" id="statAberr">2</div><div class="glass-stat-label">色差</div></div>
+    </div>
+    <div class="glass-actions">
+      <button class="glass-btn glass-btn-primary" onclick="toggleGlass()">切换效果</button>
+      <button class="glass-btn glass-btn-ghost" onclick="cycleMode()">切换模式</button>
+    </div>
+  </div>
 </div>
 
-<div class="glass-playground">
-<div class="glass-content">
-
-  <!-- Hero -->
-  <div class="glass-hero">
-    <h1>💎 Liquid Glass</h1>
-    <p>Apple 的 Liquid Glass 效果，纯 CSS + Vanilla JS 移植</p>
-    <span class="version-badge">v2.0 — 完整版</span>
-  </div>
-
-  <!-- ═══ Control Panel ═══ -->
-  <div class="glass-section">
-    <h2 class="glass-section-title">🎛️ 参数控制面板</h2>
-    <div class="control-panel">
-      <div class="control-row">
-        <div class="control-group">
-          <label>折射模式</label>
-          <select id="ctrlMode" onchange="applyControl()">
-            <option value="standard">Standard — 标准径向</option>
-            <option value="polar">Polar — 极坐标</option>
-            <option value="prominent">Prominent — 中心凸起</option>
-            <option value="shader">Shader — SDF 精确</option>
-          </select>
-        </div>
-        <div class="control-group">
-          <label>位移量</label>
-          <input type="range" id="ctrlDisp" min="0" max="100" value="25" oninput="applyControl()">
-          <div class="value-display" id="ctrlDispVal">25</div>
-        </div>
-        <div class="control-group">
-          <label>模糊</label>
-          <input type="range" id="ctrlBlur" min="0" max="40" value="12" oninput="applyControl()">
-          <div class="value-display" id="ctrlBlurVal">12px</div>
-        </div>
-        <div class="control-group">
-          <label>饱和度</label>
-          <input type="range" id="ctrlSat" min="100" max="300" value="180" oninput="applyControl()">
-          <div class="value-display" id="ctrlSatVal">180%</div>
-        </div>
-      </div>
-      <div class="control-row">
-        <div class="control-group">
-          <label>色差强度</label>
-          <input type="range" id="ctrlAberr" min="0" max="10" value="2" step="0.5" oninput="applyControl()">
-          <div class="value-display" id="ctrlAberrVal">2</div>
-        </div>
-        <div class="control-group">
-          <label>弹性</label>
-          <input type="range" id="ctrlElast" min="0" max="0.5" value="0.15" step="0.01" oninput="applyControl()">
-          <div class="value-display" id="ctrlElastVal">0.15</div>
-        </div>
-        <div class="control-group">
-          <label>圆角</label>
-          <input type="range" id="ctrlRadius" min="0" max="40" value="16" oninput="applyControl()">
-          <div class="value-display" id="ctrlRadiusVal">16px</div>
-        </div>
-        <div class="control-group">
-          <label>激活区域</label>
-          <input type="range" id="ctrlZone" min="50" max="500" value="200" step="10" oninput="applyControl()">
-          <div class="value-display" id="ctrlZoneVal">200px</div>
-        </div>
-      </div>
-      <div class="control-row" style="justify-content: flex-end;">
-        <button class="mx-btn mx-btn-outline" onclick="resetControls()">重置默认</button>
-        <button class="mx-btn mx-btn-primary" onclick="exportConfig()">导出配置</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══ Mode Comparison ═══ -->
-  <div class="glass-section">
-    <h2 class="glass-section-title">🔬 4 种位移模式对比</h2>
-    <div class="mode-grid">
-      <div class="mode-card active" data-mode="standard" onclick="switchMode('standard')">
-        <div class="mode-icon">◎</div>
-        <div class="mode-name">Standard</div>
-        <div class="mode-desc">标准径向渐变位移，适合大多数场景</div>
-      </div>
-      <div class="mode-card" data-mode="polar" onclick="switchMode('polar')">
-        <div class="mode-icon">🌀</div>
-        <div class="mode-name">Polar</div>
-        <div class="mode-desc">极坐标位移，中心旋转扭曲效果</div>
-      </div>
-      <div class="mode-card" data-mode="prominent" onclick="switchMode('prominent')">
-        <div class="mode-icon">◉</div>
-        <div class="mode-name">Prominent</div>
-        <div class="mode-desc">中心凸起 + 边缘收缩，立体感最强</div>
-      </div>
-      <div class="mode-card" data-mode="shader" onclick="switchMode('shader')">
-        <div class="mode-icon">⬡</div>
-        <div class="mode-name">Shader</div>
-        <div class="mode-desc">SDF 精确计算，Apple 原版效果</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══ Mouse-Tracking Glass ═══ -->
-  <div class="glass-section">
-    <h2 class="glass-section-title">🖱️ 鼠标跟踪 + 弹性变形</h2>
-    <p style="font-size:13px;color:rgba(255,255,255,0.5);margin:0 0 16px;">移动鼠标靠近玻璃元素，观察弹性位移和方向性缩放效果</p>
-    <div class="trackable-demo" id="trackableArea">
-      <!-- 由 JS 动态生成 -->
-    </div>
-  </div>
-
-  <!-- ═══ Glass Cards ═══ -->
-  <div class="glass-section">
-    <h2 class="glass-section-title">🃏 玻璃卡片展示</h2>
-    <div class="glass-cards" id="glassCardsArea">
-      <!-- 由 JS 动态生成 -->
-    </div>
-  </div>
-
-  <!-- ═══ Over-Light Demo ═══ -->
-  <div class="glass-section">
-    <h2 class="glass-section-title">☀️ Over-Light 模式（亮色背景）</h2>
-    <div class="over-light-demo" id="overLightArea">
-      <!-- 由 JS 动态生成 -->
-    </div>
-  </div>
-
-  <!-- ═══ Live Stats ═══ -->
-  <div class="glass-section">
-    <h2 class="glass-section-title">📊 实时参数面板</h2>
-    <div class="stats-bar" id="statsBar">
-      <!-- 由 JS 动态生成 -->
-    </div>
-  </div>
-
-  <!-- ═══ API Reference ═══ -->
-  <div class="glass-section">
-    <h2 class="glass-section-title">📚 API 速查</h2>
-    <div class="code-block"><span class="cmt">// 启用 / 禁用</span>
-MxGlass.<span class="fn">enable</span>()
-MxGlass.<span class="fn">disable</span>()
-MxGlass.<span class="fn">toggle</span>()
-MxGlass.<span class="fn">isEnabled</span>()  <span class="cmt">// → boolean</span>
-
-<span class="cmt">// 模式切换</span>
-MxGlass.<span class="fn">setMode</span>(<span class="str">'standard'</span>)   <span class="cmt">// standard | polar | prominent | shader</span>
-MxGlass.<span class="fn">getMode</span>()            <span class="cmt">// → string</span>
-
-<span class="cmt">// 单项设置</span>
-MxGlass.<span class="fn">setDisplacement</span>(<span class="num">25</span>)  <span class="cmt">// 位移量 0-100</span>
-MxGlass.<span class="fn">setBlur</span>(<span class="num">12</span>)           <span class="cmt">// 模糊 px</span>
-MxGlass.<span class="fn">setSaturation</span>(<span class="num">180</span>)   <span class="cmt">// 饱和度 %</span>
-MxGlass.<span class="fn">setAberration</span>(<span class="num">2</span>)     <span class="cmt">// 色差强度 0-10</span>
-MxGlass.<span class="fn">setElasticity</span>(<span class="num">0.15</span>)  <span class="cmt">// 弹性 0-0.5</span>
-MxGlass.<span class="fn">setCornerRadius</span>(<span class="num">16</span>)  <span class="cmt">// 圆角 px</span>
-MxGlass.<span class="fn">setActivationZone</span>(<span class="num">200</span>) <span class="cmt">// 鼠标激活区域 px</span>
-MxGlass.<span class="fn">setOverLight</span>(<span class="kw">true</span>)    <span class="cmt">// 亮色背景模式</span>
-
-<span class="cmt">// 批量配置</span>
-MxGlass.<span class="fn">configure</span>({
-  mode: <span class="str">'shader'</span>,
-  displacement: <span class="num">50</span>,
-  blur: <span class="num">16</span>,
-  aberration: <span class="num">3</span>,
-  elasticity: <span class="num">0.2</span>,
-})
-
-<span class="cmt">// 元素级鼠标跟踪</span>
-MxGlass.<span class="fn">track</span>(element)     <span class="cmt">// 注册跟踪</span>
-MxGlass.<span class="fn">untrack</span>(element)   <span class="cmt">// 取消跟踪</span>
-
-<span class="cmt">// 快照 / 重置</span>
-MxGlass.<span class="fn">getSnapshot</span>()      <span class="cmt">// → { enabled, mode, displacement, ... }</span>
-MxGlass.<span class="fn">reset</span>()             <span class="cmt">// 恢复所有默认值</span></div>
-  </div>
-
-  <!-- Footer -->
-  <div class="glass-footer">
-    <p>Miuix Console — Liquid Glass v2.0 · 基于 <a href="https://github.com/rdev/liquid-glass-react" target="_blank">rdev/liquid-glass-react</a> 移植</p>
-  </div>
-
-</div>
+<!-- 模式切换 -->
+<div class="controls">
+  <button class="active" data-mode="standard" onclick="setMode('standard')">Standard</button>
+  <button data-mode="polar" onclick="setMode('polar')">Polar</button>
+  <button data-mode="prominent" onclick="setMode('prominent')">Prominent</button>
+  <button data-mode="shader" onclick="setMode('shader')">Shader</button>
+  <span class="sep"></span>
+  <button onclick="toggleGlass()">💎 开关</button>
 </div>
 
-<!-- Load framework -->
-<script src="../utils/smooth-corner.js"></script>
-<script src="../utils/ripple.js"></script>
-<script src="../utils/counter.js"></script>
-<script src="../utils/theme.js"></script>
 <script src="../utils/glass.js"></script>
-<script src="../utils/modal.js"></script>
-<script src="../utils/toast.js"></script>
 <script>
-(function() {
-  'use strict';
+// ── Bing 每日一图 ──
+(function loadBingBg() {
+  const img = new Image();
+  // Bing 每日一图 API
+  const url = 'https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1';
+  fetch(url)
+    .then(r => r.json())
+    .then(data => {
+      const imgUrl = 'https://www.bing.com' + data.images[0].url;
+      img.onload = () => {
+        document.getElementById('bingBg').style.backgroundImage = `url(${imgUrl})`;
+        document.getElementById('loading').classList.add('hidden');
+      };
+      img.onerror = loadFallback;
+      img.src = imgUrl;
+    })
+    .catch(loadFallback);
 
-  // ── Init ──
-  MxGlass.enable();
-  if (typeof MxSmoothCorner !== 'undefined') MxSmoothCorner.init();
-  if (typeof MxRipple !== 'undefined') MxRipple.init();
-
-  // ── Build Trackable Pills ──
-  const trackableArea = document.getElementById('trackableArea');
-  const pillData = [
-    { icon: '🎵', text: 'Music Player' },
-    { icon: '📸', text: 'Camera' },
-    { icon: '🗺️', text: 'Maps' },
-    { icon: '⚙️', text: 'Settings' },
-    { icon: '💬', text: 'Messages' },
-  ];
-  pillData.forEach(d => {
-    const pill = document.createElement('div');
-    pill.className = 'trackable-pill mx-glass-trackable';
-    pill.innerHTML = `<span>${d.icon}</span><span>${d.text}</span>`;
-    trackableArea.appendChild(pill);
-    MxGlass.track(pill);
-  });
-
-  // ── Build Glass Cards ──
-  const cardsArea = document.getElementById('glassCardsArea');
-  const cardData = [
-    { title: '折射位移', desc: '基于 SVG feDisplacementMap 的真实折射效果，4 种位移贴图模式可选。' },
-    { title: '色差色散', desc: 'RGB 三通道独立位移，仅在边缘产生色差，中心保持清晰。' },
-    { title: '鼠标跟踪', desc: '玻璃元素跟随鼠标弹性移动，带有方向性缩放和激活区域检测。' },
-    { title: '动态边框', desc: '双层渐变边框跟随鼠标角度变化，screen + overlay 双混合模式。' },
-    { title: 'Over-Light', desc: '亮色背景自适应，自动切换深色玻璃 + blend overlay 遮罩。' },
-    { title: '全面可控', desc: '所有参数均可通过 CSS 变量或 JS API 实时调节。' },
-  ];
-  cardData.forEach(c => {
-    const card = document.createElement('div');
-    card.className = 'glass-demo-card mx-glass-trackable';
-    card.innerHTML = `<h3>${c.title}</h3><p>${c.desc}</p>`;
-    cardsArea.appendChild(card);
-    MxGlass.track(card);
-  });
-
-  // ── Build Over-Light Demo ──
-  const overLightArea = document.getElementById('overLightArea');
-  const overLightData = ['Glass Card', 'Navigation', 'Modal', 'Popover'];
-  overLightData.forEach(text => {
-    const pill = document.createElement('div');
-    pill.className = 'over-light-pill';
-    pill.textContent = text;
-    overLightArea.appendChild(pill);
-  });
-
-  // ── Build Stats Bar ──
-  updateStats();
+  function loadFallback() {
+    // Fallback: 使用固定的高质量图片
+    document.getElementById('bingBg').style.backgroundImage =
+      `url(https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80)`;
+    document.getElementById('loading').classList.add('hidden');
+  }
 })();
 
-// ── Control Panel ──
-function applyControl() {
-  const mode = document.getElementById('ctrlMode').value;
-  const disp = parseFloat(document.getElementById('ctrlDisp').value);
-  const blur = parseFloat(document.getElementById('ctrlBlur').value);
-  const sat = parseFloat(document.getElementById('ctrlSat').value);
-  const aberr = parseFloat(document.getElementById('ctrlAberr').value);
-  const elast = parseFloat(document.getElementById('ctrlElast').value);
-  const radius = parseFloat(document.getElementById('ctrlRadius').value);
-  const zone = parseFloat(document.getElementById('ctrlZone').value);
+// ── Glass 控制 ──
+let glassEnabled = true;
+const modes = ['standard', 'polar', 'prominent', 'shader'];
+let currentMode = 0;
 
-  MxGlass.configure({
-    mode, displacement: disp, blur, saturation: sat,
-    aberration: aberr, elasticity: elast,
-    cornerRadius: radius, activationZone: zone,
-  });
-
-  document.getElementById('ctrlDispVal').textContent = disp;
-  document.getElementById('ctrlBlurVal').textContent = blur + 'px';
-  document.getElementById('ctrlSatVal').textContent = sat + '%';
-  document.getElementById('ctrlAberrVal').textContent = aberr;
-  document.getElementById('ctrlElastVal').textContent = elast;
-  document.getElementById('ctrlRadiusVal').textContent = radius + 'px';
-  document.getElementById('ctrlZoneVal').textContent = zone + 'px';
-
-  // Update mode cards
-  document.querySelectorAll('.mode-card').forEach(card => {
-    card.classList.toggle('active', card.dataset.mode === mode);
-  });
-
-  updateStats();
+function toggleGlass() {
+  glassEnabled = !glassEnabled;
+  if (glassEnabled) {
+    MxGlass.enable();
+    MxGlass.track(document.getElementById('glassCard'));
+  } else {
+    MxGlass.disable();
+    MxGlass.untrack(document.getElementById('glassCard'));
+    // 移除 transform
+    document.getElementById('glassCard').style.transform = '';
+  }
 }
 
-function switchMode(mode) {
-  document.getElementById('ctrlMode').value = mode;
-  applyControl();
+function setMode(mode) {
+  MxGlass.setMode(mode);
+  currentMode = modes.indexOf(mode);
+  updateUI();
 }
 
-function resetControls() {
-  document.getElementById('ctrlMode').value = 'standard';
-  document.getElementById('ctrlDisp').value = 25;
-  document.getElementById('ctrlBlur').value = 12;
-  document.getElementById('ctrlSat').value = 180;
-  document.getElementById('ctrlAberr').value = 2;
-  document.getElementById('ctrlElast').value = 0.15;
-  document.getElementById('ctrlRadius').value = 16;
-  document.getElementById('ctrlZone').value = 200;
-  MxGlass.reset();
-  applyControl();
+function cycleMode() {
+  currentMode = (currentMode + 1) % modes.length;
+  MxGlass.setMode(modes[currentMode]);
+  updateUI();
 }
 
-function exportConfig() {
-  const snap = MxGlass.getSnapshot();
-  const code = `MxGlass.configure(${JSON.stringify(snap, null, 2)})`;
-  navigator.clipboard.writeText(code).then(() => {
-    if (typeof MxToast !== 'undefined') {
-      MxToast.show('配置已复制到剪贴板', 'success');
-    } else {
-      alert('配置已复制到剪贴板');
-    }
+function updateUI() {
+  const mode = modes[currentMode];
+  document.getElementById('statMode').textContent = mode.charAt(0).toUpperCase() + mode.slice(1);
+  document.getElementById('statDisp').textContent = MxGlass.getDisplacement();
+  document.getElementById('statAberr').textContent = MxGlass.getAberration();
+  // 更新按钮状态
+  document.querySelectorAll('.controls button[data-mode]').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.mode === mode);
   });
 }
 
-function updateStats() {
-  const snap = MxGlass.getSnapshot();
-  const statsBar = document.getElementById('statsBar');
-  const stats = [
-    { label: 'Mode', value: snap.mode },
-    { label: 'Displacement', value: snap.displacement },
-    { label: 'Blur', value: snap.blur + 'px' },
-    { label: 'Saturation', value: snap.saturation + '%' },
-    { label: 'Aberration', value: snap.aberration },
-    { label: 'Elasticity', value: snap.elasticity },
-  ];
-  statsBar.innerHTML = stats.map(s =>
-    `<div class="stat-item">
-      <div class="stat-value">${s.value}</div>
-      <div class="stat-label">${s.label}</div>
-    </div>`
-  ).join('');
-}
-
-// ── Theme ──
-function toggleTheme() {
-  const html = document.documentElement;
-  const current = html.dataset.theme;
-  html.dataset.theme = current === 'dark' ? 'light' : 'dark';
-  document.getElementById('themeBtn').textContent = current === 'dark' ? '☀️' : '🌙';
-}
+// ── Init ──
+MxGlass.enable();
+MxGlass.track(document.getElementById('glassCard'));
+updateUI();
 </script>
 </body>
 </html>

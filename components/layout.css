@@ -1,0 +1,87 @@
+/* ═══════════════════════════════════════════
+   MIUIX CONSOLE — Layout System
+   ═══════════════════════════════════════════ */
+
+/* ── App Shell ── */
+.mx-app{display:flex;flex-direction:column;height:100dvh}
+
+/* ── Scrollable Body ── */
+.mx-body{
+  flex:1;overflow-y:auto;overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+}
+
+/* ── Padding utilities ── */
+.mx-pad{padding:16px}
+.mx-pad-b{padding-bottom:calc(80px + var(--mx-safe-b))}
+@media(min-width:768px){.mx-pad{padding:20px}}
+@media(min-width:1024px){.mx-pad{padding:28px}}
+
+/* ── Page Header ── */
+.mx-page-head{margin-bottom:20px}
+.mx-page-title{
+  font-size:24px;font-weight:800;letter-spacing:-0.02em;
+  background:linear-gradient(135deg,var(--mx-text),var(--mx-t2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.mx-page-sub{
+  font-size:12px;color:var(--mx-t3);margin-top:4px;
+  display:flex;align-items:center;gap:6px;
+}
+
+/* ── Section ── */
+.mx-section{margin-bottom:16px}
+
+/* ── Desktop Layout (≥1024px) ── */
+@media(min-width:1024px){
+  .mx-app{flex-direction:row}
+  .mx-app>.mx-topbar{display:none}
+  .mx-app>.mx-bottom-nav{display:none!important}
+
+  .mx-desktop-shell{
+    display:flex;flex-direction:column;flex:1;height:100dvh;
+  }
+  .mx-desktop-topbar{
+    display:flex;align-items:center;justify-content:space-between;
+    height:52px;padding:0 24px;
+    border-bottom:1px solid var(--mx-divider);
+    backdrop-filter:blur(24px) saturate(1.8);
+    -webkit-backdrop-filter:blur(24px) saturate(1.8);
+    flex-shrink:0;
+  }
+  [data-theme="dark"] .mx-desktop-topbar{background:rgba(17,19,24,0.82)}
+  [data-theme="light"] .mx-desktop-topbar{background:rgba(255,255,255,0.85)}
+
+  .mx-desktop-main{
+    flex:1;padding:28px;overflow-y:auto;background:var(--mx-bg);
+  }
+
+  /* Sidebar visible */
+  .mx-sidebar{display:block}
+  .mx-bottom-nav{display:none!important}
+}
+
+/* Hide desktop elements on mobile */
+@media(max-width:1023px){
+  .mx-sidebar{display:none}
+  .mx-desktop-shell{display:none}
+}
+
+/* ── Wide (≥1440px) ── */
+@media(min-width:1440px){
+  .mx-sidebar{width:260px}
+  .mx-desktop-main{padding:28px 32px}
+}
+
+/* ── Grid utilities ── */
+.mx-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.mx-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+@media(min-width:1024px){
+  .mx-grid-sidebar{display:grid;grid-template-columns:1fr 320px;gap:16px}
+}
+
+/* ── Flex utilities ── */
+.mx-flex{display:flex}
+.mx-flex-center{display:flex;align-items:center;justify-content:center}
+.mx-flex-between{display:flex;align-items:center;justify-content:space-between}
+.mx-gap-4{gap:4px}.mx-gap-8{gap:8px}.mx-gap-12{gap:12px}.mx-gap-16{gap:16px}

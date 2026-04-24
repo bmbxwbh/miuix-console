@@ -1,0 +1,93 @@
+/* ═══════════════════════════════════════════
+   MIUIX CONSOLE — Design Tokens
+   Ported from Miuix (Compose Multiplatform) → CSS
+   ═══════════════════════════════════════════ */
+
+:root {
+  /* ── Seed / Primary ── */
+  --mx-primary: #4C8BF5;
+  --mx-primary-hover: #6BA1FF;
+  --mx-primary-active: #3A72D9;
+  --mx-primary-glow: rgba(76,139,245,0.12);
+  --mx-accent: #A78BFA;
+  --mx-accent-glow: rgba(167,139,250,0.10);
+
+  /* ── Semantic ── */
+  --mx-green: #34D399;
+  --mx-amber: #FBBF24;
+  --mx-red: #F87171;
+  --mx-blue: #60A5FA;
+
+  /* ── Surface (Miuix layered surface system) ── */
+  --mx-bg: #08090C;
+  --mx-s1: #111318;        /* surface — 最底层 */
+  --mx-s2: #171A22;        /* surfaceContainer — 卡片 */
+  --mx-s3: #1C2030;        /* surfaceContainerHigh — 输入框/浮层 */
+  --mx-s4: #242A3A;        /* surfaceContainerHighest — 下拉 */
+  --mx-s-hover: rgba(255,255,255,0.04);
+  --mx-s-active: rgba(255,255,255,0.07);
+
+  /* ── Text ── */
+  --mx-text: #E8ECF2;
+  --mx-t2: #8B95A5;
+  --mx-t3: #4A5268;
+
+  /* ── Border / Divider ── */
+  --mx-border: rgba(255,255,255,0.06);
+  --mx-divider: rgba(255,255,255,0.04);
+
+  /* ── Radius (Miuix Smooth Corner — 16dp default) ── */
+  --mx-r: 16px;
+  --mx-r-sm: 12px;
+  --mx-r-xs: 8px;
+  --mx-r-pill: 9999px;
+
+  /* ── Shadow (Miuix multi-layer soft shadow) ── */
+  --mx-sh1: 0 1px 4px rgba(0,0,0,0.5);
+  --mx-sh2: 0 4px 16px rgba(0,0,0,0.4);
+  --mx-sh3: 0 8px 32px rgba(0,0,0,0.45);
+  --mx-glow: 0 0 0 1px rgba(76,139,245,0.06), 0 2px 12px rgba(76,139,245,0.05);
+
+  /* ── Motion (Miuix spring + ease) ── */
+  --mx-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --mx-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --mx-d1: 180ms;
+  --mx-d2: 280ms;
+  --mx-d3: 420ms;
+  --mx-d4: 600ms;
+
+  /* ── Typography ── */
+  --mx-font: "Inter", "Noto Sans SC", -apple-system, "PingFang SC", sans-serif;
+  --mx-mono: "JetBrains Mono", "SF Mono", monospace;
+
+  /* ── Safe area ── */
+  --mx-safe-t: env(safe-area-inset-top, 0px);
+  --mx-safe-b: env(safe-area-inset-bottom, 0px);
+}
+
+/* ═══ LIGHT MODE ═══ */
+[data-theme="light"] {
+  --mx-bg: #F2F3F5;
+  --mx-s1: #FFFFFF;
+  --mx-s2: #FFFFFF;
+  --mx-s3: #F7F8FA;
+  --mx-s4: #ECEEF1;
+  --mx-s-hover: rgba(0,0,0,0.03);
+  --mx-s-active: rgba(0,0,0,0.05);
+  --mx-text: #1A1D24;
+  --mx-t2: #5E6570;
+  --mx-t3: #9DA3AE;
+  --mx-border: rgba(0,0,0,0.07);
+  --mx-divider: rgba(0,0,0,0.05);
+  --mx-sh1: 0 1px 4px rgba(0,0,0,0.06);
+  --mx-sh2: 0 4px 16px rgba(0,0,0,0.07);
+  --mx-sh3: 0 8px 32px rgba(0,0,0,0.1);
+  --mx-glow: 0 0 0 1px rgba(76,139,245,0.1), 0 2px 12px rgba(76,139,245,0.06);
+  --mx-primary-glow: rgba(76,139,245,0.08);
+}
+
+/* ═══ COMPACT DENSITY ═══ */
+[data-density="compact"] {
+  --mx-r: 14px;
+  --mx-r-sm: 10px;
+}

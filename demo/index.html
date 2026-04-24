@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark" data-density="normal">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Miuix Console — Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../core/tokens.css">
+<link rel="stylesheet" href="../core/base.css">
+<link rel="stylesheet" href="../core/animations.css">
+<link rel="stylesheet" href="../components/card.css">
+<link rel="stylesheet" href="../components/button.css">
+<link rel="stylesheet" href="../components/switch.css">
+<link rel="stylesheet" href="../components/badge.css">
+<link rel="stylesheet" href="../components/input.css">
+<link rel="stylesheet" href="../components/navigation.css">
+<link rel="stylesheet" href="../components/table.css">
+<link rel="stylesheet" href="../components/stat.css">
+<link rel="stylesheet" href="../components/activity.css">
+<link rel="stylesheet" href="../components/layout.css">
+</head>
+<body>
+<div class="mx-app">
+
+  <!-- ═══ MOBILE TOP BAR ═══ -->
+  <header class="mx-topbar" id="mTopbar">
+    <div class="mx-topbar-left">
+      <div class="mx-logo">
+        <div class="mx-logo-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/><line x1="12" y1="22" x2="12" y2="15.5"/><polyline points="22 8.5 12 15.5 2 8.5"/></svg>
+        </div>
+        <span class="mx-logo-text">Console</span>
+      </div>
+    </div>
+    <div class="mx-topbar-right">
+      <div class="mx-pill-group mx-density-group">
+        <button data-density="normal" class="active" onclick="MxDensity.set('normal')">标准</button>
+        <button data-density="compact" onclick="MxDensity.set('compact')">紧凑</button>
+      </div>
+      <button class="mx-btn-icon mx-notify mx-theme-toggle" data-ripple onclick="MxTheme.toggle()">
+        <svg class="mx-moon" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="mx-sun" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" style="display:none"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <span class="mx-notify-dot"></span>
+      </button>
+      <div class="mx-avatar" data-ripple>B</div>
+    </div>
+  </header>
+
+  <!-- ═══ MOBILE BOTTOM NAV ═══ -->
+  <nav class="mx-bottom-nav">
+    <ul class="mx-bottom-nav-items">
+      <li class="mx-btm-item active"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg><span>首页</span></li>
+      <li class="mx-btm-item"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>分析</span></li>
+      <li class="mx-btm-item"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg><span>服务</span></li>
+      <li class="mx-btm-item"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span>设置</span></li>
+    </ul>
+  </nav>
+
+  <!-- ═══ DESKTOP SIDEBAR ═══ -->
+  <aside class="mx-sidebar">
+    <div style="display:flex;align-items:center;gap:10px;padding:6px 10px;margin-bottom:4px">
+      <div class="mx-logo-icon" style="width:34px;height:34px">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/><line x1="12" y1="22" x2="12" y2="15.5"/><polyline points="22 8.5 12 15.5 2 8.5"/></svg>
+      </div>
+      <span style="font-size:15px;font-weight:700">Console</span>
+    </div>
+    <div class="mx-sidebar-section">概览</div>
+    <div class="mx-nav-item active"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg><span class="mx-nav-label">仪表盘</span></div>
+    <div class="mx-nav-item"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span class="mx-nav-label">数据分析</span></div>
+    <div class="mx-sidebar-section">管理</div>
+    <div class="mx-nav-item"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span class="mx-nav-label">用户管理</span><span class="mx-count">12</span></div>
+    <div class="mx-nav-item"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg><span class="mx-nav-label">服务监控</span></div>
+    <div class="mx-nav-item"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg><span class="mx-nav-label">API 管理</span></div>
+    <div class="mx-nav-item"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg><span class="mx-nav-label">日志中心</span></div>
+    <div class="mx-sidebar-section">系统</div>
+    <div class="mx-nav-item"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span class="mx-nav-label">设置</span></div>
+  </aside>
+
+  <!-- ═══ DESKTOP SHELL ═══ -->
+  <div class="mx-desktop-shell">
+    <header class="mx-desktop-topbar">
+      <div class="mx-breadcrumb">
+        <span>仪表盘</span><span class="mx-breadcrumb-sep">›</span><span>概览</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div class="mx-pill-group mx-density-group">
+          <button data-density="normal" class="active" onclick="MxDensity.set('normal')">标准</button>
+          <button data-density="compact" onclick="MxDensity.set('compact')">紧凑</button>
+        </div>
+        <button class="mx-btn-icon mx-theme-toggle" onclick="MxTheme.toggle()">
+          <svg class="mx-moon" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="mx-sun" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" style="display:none"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        </button>
+        <div class="mx-avatar">B</div>
+      </div>
+    </header>
+
+    <main class="mx-desktop-main mx-body">
+      <div class="mx-page-head mx-anim-slide-up">
+        <h1 class="mx-page-title">Dashboard</h1>
+        <p class="mx-page-sub"><span class="mx-dot" style="background:var(--mx-green);animation:mx-pulse 2s infinite"></span>实时更新 · 2 分钟前</p>
+      </div>
+
+      <!-- Stats -->
+      <div class="mx-stat-grid mx-section" id="stats"></div>
+
+      <!-- Chart + Activity -->
+      <div class="mx-grid-sidebar mx-section">
+        <div class="mx-card mx-anim-card-in mx-delay-4">
+          <div class="mx-card-head"><span class="mx-card-title">请求趋势</span><button class="mx-btn-pill mx-btn-ghost" style="color:var(--mx-primary);background:var(--mx-primary-glow)">24h</button></div>
+          <div class="mx-card-body"><div class="mx-chart" id="chart"></div>
+            <div style="display:flex;justify-content:space-between;padding-top:8px">
+              <span class="mx-chart-label">00:00</span><span class="mx-chart-label">04:00</span><span class="mx-chart-label">08:00</span><span class="mx-chart-label">12:00</span><span class="mx-chart-label">16:00</span><span class="mx-chart-label">20:00</span><span class="mx-chart-label">Now</span>
+            </div>
+          </div>
+        </div>
+        <div class="mx-card mx-anim-card-in mx-delay-5">
+          <div class="mx-card-head"><span class="mx-card-title">最近活动</span><button class="mx-btn-pill mx-btn-ghost" style="color:var(--mx-primary);background:var(--mx-primary-glow)">全部</button></div>
+          <div class="mx-card-body" style="padding:4px 16px" id="activity"></div>
+        </div>
+      </div>
+
+      <!-- Components Demo -->
+      <div class="mx-grid-2 mx-section">
+        <!-- Buttons -->
+        <div class="mx-card mx-anim-card-in mx-delay-6">
+          <div class="mx-card-head"><span class="mx-card-title">组件预览</span></div>
+          <div class="mx-card-body" style="display:flex;flex-direction:column;gap:16px">
+            <div style="display:flex;flex-wrap:wrap;gap:8px">
+              <button class="mx-btn mx-btn-primary mx-btn-pill" data-ripple>Primary</button>
+              <button class="mx-btn mx-btn-secondary mx-btn-pill" data-ripple>Secondary</button>
+              <button class="mx-btn mx-btn-ghost mx-btn-pill" data-ripple>Ghost</button>
+              <button class="mx-btn mx-btn-danger mx-btn-pill" data-ripple>Danger</button>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+              <span class="mx-badge-success">运行中</span>
+              <span class="mx-badge-warning">部署中</span>
+              <span class="mx-badge-error">异常</span>
+              <span class="mx-badge-info">信息</span>
+              <span class="mx-badge-neutral">离线</span>
+            </div>
+            <div style="display:flex;gap:12px;align-items:center">
+              <label class="mx-switch"><input type="checkbox" checked><span class="mx-switch-track"><span class="mx-switch-thumb"></span></span><span class="mx-switch-label">通知</span></label>
+              <label class="mx-switch"><input type="checkbox"><span class="mx-switch-track"><span class="mx-switch-thumb"></span></span><span class="mx-switch-label">暗色</span></label>
+            </div>
+            <div>
+              <label class="mx-label">搜索</label>
+              <div class="mx-input-wrap">
+                <span class="mx-input-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+                <input class="mx-input" placeholder="输入关键词...">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Table -->
+        <div class="mx-card mx-anim-card-in mx-delay-7">
+          <div class="mx-card-head"><span class="mx-card-title">服务监控</span><button class="mx-btn-pill mx-btn-ghost" style="color:var(--mx-t2);border:1px solid var(--mx-border)">筛选</button></div>
+          <div class="mx-card-body" style="padding:0">
+            <div class="mx-table-wrap">
+              <table class="mx-table mx-table-compact">
+                <thead><tr><th>服务</th><th>状态</th><th>CPU</th><th>延迟</th></tr></thead>
+                <tbody id="table"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ═══ MOBILE BODY ═══ -->
+  <div class="mx-body mx-pad mx-pad-b" id="mBody" style="display:none">
+    <div class="mx-page-head mx-anim-slide-up">
+      <h1 class="mx-page-title">Dashboard</h1>
+      <p class="mx-page-sub"><span class="mx-dot" style="background:var(--mx-green);animation:mx-pulse 2s infinite"></span>实时更新</p>
+    </div>
+    <div class="mx-stat-grid mx-section" id="mStats"></div>
+    <div class="mx-section mx-anim-card-in mx-delay-4">
+      <div class="mx-card">
+        <div class="mx-card-head"><span class="mx-card-title">请求趋势</span></div>
+        <div class="mx-card-body"><div class="mx-chart" id="mChart"></div></div>
+      </div>
+    </div>
+    <div class="mx-section mx-anim-card-in mx-delay-5">
+      <div class="mx-card">
+        <div class="mx-card-head"><span class="mx-card-title">服务监控</span></div>
+        <div class="mx-card-body" style="padding:0">
+          <div class="mx-table-wrap"><table class="mx-table"><thead><tr><th>服务</th><th>状态</th><th>CPU</th><th>延迟</th></tr></thead><tbody id="mTable"></tbody></table></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../utils/smooth-corner.js"></script>
+<script src="../utils/ripple.js"></script>
+<script src="../utils/counter.js"></script>
+<script src="../utils/theme.js"></script>
+<script src="../utils/chart.js"></script>
+<script>
+// ═══ DEMO DATA ═══
+const stats = [
+  { lbl:'活跃用户', val:12847, delta:'+12.5%', dir:'up', accent:'var(--mx-primary)', bg:'rgba(76,139,245,0.12)', ico:'var(--mx-primary)',
+    svg:'<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>' },
+  { lbl:'请求总量', val:2849301, delta:'+8.2%', dir:'up', accent:'var(--mx-green)', bg:'rgba(52,211,153,0.12)', ico:'var(--mx-green)',
+    svg:'<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>' },
+  { lbl:'平均延迟', val:23, suffix:'ms', delta:'-3.1%', dir:'down', accent:'var(--mx-amber)', bg:'rgba(251,191,36,0.12)', ico:'var(--mx-amber)',
+    svg:'<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' },
+  { lbl:'错误率', val:0, dec:2, suffix:'%', delta:'-0.05%', dir:'down', accent:'var(--mx-red)', bg:'rgba(248,113,113,0.12)', ico:'var(--mx-red)',
+    svg:'<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>' },
+];
+
+const acts = [
+  { c:'var(--mx-green)', t:'服务 <b>api-gateway</b> 部署成功', tm:'2 分钟前' },
+  { c:'var(--mx-amber)', t:'CPU 使用率超过 <b>85%</b> 阈值', tm:'15 分钟前' },
+  { c:'var(--mx-primary)', t:'新用户 <b>zhang_wei</b> 加入', tm:'1 小时前' },
+  { c:'var(--mx-red)', t:'数据库连接池耗尽，自动扩容', tm:'3 小时前' },
+];
+
+const svcs = [
+  { n:'api-gateway', s:'success', c:'42%', l:'18ms' },
+  { n:'auth-service', s:'success', c:'28%', l:'12ms' },
+  { n:'user-service', s:'success', c:'55%', l:'24ms' },
+  { n:'payment-processor', s:'warning', c:'38%', l:'45ms' },
+  { n:'data-pipeline', s:'error', c:'89%', l:'320ms' },
+];
+
+// ═══ BUILD ═══
+function mkStats(id) {
+  const g = document.getElementById(id); if (!g) return;
+  g.innerHTML = stats.map((s,i) => `
+    <div class="mx-stat mx-anim-card-in mx-delay-${i}" style="--mx-stat-accent:${s.accent};--mx-stat-icon-bg:${s.bg};--mx-stat-icon-color:${s.ico}" data-ripple>
+      <div class="mx-stat-label"><div class="mx-stat-icon" style="background:${s.bg};color:${s.ico}">${s.svg}</div>${s.lbl}</div>
+      <div class="mx-stat-value"><span data-mx-count="${s.val}" data-mx-decimals="${s.dec||0}">0</span>${s.suffix?`<span style="font-size:0.55em;font-weight:600;color:var(--mx-t2)">${s.suffix}</span>`:''}</div>
+      <span class="mx-stat-delta ${s.dir}">${s.dir==='up'?'↑':'↓'} ${s.delta.replace(/^[+-]/,'')}</span>
+    </div>`).join('');
+}
+
+function mkActivity(id) {
+  const el = document.getElementById(id); if (!el) return;
+  el.innerHTML = acts.map((a,i) => `
+    <div class="mx-activity-item mx-anim-fade-item mx-delay-${i+4}">
+      <div class="mx-activity-dot" style="background:${a.c}"></div>
+      <div><div class="mx-activity-text">${a.t}</div><div class="mx-activity-time">${a.tm}</div></div>
+    </div>`).join('');
+}
+
+function mkTable(id) {
+  const tb = document.getElementById(id); if (!tb) return;
+  tb.innerHTML = svcs.map((s,i) => `
+    <tr class="mx-anim-fade-row mx-delay-${i+4}">
+      <td><strong>${s.n}</strong></td>
+      <td><span class="mx-badge-${s.s}">${s.s==='success'?'运行中':s.s==='warning'?'部署中':'异常'}</span></td>
+      <td class="mono">${s.c}</td>
+      <td class="mono">${s.l}</td>
+    </tr>`).join('');
+}
+
+mkStats('stats'); mkStats('mStats');
+mkActivity('activity');
+mkTable('table'); mkTable('mTable');
+
+// Chart
+const chartData = [35,52,68,45,78,92,65,88,72,55,83,96,71,58,84,90,67,48,75,89,95,70,56,82];
+MxChart.render(document.getElementById('chart'), chartData);
+MxChart.render(document.getElementById('mChart'), chartData.slice(0,12));
+
+// Counter
+setTimeout(() => MxCounter.init(), 400);
+
+// Nav click
+document.querySelectorAll('.mx-nav-item').forEach(n => n.addEventListener('click', function() {
+  this.parentElement.querySelectorAll('.mx-nav-item').forEach(x => x.classList.remove('active'));
+  this.classList.add('active');
+}));
+document.querySelectorAll('.mx-btm-item').forEach(n => n.addEventListener('click', function() {
+  this.parentElement.querySelectorAll('.mx-btm-item').forEach(x => x.classList.remove('active'));
+  this.classList.add('active');
+}));
+
+// Theme chart replay
+window.addEventListener('mx-theme-change', () => {
+  MxChart.replay(document.getElementById('chart'));
+  MxChart.replay(document.getElementById('mChart'));
+});
+
+// Show mobile body on small screens
+function checkLayout() {
+  const mBody = document.getElementById('mBody');
+  if (mBody) mBody.style.display = window.innerWidth < 1024 ? '' : 'none';
+}
+window.addEventListener('resize', checkLayout);
+checkLayout();
+
+MxSmoothCorner.init();
+</script>
+</body>
+</html>

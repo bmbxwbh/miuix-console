@@ -64,6 +64,9 @@
         <svg class="mx-moon" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         <svg class="mx-sun" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" style="display:none"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
       </button>
+      <button class="mx-btn-icon mx-tooltip" data-tooltip="液体玻璃" onclick="MxGlass.toggle(); this.classList.toggle('active')">
+        <svg width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      </button>
     </div>
   </header>
 
@@ -93,6 +96,9 @@
         <button class="mx-btn-icon mx-theme-toggle" onclick="MxTheme.toggle()">
           <svg class="mx-moon" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
           <svg class="mx-sun" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" style="display:none"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        </button>
+        <button class="mx-btn-icon mx-tooltip" data-tooltip="液体玻璃" onclick="MxGlass.toggle(); this.classList.toggle('active')">
+          <svg width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
         </button>
       </div>
     </header>
@@ -550,6 +556,7 @@
 <script src="../utils/accordion.js"></script>
 <script src="../utils/datepicker.js"></script>
 <script src="../utils/upload.js"></script>
+<script src="../utils/glass.js"></script>
 <script>
 // ═══ SECTION SWITCHER ═══
 function showSection(name) {

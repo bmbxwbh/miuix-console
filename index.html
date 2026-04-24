@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-theme="dark">
+<html lang="zh-CN" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -28,23 +28,9 @@ body{
 a{text-decoration:none;color:inherit}
 button{font-family:inherit;border:none;outline:none;background:none;cursor:pointer}
 
-/* ── Background Glow ── */
+/* ── Background — 纯色，干净 ── */
 .bg-glow{
-  position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;
-}
-.bg-glow::before{
-  content:'';position:absolute;width:200%;height:200%;top:-50%;left:-50%;
-  background:
-    radial-gradient(ellipse 800px 800px at 20% 20%, rgba(52,130,255,0.18) 0%, transparent 70%),
-    radial-gradient(ellipse 600px 600px at 75% 50%, rgba(168,85,247,0.12) 0%, transparent 70%),
-    radial-gradient(ellipse 500px 500px at 40% 80%, rgba(236,72,153,0.10) 0%, transparent 70%);
-  animation:glow-drift 25s ease-in-out infinite alternate;
-}
-@keyframes glow-drift{
-  0%{transform:translate(0,0) rotate(0deg)}
-  33%{transform:translate(40px,-30px) rotate(1deg)}
-  66%{transform:translate(-30px,20px) rotate(-1deg)}
-  100%{transform:translate(20px,40px) rotate(0.5deg)}
+  display:none;
 }
 
 /* ── Container ── */
@@ -58,8 +44,7 @@ button{font-family:inherit;border:none;outline:none;background:none;cursor:point
 .section{padding:80px 0}
 .section-title{
   font-size:28px;font-weight:800;letter-spacing:-0.02em;text-align:center;margin-bottom:8px;
-  background:linear-gradient(135deg,var(--mx-text),var(--mx-t2));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  color:var(--mx-text);
 }
 .section-sub{
   text-align:center;font-size:14px;color:var(--mx-t3);margin-bottom:40px;
@@ -82,8 +67,7 @@ button{font-family:inherit;border:none;outline:none;background:none;cursor:point
 .hero h1{
   font-size:56px;font-weight:800;letter-spacing:-0.03em;
   margin-bottom:16px;
-  background:linear-gradient(135deg,#fff 0%,rgba(255,255,255,0.55) 100%);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  color:var(--mx-text);
   line-height:1.1;
 }
 .hero p{
@@ -134,7 +118,7 @@ button{font-family:inherit;border:none;outline:none;background:none;cursor:point
 .principle-card:hover{
   border-color:var(--mx-t3);
   transform:translateY(-2px);
-  box-shadow:0 8px 32px rgba(0,0,0,0.2);
+  box-shadow:var(--mx-sh3);
 }
 .principle-icon{
   width:44px;height:44px;border-radius:12px;
@@ -213,13 +197,6 @@ button{font-family:inherit;border:none;outline:none;background:none;cursor:point
   border:1px solid var(--mx-divider);
   padding:48px;text-align:center;
   position:relative;overflow:hidden;
-}
-.glass-showcase::before{
-  content:'';position:absolute;inset:0;
-  background:
-    radial-gradient(ellipse 300px 300px at 30% 40%, rgba(52,130,255,0.15), transparent),
-    radial-gradient(ellipse 200px 200px at 70% 60%, rgba(168,85,247,0.12), transparent);
-  pointer-events:none;
 }
 .glass-showcase h3{
   font-size:24px;font-weight:800;margin-bottom:12px;

@@ -172,7 +172,8 @@ miuix-console/
 │   └── glass.js                 # 液体玻璃管理器
 │
 ├── demo/                        # 演示页面
-│   └── index.html               # 完整 demo（含所有组件展示）
+│   ├── index.html               # 完整 demo（含所有组件展示）
+│   └── glass.html               # Liquid Glass Playground（参数调节 + 模式对比）
 │
 ├── miuix-console.js             # 一键入口（自动加载所有 CSS + JS + 初始化）
 └── README.md
@@ -315,29 +316,84 @@ miuix-console/
 
 可选的视觉增强层，通过 `data-glass="liquid"` 属性启用，**不修改任何原有样式**。
 
+基于 [rdev/liquid-glass-react](https://github.com/rdev/liquid-glass-react)（⭐4800+）的原理移植到 Vanilla JS。
+
+### 快速启用
+
 ```html
-<!-- 启用 -->
 <html data-theme="dark" data-glass="liquid">
 ```
 
 ```js
-// JS 控制
 MxGlass.enable();
 MxGlass.disable();
 MxGlass.toggle();
-
-// 自定义参数
-MxGlass.setBlur(20);            // 模糊程度 (px)
-MxGlass.setDisplacement(40);    // 扭曲程度 (0-100)
-MxGlass.setSaturation(200);     // 饱和度 (%)
 ```
 
-### 原理
+### 4 种折射模式
 
-- **SVG `feDisplacementMap`** — 折射扭曲
-- **RGB 三通道分离** — 边缘色差
-- **Canvas 动态位移贴图** — 无巨大 base64
-- **`backdrop-filter`** — blur + saturate
+| 模式 | 说明 | 场景 |
+|------|------|------|
+| `standard` | 标准径向渐变位移 | 通用场景（默认） |
+| `polar` | 极坐标位移，中心旋转扭曲 | 强调中心内容 |
+| `prominent` | 中心凸起 + 边缘收缩 | 立体感最强 |
+| `shader` | SDF 精确计算位移 | Apple 原版效果 |
+
+```js
+MxGlass.setMode('shader');
+```
+
+### 核心特性
+
+| 特性 | 说明 |
+|------|------|
+| **折射位移** | SVG `feDisplacementMap` 真实折射，4 种位移贴图模式 |
+| **色差色散** | RGB 三通道独立位移，仅边缘产生色差，中心保持清晰 |
+| **鼠标跟踪** | 玻璃元素跟随鼠标弹性移动 + 方向性缩放 |
+| **动态边框** | 双层渐变边框，跟随鼠标角度变化（screen + overlay 混合） |
+| **Over-Light** | 亮色背景自适应，自动切换深色玻璃 |
+| **Hover/Active** | 额外的径向渐变高光层 |
+
+### 完整 API
+
+```js
+// 启用 / 禁用
+MxGlass.enable()
+MxGlass.disable()
+MxGlass.toggle()
+MxGlass.isEnabled()         // → boolean
+
+// 模式切换
+MxGlass.setMode('standard') // standard | polar | prominent | shader
+MxGlass.getMode()           // → string
+
+// 单项设置
+MxGlass.setDisplacement(25)  // 位移量 0-100
+MxGlass.setBlur(12)          // 模糊 px
+MxGlass.setSaturation(180)   // 饱和度 %
+MxGlass.setAberration(2)     // 色差强度 0-10
+MxGlass.setElasticity(0.15)  // 弹性 0-0.5
+MxGlass.setCornerRadius(16)  // 圆角 px
+MxGlass.setActivationZone(200) // 鼠标激活区域 px
+MxGlass.setOverLight(true)   // 亮色背景模式
+
+// 批量配置
+MxGlass.configure({
+  mode: 'shader',
+  displacement: 50,
+  blur: 16,
+  aberration: 3,
+  elasticity: 0.2,
+})
+
+// 元素级鼠标跟踪
+MxGlass.track(element)    // 注册跟踪
+MxGlass.untrack(element)  // 取消跟踪
+
+// 快照 / 重置
+MxGlass.getSnapshot()     // → { enabled, mode, displacement, ... }
+MxGlass.reset()           // 恢复所有默认值
+```
 
 ### CSS 变量
 
@@ -345,8 +401,14 @@ MxGlass.setSaturation(200);     // 饱和度 (%)
 --mx-glass-blur: 12px;
 --mx-glass-saturation: 180%;
 --mx-glass-displacement: 25;
+--mx-glass-aberration: 2;
+--mx-glass-elasticity: 0.15;
+--mx-glass-corner-radius: 16px;
+--mx-glass-activation-zone: 200;
 --mx-glass-bg-dark: rgba(0, 0, 0, 0.35);
 --mx-glass-bg-light: rgba(255, 255, 255, 0.25);
+--mx-glass-border-dark: rgba(255, 255, 255, 0.08);
+--mx-glass-border-light: rgba(255, 255, 255, 0.2);
 ```
 
 ### 覆盖组件
@@ -361,6 +423,10 @@ MxGlass.setSaturation(200);     // 饱和度 (%)
 | Popover | 同上 |
 | Select Dropdown | 同上 |
 | Card (opt-in) | 需添加 `.mx-card-glass` 类 |
+
+### 在线体验
+
+👉 [Liquid Glass Playground](demo/glass.html) — 完整的参数调节面板 + 4 种模式对比 + 鼠标跟踪演示
 
 ---
 

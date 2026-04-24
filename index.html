@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Miuix Console</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:#0a0a0a;color:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 20px}
+.bg{position:fixed;inset:0;z-index:0;overflow:hidden}
+.bg::before{content:'';position:absolute;width:150%;height:150%;top:-25%;left:-25%;background:radial-gradient(ellipse 600px 600px at 20% 30%,rgba(52,130,255,0.25) 0%,transparent 70%),radial-gradient(ellipse 500px 500px at 70% 60%,rgba(168,85,247,0.2) 0%,transparent 70%),radial-gradient(ellipse 400px 400px at 50% 80%,rgba(236,72,153,0.15) 0%,transparent 70%);animation:float 20s ease-in-out infinite alternate}
+@keyframes float{0%{transform:translate(0,0)}50%{transform:translate(30px,-20px)}100%{transform:translate(-20px,30px)}}
+.content{position:relative;z-index:1;text-align:center;max-width:640px}
+h1{font-size:48px;font-weight:800;margin-bottom:12px;background:linear-gradient(135deg,#fff 0%,rgba(255,255,255,0.6) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-0.02em}
+p{font-size:16px;color:rgba(255,255,255,0.5);margin-bottom:32px;line-height:1.6}
+.links{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+a.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:12px;font-size:14px;font-weight:600;text-decoration:none;transition:all 0.2s}
+a.btn-primary{background:#4C8BF5;color:#fff}
+a.btn-primary:hover{background:#3a7ae4;transform:translateY(-1px)}
+a.btn-outline{border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.8)}
+a.btn-outline:hover{border-color:rgba(255,255,255,0.3);background:rgba(255,255,255,0.05)}
+.badge{display:inline-block;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:600;background:rgba(52,130,255,0.12);color:#4C8BF5;border:1px solid rgba(52,130,255,0.2);margin-bottom:20px}
+.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:40px;width:100%}
+.feature{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:16px;text-align:center}
+.feature .icon{font-size:24px;margin-bottom:8px}
+.feature .name{font-size:13px;font-weight:600;color:rgba(255,255,255,0.8)}
+.feature .desc{font-size:11px;color:rgba(255,255,255,0.4);margin-top:4px}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="content">
+  <div class="badge">Apache 2.0 · Pure CSS + Vanilla JS · Zero Dependencies</div>
+  <h1>Miuix Console</h1>
+  <p>基于小米 HyperOS Miuix 设计语言的 Web 控制台 UI 框架。<br>Smooth Corner · 弹簧动效 · 深色优先 · 液体玻璃。</p>
+  <div class="links">
+    <a class="btn btn-primary" href="demo/glass.html">💎 Liquid Glass Playground</a>
+    <a class="btn btn-outline" href="demo/index.html">📦 完整组件 Demo</a>
+    <a class="btn btn-outline" href="https://github.com/bmbxwbh/miuix-console">⭐ GitHub</a>
+  </div>
+  <div class="features">
+    <div class="feature"><div class="icon">💎</div><div class="name">Liquid Glass</div><div class="desc">4 种折射模式 + 色差 + 鼠标跟踪</div></div>
+    <div class="feature"><div class="icon">🎨</div><div class="name">28 组件</div><div class="desc">卡片、按钮、表格、弹窗…</div></div>
+    <div class="feature"><div class="icon">🌙</div><div class="name">深色优先</div><div class="desc">Dark/Light 双主题</div></div>
+    <div class="feature"><div class="icon">📱</div><div class="name">响应式</div><div class="desc">手机 / 平板 / 桌面</div></div>
+    <div class="feature"><div class="icon">⚡</div><div class="name">零依赖</div><div class="desc">纯 CSS + Vanilla JS</div></div>
+    <div class="feature"><div class="icon">🔧</div><div class="name">14 工具</div><div class="desc">主题、涟漪、图表、弹窗…</div></div>
+  </div>
+</div>
+</body>
+</html>

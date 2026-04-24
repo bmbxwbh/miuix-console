@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<title>Miuix Console — Liquid Glass</title>
+<title>Miuix Console — Liquid Glass Playground</title>
 <link href="https://cdn.jsdelivr.net/npm/misans@4.1/lib/Normal/MiSans-Regular.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/misans@4.1/lib/Normal/MiSans-Medium.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/misans@4.1/lib/Normal/MiSans-Semibold.min.css" rel="stylesheet">
@@ -14,14 +14,16 @@
 <link rel="stylesheet" href="../core/animations.css">
 <link rel="stylesheet" href="../core/glass.css">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;overflow:hidden}
 body{
   font-family:var(--mx-font);
   background:#000;color:#fff;
 }
 
-/* ── Bing 背景 ── */
+/* ═══════════════════════════════════
+   Bing 背景
+   ═══════════════════════════════════ */
 .bing-bg{
   position:fixed;inset:0;z-index:0;
   background-size:cover;background-position:center;
@@ -29,50 +31,49 @@ body{
 }
 .bing-bg::after{
   content:'';position:absolute;inset:0;
-  background:rgba(0,0,0,0.15);
+  background:rgba(0,0,0,0.1);
 }
 
-/* ── 返回按钮 ── */
-.back-btn{
-  position:fixed;top:20px;left:20px;z-index:100;
+/* ═══════════════════════════════════
+   顶部栏
+   ═══════════════════════════════════ */
+.top-bar{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  height:52px;padding:0 20px;
+  background:rgba(0,0,0,0.4);
+  backdrop-filter:blur(20px) saturate(180%);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+  border-bottom:1px solid rgba(255,255,255,0.08);
+}
+.top-bar-left{display:flex;align-items:center;gap:12px}
+.top-bar-right{display:flex;align-items:center;gap:8px}
+.back-link{
   display:inline-flex;align-items:center;gap:6px;
-  padding:8px 16px;border-radius:10px;
-  background:rgba(0,0,0,0.35);
-  backdrop-filter:blur(16px) saturate(180%);
-  -webkit-backdrop-filter:blur(16px) saturate(180%);
-  border:1px solid rgba(255,255,255,0.1);
-  color:#fff;font-size:13px;font-weight:500;
-  text-decoration:none;cursor:pointer;
-  transition:all 0.2s;
+  color:rgba(255,255,255,0.7);font-size:13px;font-weight:500;
+  text-decoration:none;transition:color 0.2s;
 }
-.back-btn:hover{background:rgba(0,0,0,0.5)}
-
-/* ── 控制栏 ── */
-.controls{
-  position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:100;
-  display:flex;gap:8px;align-items:center;
-  padding:10px 16px;border-radius:14px;
-  background:rgba(0,0,0,0.35);
-  backdrop-filter:blur(16px) saturate(180%);
-  -webkit-backdrop-filter:blur(16px) saturate(180%);
-  border:1px solid rgba(255,255,255,0.1);
+.back-link:hover{color:#fff}
+.top-title{font-size:14px;font-weight:700;color:#fff}
+.top-badge{
+  font-size:10px;font-weight:600;padding:2px 8px;
+  border-radius:999px;background:rgba(52,130,255,0.2);
+  color:#7CB8FF;
 }
-.controls button{
+.top-btn{
+  display:inline-flex;align-items:center;gap:6px;
   padding:6px 14px;border-radius:8px;
   font-size:12px;font-weight:600;cursor:pointer;
-  color:rgba(255,255,255,0.6);background:transparent;
-  border:1px solid transparent;
-  transition:all 0.2s;
-  font-family:var(--mx-font);
+  color:rgba(255,255,255,0.7);background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.08);
+  transition:all 0.2s;font-family:var(--mx-font);
 }
-.controls button:hover{color:#fff;background:rgba(255,255,255,0.1)}
-.controls button.active{
-  background:rgba(255,255,255,0.15);color:#fff;
-  border-color:rgba(255,255,255,0.2);
-}
-.controls .sep{width:1px;height:20px;background:rgba(255,255,255,0.15)}
+.top-btn:hover{color:#fff;background:rgba(255,255,255,0.12)}
+.top-btn.active{background:rgba(52,130,255,0.25);color:#7CB8FF;border-color:rgba(52,130,255,0.3)}
 
-/* ── 居中玻璃卡片 ── */
+/* ═══════════════════════════════════
+   居中玻璃卡片
+   ═══════════════════════════════════ */
 .glass-center{
   position:fixed;inset:0;z-index:10;
   display:flex;align-items:center;justify-content:center;
@@ -80,15 +81,15 @@ body{
 }
 .glass-card{
   pointer-events:auto;
-  width:420px;max-width:90vw;
+  width:440px;max-width:88vw;
   background:rgba(255,255,255,0.18);
   backdrop-filter:blur(var(--mx-glass-blur)) saturate(var(--mx-glass-saturation));
   -webkit-backdrop-filter:blur(var(--mx-glass-blur)) saturate(var(--mx-glass-saturation));
   border:1px solid rgba(255,255,255,0.2);
-  border-radius:20px;
+  border-radius:var(--mx-glass-corner-radius, 20px);
   padding:36px 32px;
   filter:url(#mx-glass-filter);
-  transition:transform 0.2s ease-out, box-shadow 0.2s ease-out;
+  transition:transform 0.2s ease-out, box-shadow 0.2s ease-out, border-radius 0.3s;
   will-change:transform;
   position:relative;overflow:hidden;
 }
@@ -101,42 +102,39 @@ body{
   font-size:14px;color:rgba(255,255,255,0.8);line-height:1.7;margin-bottom:20px;
   text-shadow:0 1px 4px rgba(0,0,0,0.15);
 }
-.glass-card .glass-stats{
-  display:flex;gap:16px;
+.glass-stats{
+  display:flex;gap:12px;margin-bottom:20px;
 }
-.glass-card .glass-stat{
+.glass-stat{
   flex:1;text-align:center;
-  padding:12px;border-radius:12px;
+  padding:12px 8px;border-radius:12px;
   background:rgba(255,255,255,0.1);
   border:1px solid rgba(255,255,255,0.12);
 }
-.glass-card .glass-stat-val{
-  font-size:20px;font-weight:700;color:#fff;
+.glass-stat-val{
+  font-size:18px;font-weight:700;color:#fff;
   font-family:'JetBrains Mono',monospace;
 }
-.glass-card .glass-stat-label{
-  font-size:11px;color:rgba(255,255,255,0.6);margin-top:2px;
+.glass-stat-label{
+  font-size:10px;color:rgba(255,255,255,0.5);margin-top:2px;
+  text-transform:uppercase;letter-spacing:0.04em;
 }
-.glass-card .glass-actions{
-  display:flex;gap:8px;margin-top:20px;
-}
-.glass-card .glass-btn{
+.glass-actions{display:flex;gap:8px}
+.glass-btn{
   flex:1;padding:10px;border-radius:10px;
   font-size:13px;font-weight:600;cursor:pointer;
-  text-align:center;
-  font-family:var(--mx-font);
-  transition:all 0.2s;
+  text-align:center;font-family:var(--mx-font);transition:all 0.2s;
 }
-.glass-card .glass-btn-primary{
+.glass-btn-primary{
   background:rgba(255,255,255,0.2);color:#fff;
   border:1px solid rgba(255,255,255,0.25);
 }
-.glass-card .glass-btn-primary:hover{background:rgba(255,255,255,0.3)}
-.glass-card .glass-btn-ghost{
+.glass-btn-primary:hover{background:rgba(255,255,255,0.3)}
+.glass-btn-ghost{
   background:transparent;color:rgba(255,255,255,0.7);
   border:1px solid rgba(255,255,255,0.12);
 }
-.glass-card .glass-btn-ghost:hover{color:#fff;border-color:rgba(255,255,255,0.25)}
+.glass-btn-ghost:hover{color:#fff;border-color:rgba(255,255,255,0.25)}
 
 /* ── 双层边框 ── */
 .glass-border-layer{
@@ -160,26 +158,214 @@ body{
 }
 .glass-card:hover::after{opacity:0.5}
 
-/* ── 标题 ── */
-.page-title{
-  position:fixed;top:20px;right:20px;z-index:100;
-  font-size:13px;font-weight:600;color:rgba(255,255,255,0.5);
+/* ═══════════════════════════════════
+   参数调节面板
+   ═══════════════════════════════════ */
+.panel{
+  position:fixed;top:60px;right:16px;bottom:16px;z-index:100;
+  width:320px;
+  background:rgba(20,20,20,0.92);
+  backdrop-filter:blur(24px) saturate(180%);
+  -webkit-backdrop-filter:blur(24px) saturate(180%);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:16px;
+  display:flex;flex-direction:column;
+  overflow:hidden;
+  transition:transform 0.3s cubic-bezier(0.16,1,0.3,1), opacity 0.3s;
+}
+.panel.hidden{
+  transform:translateX(calc(100% + 20px));
+  opacity:0;pointer-events:none;
+}
+.panel-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 20px;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  flex-shrink:0;
+}
+.panel-head h3{
+  font-size:14px;font-weight:700;color:#fff;
+}
+.panel-head-btn{
+  width:28px;height:28px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:rgba(255,255,255,0.4);
+  background:transparent;border:none;
+  transition:all 0.15s;font-size:16px;
+}
+.panel-head-btn:hover{background:rgba(255,255,255,0.08);color:#fff}
+
+.panel-body{
+  flex:1;overflow-y:auto;padding:16px 20px;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(255,255,255,0.1) transparent;
+}
+.panel-body::-webkit-scrollbar{width:4px}
+.panel-body::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px}
+
+/* ── 分组 ── */
+.panel-group{margin-bottom:20px}
+.panel-group:last-child{margin-bottom:0}
+.panel-group-title{
+  font-size:10px;font-weight:700;color:rgba(255,255,255,0.3);
+  text-transform:uppercase;letter-spacing:0.08em;
+  margin-bottom:12px;
+  padding-bottom:6px;
+  border-bottom:1px solid rgba(255,255,255,0.04);
+}
+
+/* ── 控件行 ── */
+.ctrl{
+  margin-bottom:14px;
+}
+.ctrl:last-child{margin-bottom:0}
+.ctrl-label{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:6px;
+}
+.ctrl-label span{
+  font-size:12px;font-weight:600;color:rgba(255,255,255,0.7);
+}
+.ctrl-label .ctrl-val{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;font-weight:500;
+  color:rgba(255,255,255,0.4);
+  min-width:40px;text-align:right;
+}
+
+/* ── Range Slider ── */
+.ctrl-range{
+  -webkit-appearance:none;appearance:none;
+  width:100%;height:4px;
+  background:rgba(255,255,255,0.08);
+  border-radius:999px;outline:none;cursor:pointer;
+  transition:background 0.15s;
+}
+.ctrl-range:hover{background:rgba(255,255,255,0.12)}
+.ctrl-range::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;
+  width:16px;height:16px;border-radius:50%;
+  background:#fff;cursor:pointer;
+  box-shadow:0 1px 4px rgba(0,0,0,0.4);
+  transition:transform 0.15s, box-shadow 0.15s;
+}
+.ctrl-range::-webkit-slider-thumb:hover{
+  transform:scale(1.2);
+  box-shadow:0 2px 8px rgba(0,0,0,0.5);
+}
+.ctrl-range::-moz-range-thumb{
+  width:16px;height:16px;border:none;border-radius:50%;
+  background:#fff;cursor:pointer;
+  box-shadow:0 1px 4px rgba(0,0,0,0.4);
+}
+
+/* ── Mode 按钮组 ── */
+.mode-group{
+  display:grid;grid-template-columns:1fr 1fr;gap:6px;
+}
+.mode-btn{
+  padding:8px 0;border-radius:8px;
+  font-size:12px;font-weight:600;cursor:pointer;
+  text-align:center;
+  color:rgba(255,255,255,0.5);background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.06);
+  transition:all 0.2s;font-family:var(--mx-font);
+}
+.mode-btn:hover{color:#fff;background:rgba(255,255,255,0.08)}
+.mode-btn.active{
+  background:rgba(52,130,255,0.2);color:#7CB8FF;
+  border-color:rgba(52,130,255,0.25);
+}
+
+/* ── Toggle 开关 ── */
+.toggle-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:8px 0;
+}
+.toggle-row span{
+  font-size:12px;font-weight:600;color:rgba(255,255,255,0.7);
+}
+.toggle{
+  position:relative;width:40px;height:22px;cursor:pointer;
+}
+.toggle input{display:none}
+.toggle-track{
+  position:absolute;inset:0;
+  background:rgba(255,255,255,0.1);
+  border-radius:999px;
+  transition:background 0.2s;
+}
+.toggle input:checked + .toggle-track{background:rgba(52,130,255,0.5)}
+.toggle-thumb{
+  position:absolute;top:3px;left:3px;
+  width:16px;height:16px;border-radius:50%;
+  background:#fff;
+  box-shadow:0 1px 3px rgba(0,0,0,0.3);
+  transition:transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
+}
+.toggle input:checked ~ .toggle-thumb{transform:translateX(18px)}
+
+/* ── 按钮 ── */
+.panel-btn{
+  width:100%;padding:10px;border-radius:10px;
+  font-size:13px;font-weight:600;cursor:pointer;
+  text-align:center;font-family:var(--mx-font);transition:all 0.2s;
+}
+.panel-btn-primary{
+  background:rgba(52,130,255,0.2);color:#7CB8FF;
+  border:1px solid rgba(52,130,255,0.2);
+}
+.panel-btn-primary:hover{background:rgba(52,130,255,0.3)}
+.panel-btn-ghost{
+  background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.5);
+  border:1px solid rgba(255,255,255,0.06);
+}
+.panel-btn-ghost:hover{color:#fff;background:rgba(255,255,255,0.08)}
+.panel-btn-danger{
+  background:rgba(233,69,52,0.1);color:rgba(255,120,120,0.8);
+  border:1px solid rgba(233,69,52,0.15);
+}
+.panel-btn-danger:hover{background:rgba(233,69,52,0.2)}
+
+.panel-foot{
+  padding:12px 20px;
+  border-top:1px solid rgba(255,255,255,0.06);
+  flex-shrink:0;
+  display:flex;gap:8px;
+}
+
+/* ── 实时值指示 ── */
+.live-dot{
+  display:inline-block;width:6px;height:6px;
+  border-radius:50%;background:#34D399;
+  animation:pulse-dot 2s infinite;
+  margin-right:6px;vertical-align:middle;
+}
+@keyframes pulse-dot{
+  0%,100%{opacity:1}50%{opacity:0.4}
 }
 
 /* ── Loading ── */
 .loading{
   position:fixed;inset:0;z-index:200;
   display:flex;align-items:center;justify-content:center;
-  background:var(--mx-bg);color:var(--mx-t3);font-size:14px;
+  background:#000;color:rgba(255,255,255,0.4);font-size:14px;
   transition:opacity 0.4s;
 }
 .loading.hidden{opacity:0;pointer-events:none}
 
-@media(max-width:640px){
-  .glass-card{padding:28px 24px;width:90vw}
-  .glass-card h2{font-size:18px}
-  .glass-card .glass-stats{flex-direction:column;gap:8px}
-  .controls{flex-wrap:wrap;justify-content:center;max-width:90vw}
+/* ── 响应式 ── */
+@media(max-width:768px){
+  .panel{
+    top:auto;bottom:0;left:0;right:0;
+    width:auto;max-height:55vh;
+    border-radius:16px 16px 0 0;
+    transform:translateY(100%);
+  }
+  .panel.hidden{transform:translateY(100%)}
+  .glass-center{padding-bottom:40px}
+  .top-bar{height:48px;padding:0 14px}
+  .top-title{font-size:13px}
 }
 </style>
 </head>
@@ -191,14 +377,27 @@ body{
 <!-- Bing 背景 -->
 <div class="bing-bg" id="bingBg"></div>
 
-<!-- 返回 -->
-<a class="back-btn" href="index.html">
-  <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
-  返回
-</a>
-
-<!-- 标题 -->
-<div class="page-title">Liquid Glass</div>
+<!-- 顶部栏 -->
+<div class="top-bar">
+  <div class="top-bar-left">
+    <a class="back-link" href="index.html">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+      返回
+    </a>
+    <span class="top-title">Liquid Glass Playground</span>
+    <span class="top-badge">v2</span>
+  </div>
+  <div class="top-bar-right">
+    <button class="top-btn active" id="btnPanel" onclick="togglePanel()">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06A1.65 1.65 0 0 0 15 19.4"/></svg>
+      参数面板
+    </button>
+    <button class="top-btn" id="btnGlass" onclick="toggleGlass()">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/></svg>
+      效果开关
+    </button>
+  </div>
+</div>
 
 <!-- 居中玻璃卡片 -->
 <div class="glass-center">
@@ -206,7 +405,7 @@ body{
     <div class="glass-border-layer layer-screen"></div>
     <div class="glass-border-layer layer-overlay"></div>
     <h2>💎 Liquid Glass</h2>
-    <p>基于 Apple 的 Liquid Glass 效果移植，支持 4 种折射模式、RGB 色差分离、鼠标跟踪弹性变形。</p>
+    <p>基于 Apple Liquid Glass 效果移植。支持 4 种折射模式、RGB 色差分离、鼠标跟踪弹性变形、双层动态边框。</p>
     <div class="glass-stats">
       <div class="glass-stat"><div class="glass-stat-val" id="statMode">Standard</div><div class="glass-stat-label">模式</div></div>
       <div class="glass-stat"><div class="glass-stat-val" id="statDisp">25</div><div class="glass-stat-label">位移</div></div>
@@ -219,22 +418,154 @@ body{
   </div>
 </div>
 
-<!-- 模式切换 -->
-<div class="controls">
-  <button class="active" data-mode="standard" onclick="setMode('standard')">Standard</button>
-  <button data-mode="polar" onclick="setMode('polar')">Polar</button>
-  <button data-mode="prominent" onclick="setMode('prominent')">Prominent</button>
-  <button data-mode="shader" onclick="setMode('shader')">Shader</button>
-  <span class="sep"></span>
-  <button onclick="toggleGlass()">💎 开关</button>
+<!-- ═══════════════════════════════════
+     参数调节面板
+     ═══════════════════════════════════ -->
+<div class="panel" id="panel">
+  <div class="panel-head">
+    <h3><span class="live-dot"></span>参数调节</h3>
+    <button class="panel-head-btn" onclick="togglePanel()">✕</button>
+  </div>
+
+  <div class="panel-body">
+
+    <!-- 模式 -->
+    <div class="panel-group">
+      <div class="panel-group-title">折射模式</div>
+      <div class="mode-group">
+        <button class="mode-btn active" data-mode="standard" onclick="setMode('standard')">Standard</button>
+        <button class="mode-btn" data-mode="polar" onclick="setMode('polar')">Polar</button>
+        <button class="mode-btn" data-mode="prominent" onclick="setMode('prominent')">Prominent</button>
+        <button class="mode-btn" data-mode="shader" onclick="setMode('shader')">Shader</button>
+      </div>
+    </div>
+
+    <!-- 核心参数 -->
+    <div class="panel-group">
+      <div class="panel-group-title">核心参数</div>
+
+      <div class="ctrl">
+        <div class="ctrl-label">
+          <span>位移量 Displacement</span>
+          <span class="ctrl-val" id="valDisp">25</span>
+        </div>
+        <input class="ctrl-range" type="range" min="0" max="100" value="25" step="1"
+               id="sliderDisp" oninput="updateParam('displacement', this.value)">
+      </div>
+
+      <div class="ctrl">
+        <div class="ctrl-label">
+          <span>模糊 Blur</span>
+          <span class="ctrl-val" id="valBlur">12px</span>
+        </div>
+        <input class="ctrl-range" type="range" min="0" max="40" value="12" step="1"
+               id="sliderBlur" oninput="updateParam('blur', this.value)">
+      </div>
+
+      <div class="ctrl">
+        <div class="ctrl-label">
+          <span>饱和度 Saturation</span>
+          <span class="ctrl-val" id="valSat">180%</span>
+        </div>
+        <input class="ctrl-range" type="range" min="50" max="400" value="180" step="5"
+               id="sliderSat" oninput="updateParam('saturation', this.value)">
+      </div>
+
+      <div class="ctrl">
+        <div class="ctrl-label">
+          <span>色差 Aberration</span>
+          <span class="ctrl-val" id="valAberr">2</span>
+        </div>
+        <input class="ctrl-range" type="range" min="0" max="10" value="2" step="0.5"
+               id="sliderAberr" oninput="updateParam('aberration', this.value)">
+      </div>
+    </div>
+
+    <!-- 物理参数 -->
+    <div class="panel-group">
+      <div class="panel-group-title">物理交互</div>
+
+      <div class="ctrl">
+        <div class="ctrl-label">
+          <span>弹性 Elasticity</span>
+          <span class="ctrl-val" id="valElast">0.15</span>
+        </div>
+        <input class="ctrl-range" type="range" min="0" max="50" value="15" step="1"
+               id="sliderElast" oninput="updateParam('elasticity', this.value / 100)">
+      </div>
+
+      <div class="ctrl">
+        <div class="ctrl-label">
+          <span>激活区域 Activation Zone</span>
+          <span class="ctrl-val" id="valZone">200px</span>
+        </div>
+        <input class="ctrl-range" type="range" min="50" max="600" value="200" step="10"
+               id="sliderZone" oninput="updateParam('activationZone', this.value)">
+      </div>
+    </div>
+
+    <!-- 外观 -->
+    <div class="panel-group">
+      <div class="panel-group-title">外观</div>
+
+      <div class="ctrl">
+        <div class="ctrl-label">
+          <span>圆角 Corner Radius</span>
+          <span class="ctrl-val" id="valRadius">20px</span>
+        </div>
+        <input class="ctrl-range" type="range" min="0" max="60" value="20" step="1"
+               id="sliderRadius" oninput="updateParam('cornerRadius', this.value)">
+      </div>
+
+      <div class="toggle-row">
+        <span>Over-Light 亮色模式</span>
+        <label class="toggle">
+          <input type="checkbox" id="toggleOverLight" onchange="updateParam('overLight', this.checked)">
+          <span class="toggle-track"></span>
+          <span class="toggle-thumb"></span>
+        </label>
+      </div>
+
+      <div class="toggle-row">
+        <span>液态玻璃效果</span>
+        <label class="toggle">
+          <input type="checkbox" id="toggleEnabled" checked onchange="toggleGlass()">
+          <span class="toggle-track"></span>
+          <span class="toggle-thumb"></span>
+        </label>
+      </div>
+    </div>
+
+    <!-- 快照 -->
+    <div class="panel-group">
+      <div class="panel-group-title">当前快照 (JSON)</div>
+      <pre id="snapshotJson" style="
+        font-family:'JetBrains Mono',monospace;
+        font-size:10px;line-height:1.5;
+        color:rgba(255,255,255,0.35);
+        background:rgba(255,255,255,0.03);
+        border:1px solid rgba(255,255,255,0.04);
+        border-radius:8px;padding:10px;
+        overflow-x:auto;white-space:pre-wrap;
+        word-break:break-all;
+      "></pre>
+    </div>
+
+  </div>
+
+  <div class="panel-foot">
+    <button class="panel-btn panel-btn-ghost" onclick="resetAll()">重置默认</button>
+    <button class="panel-btn panel-btn-primary" onclick="copySnapshot()">复制快照</button>
+  </div>
 </div>
 
 <script src="../utils/glass.js"></script>
 <script>
-// ── Bing 每日一图 ──
+// ═══════════════════════════════════
+// Bing 每日一图
+// ═══════════════════════════════════
 (function loadBingBg() {
   const img = new Image();
-  // Bing 每日一图 API
   const url = 'https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1';
   fetch(url)
     .then(r => r.json())
@@ -250,58 +581,214 @@ body{
     .catch(loadFallback);
 
   function loadFallback() {
-    // Fallback: 使用固定的高质量图片
     document.getElementById('bingBg').style.backgroundImage =
       `url(https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80)`;
     document.getElementById('loading').classList.add('hidden');
   }
 })();
 
-// ── Glass 控制 ──
+// ═══════════════════════════════════
+// 参数定义
+// ═══════════════════════════════════
+const PARAMS = {
+  displacement: { el: 'sliderDisp',  valEl: 'valDisp',   fmt: v => v },
+  blur:         { el: 'sliderBlur',  valEl: 'valBlur',   fmt: v => v + 'px' },
+  saturation:   { el: 'sliderSat',   valEl: 'valSat',    fmt: v => v + '%' },
+  aberration:   { el: 'sliderAberr', valEl: 'valAberr',  fmt: v => v },
+  elasticity:   { el: 'sliderElast', valEl: 'valElast',  fmt: v => parseFloat(v).toFixed(2) },
+  cornerRadius: { el: 'sliderRadius',valEl: 'valRadius', fmt: v => v + 'px' },
+  activationZone:{ el: 'sliderZone', valEl: 'valZone',   fmt: v => v + 'px' },
+};
+
+const DEFAULTS = {
+  mode: 'standard',
+  displacement: 25,
+  blur: 12,
+  saturation: 180,
+  aberration: 2,
+  elasticity: 0.15,
+  cornerRadius: 20,
+  activationZone: 200,
+  overLight: false,
+  enabled: true,
+};
+
+// ═══════════════════════════════════
+// 状态
+// ═══════════════════════════════════
 let glassEnabled = true;
 const modes = ['standard', 'polar', 'prominent', 'shader'];
 let currentMode = 0;
 
-function toggleGlass() {
-  glassEnabled = !glassEnabled;
-  if (glassEnabled) {
-    MxGlass.enable();
-    MxGlass.track(document.getElementById('glassCard'));
-  } else {
-    MxGlass.disable();
-    MxGlass.untrack(document.getElementById('glassCard'));
-    // 移除 transform
-    document.getElementById('glassCard').style.transform = '';
+// ═══════════════════════════════════
+// 控制函数
+// ═══════════════════════════════════
+
+function updateParam(name, value) {
+  value = parseFloat(value);
+
+  switch (name) {
+    case 'displacement': MxGlass.setDisplacement(value); break;
+    case 'blur':         MxGlass.setBlur(value); break;
+    case 'saturation':   MxGlass.setSaturation(value); break;
+    case 'aberration':   MxGlass.setAberration(value); break;
+    case 'elasticity':   MxGlass.setElasticity(value); break;
+    case 'cornerRadius':
+      MxGlass.setCornerRadius(value);
+      document.getElementById('glassCard').style.borderRadius = value + 'px';
+      break;
+    case 'activationZone': MxGlass.setActivationZone(value); break;
+    case 'overLight':    MxGlass.setOverLight(value); break;
   }
+
+  updateLabels();
+  updateSnapshot();
 }
 
 function setMode(mode) {
   MxGlass.setMode(mode);
   currentMode = modes.indexOf(mode);
-  updateUI();
+  updateModeButtons();
+  updateLabels();
+  updateSnapshot();
 }
 
 function cycleMode() {
   currentMode = (currentMode + 1) % modes.length;
-  MxGlass.setMode(modes[currentMode]);
-  updateUI();
+  setMode(modes[currentMode]);
 }
 
-function updateUI() {
+function toggleGlass() {
+  glassEnabled = !glassEnabled;
+  const card = document.getElementById('glassCard');
+
+  if (glassEnabled) {
+    MxGlass.enable();
+    MxGlass.track(card);
+  } else {
+    MxGlass.disable();
+    MxGlass.untrack(card);
+    card.style.transform = '';
+  }
+
+  document.getElementById('toggleEnabled').checked = glassEnabled;
+  document.getElementById('btnGlass').classList.toggle('active', glassEnabled);
+  updateSnapshot();
+}
+
+function togglePanel() {
+  const panel = document.getElementById('panel');
+  const btn = document.getElementById('btnPanel');
+  panel.classList.toggle('hidden');
+  btn.classList.toggle('active', !panel.classList.contains('hidden'));
+}
+
+function resetAll() {
+  MxGlass.reset();
+  MxGlass.setCornerRadius(DEFAULTS.cornerRadius);
+  document.getElementById('glassCard').style.borderRadius = DEFAULTS.cornerRadius + 'px';
+
+  // 同步 UI
+  document.getElementById('sliderDisp').value = DEFAULTS.displacement;
+  document.getElementById('sliderBlur').value = DEFAULTS.blur;
+  document.getElementById('sliderSat').value = DEFAULTS.saturation;
+  document.getElementById('sliderAberr').value = DEFAULTS.aberration;
+  document.getElementById('sliderElast').value = DEFAULTS.elasticity * 100;
+  document.getElementById('sliderRadius').value = DEFAULTS.cornerRadius;
+  document.getElementById('sliderZone').value = DEFAULTS.activationZone;
+  document.getElementById('toggleOverLight').checked = DEFAULTS.overLight;
+
+  setMode(DEFAULTS.mode);
+
+  if (!glassEnabled) toggleGlass();
+
+  updateLabels();
+  updateSnapshot();
+}
+
+function copySnapshot() {
+  const snap = MxGlass.getSnapshot();
+  snap.cornerRadius = parseFloat(document.getElementById('sliderRadius').value);
+  const text = JSON.stringify(snap, null, 2);
+  navigator.clipboard.writeText(text).then(() => {
+    // 简单反馈
+    const btn = event.target;
+    const orig = btn.textContent;
+    btn.textContent = '已复制 ✓';
+    setTimeout(() => btn.textContent = orig, 1200);
+  });
+}
+
+// ═══════════════════════════════════
+// UI 更新
+// ═══════════════════════════════════
+
+function updateLabels() {
+  for (const [name, cfg] of Object.entries(PARAMS)) {
+    const slider = document.getElementById(cfg.el);
+    const valEl = document.getElementById(cfg.valEl);
+    if (slider && valEl) {
+      let v = slider.value;
+      if (name === 'elasticity') v = v / 100;
+      valEl.textContent = cfg.fmt(v);
+    }
+  }
+
+  // 顶部卡片 stat
   const mode = modes[currentMode];
   document.getElementById('statMode').textContent = mode.charAt(0).toUpperCase() + mode.slice(1);
-  document.getElementById('statDisp').textContent = MxGlass.getDisplacement();
-  document.getElementById('statAberr').textContent = MxGlass.getAberration();
-  // 更新按钮状态
-  document.querySelectorAll('.controls button[data-mode]').forEach(btn => {
+  document.getElementById('statDisp').textContent = document.getElementById('sliderDisp').value;
+  document.getElementById('statAberr').textContent = document.getElementById('sliderAberr').value;
+}
+
+function updateModeButtons() {
+  const mode = modes[currentMode];
+  document.querySelectorAll('.mode-btn[data-mode]').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.mode === mode);
   });
 }
 
-// ── Init ──
+function updateSnapshot() {
+  const snap = {
+    enabled: glassEnabled,
+    mode: modes[currentMode],
+    displacement: parseInt(document.getElementById('sliderDisp').value),
+    blur: parseInt(document.getElementById('sliderBlur').value),
+    saturation: parseInt(document.getElementById('sliderSat').value),
+    aberration: parseFloat(document.getElementById('sliderAberr').value),
+    elasticity: parseInt(document.getElementById('sliderElast').value) / 100,
+    cornerRadius: parseInt(document.getElementById('sliderRadius').value),
+    activationZone: parseInt(document.getElementById('sliderZone').value),
+    overLight: document.getElementById('toggleOverLight').checked,
+  };
+  document.getElementById('snapshotJson').textContent = JSON.stringify(snap, null, 2);
+}
+
+// ═══════════════════════════════════
+// 键盘快捷键
+// ═══════════════════════════════════
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'INPUT') return;
+  switch (e.key) {
+    case 'g': toggleGlass(); break;
+    case 'p': togglePanel(); break;
+    case 'm': cycleMode(); break;
+    case 'r': resetAll(); break;
+    case '1': setMode('standard'); break;
+    case '2': setMode('polar'); break;
+    case '3': setMode('prominent'); break;
+    case '4': setMode('shader'); break;
+  }
+});
+
+// ═══════════════════════════════════
+// Init
+// ═══════════════════════════════════
 MxGlass.enable();
+MxGlass.setCornerRadius(20);
 MxGlass.track(document.getElementById('glassCard'));
-updateUI();
+updateLabels();
+updateSnapshot();
 </script>
 </body>
 </html>

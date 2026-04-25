@@ -5,6 +5,34 @@
 
 ---
 
+## 🚨 致命错误警告（构建 App Shell 前必须阅读）
+
+使用 App Shell 布局（`mx-app` + `mx-sidebar` + `mx-desktop-shell`）时，**最常见的致命错误**是将 `<main>` 嵌套在 `.mx-desktop-shell` 内部。这会导致 flex 布局失效，**主内容区域完全空白**，页面只显示侧边栏和顶栏。
+
+**正确结构：**
+```
+.mx-app
+├── .mx-topbar            ← 手机端顶栏
+├── .mx-sidebar           ← 侧边栏
+├── .mx-desktop-shell     ← ⚠️ 只包裹桌面端顶栏！
+│   └── .mx-desktop-topbar
+├── <main class="mx-desktop-main mx-body">  ← ✅ 必须是 .mx-app 的直接子元素
+└── .mx-bottom-nav        ← 底部导航
+```
+
+**错误结构（页面空白）：**
+```
+.mx-app
+├── .mx-desktop-shell
+│   ├── .mx-desktop-topbar
+│   └── <main>            ← ❌ 内容不可见！
+└── .mx-bottom-nav
+```
+
+> ⚠️ **这条规则适用于所有使用 Miuix Console App Shell 的项目。** 已多次因此导致线上页面空白。详见 [3.3 App Shell 完整模板](#33-app-shell-完整模板) 和 [6.2 常见错误](#62-常见错误)。
+
+---
+
 ## 一、项目概述
 
 **Miuix Console** 是小米 HyperOS Miuix 设计语言的 Web 端忠实移植。它不是一个"受启发"的框架——它是从 Miuix Compose Multiplatform 源码 **1:1 移植** 的。
@@ -309,11 +337,35 @@ backdrop-filter: blur(24px) saturate(1.8);
 </html>
 ```
 
-**⚠️ 关键结构规则：**
-- `<main>` 必须是 `.mx-app` 的**直接子元素**，不能嵌套在 `.mx-desktop-shell` 内部
-- `.mx-desktop-shell` 只包裹桌面端顶栏（`.mx-desktop-topbar`）
+> ### 🚨 最高优先级：DOM 结构规则（违反将导致内容完全不可见）
+>
+> **`<main>` 必须是 `.mx-app` 的直接子元素，绝对不能嵌套在 `.mx-desktop-shell` 内部。**
+> 这是最常犯的错误。违反此规则会导致 flex 布局失效，主内容区域完全空白。
+>
+> **正确结构：**
+> ```
+> .mx-app
+> ├── .mx-topbar          ← 手机端顶栏
+> ├── .mx-sidebar         ← 侧边栏
+> ├── .mx-desktop-shell   ← ⚠️ 只包裹桌面端顶栏！
+> │   └── .mx-desktop-topbar
+> ├── <main>              ← ✅ 必须在这里，作为 .mx-app 的直接子元素
+> └── .mx-bottom-nav      ← 底部导航
+> ```
+>
+> **错误结构（会导致页面空白）：**
+> ```
+> .mx-app
+> ├── .mx-desktop-shell
+> │   ├── .mx-desktop-topbar
+> │   └── <main>           ← ❌ 嵌套在 desktop-shell 内部！内容不可见！
+> └── .mx-bottom-nav
+> ```
+
+其他直接子元素规则：
 - `.mx-sidebar` 是 `.mx-app` 的直接子元素
 - `.mx-bottom-nav` 是 `.mx-app` 的直接子元素
+- `.mx-desktop-shell` **只允许包含** `.mx-desktop-topbar`，不能放其他内容
 
 ### 3.4 响应式断点
 
@@ -546,9 +598,9 @@ MxToast.info('提示信息', { action: '撤销', onAction: () => {} });
    <button class="mx-btn">点击</button>
    ✅ <button class="mx-btn" data-ripple>点击</button>
 
-❌ main 嵌套在 desktop-shell 内:
+❌ main 嵌套在 desktop-shell 内（最常犯的致命错误！会导致页面完全空白）:
    <div class="mx-desktop-shell"><main>...</main></div>
-   ✅ <main> 必须是 .mx-app 的直接子元素
+   ✅ <main> 必须是 .mx-app 的直接子元素，desktop-shell 只包裹 topbar
 ```
 
 ### 6.3 代码风格

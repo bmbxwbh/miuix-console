@@ -22,6 +22,7 @@
 - [在线体验](#-在线体验)
 - [设计理念](#设计理念)
 - [快速开始](#快速开始)
+- [⚠️ App Shell 布局警告](#️-app-shell-布局警告)
 - [项目结构](#项目结构)
 - [设计令牌](#设计令牌)
 - [组件总览](#组件总览)
@@ -124,6 +125,35 @@ Colors.kt                  →      core/tokens.css
 <script src="miuix-console/utils/ripple.js"></script>
 <!-- ... -->
 ```
+
+---
+
+## ⚠️ App Shell 布局警告
+
+使用 App Shell 布局时，**最常见的致命错误**是将 `<main>` 嵌套在 `.mx-desktop-shell` 内部，导致**主内容区域完全空白**。
+
+```html
+<!-- ✅ 正确：<main> 是 .mx-app 的直接子元素 -->
+<div class="mx-app">
+  <header class="mx-topbar">...</header>
+  <aside class="mx-sidebar">...</aside>
+  <div class="mx-desktop-shell">
+    <header class="mx-desktop-topbar">...</header>
+  </div>
+  <main class="mx-desktop-main mx-body">...</main>  <!-- ✅ 在这里 -->
+  <nav class="mx-bottom-nav">...</nav>
+</div>
+
+<!-- ❌ 错误：<main> 嵌套在 .mx-desktop-shell 内，页面空白！ -->
+<div class="mx-app">
+  <div class="mx-desktop-shell">
+    <header class="mx-desktop-topbar">...</header>
+    <main>...</main>  <!-- ❌ 内容不可见！ -->
+  </div>
+</div>
+```
+
+`.mx-desktop-shell` **只允许包含** `.mx-desktop-topbar`，不能放 `<main>` 或其他内容。
 
 ---
 
